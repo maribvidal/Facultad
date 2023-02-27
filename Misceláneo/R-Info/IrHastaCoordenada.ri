@@ -1,0 +1,78 @@
+programa suasticas
+procesos
+  proceso IrHastaCoordenada(E equis: numero; E yriega: numero)
+  comenzar
+    mientras ~(yriega = PosCa)
+      si (PosCa < yriega)
+        mover
+      si (PosCa > yriega)
+        derecha
+        derecha
+        mover
+        derecha
+        derecha
+    mientras ~(equis = PosAv)
+      si (PosAv < equis)
+        derecha
+        mover
+        repetir 3
+          derecha
+      si (PosAv > equis)
+        repetir 3
+          derecha
+        mover
+        derecha
+  fin
+  proceso swastika(E xPrincipal: numero; E yPrincipal: numero; E radio: numero)
+  comenzar
+    Pos(xPrincipal, yPrincipal)
+    IrHastaCoordenada(xPrincipal + radio, yPrincipal)
+    IrHastaCoordenada(xPrincipal + radio, yPrincipal + (radio*2))
+    IrHastaCoordenada(xPrincipal + (radio*2), yPrincipal + (radio*2))
+    IrHastaCoordenada(xPrincipal + radio, yPrincipal + (radio*2))
+    IrHastaCoordenada(xPrincipal + radio, yPrincipal + radio)
+    IrHastaCoordenada(xPrincipal, yPrincipal + radio)
+    IrHastaCoordenada(xPrincipal, yPrincipal + (radio*2))
+    IrHastaCoordenada(xPrincipal, yPrincipal + radio)
+    IrHastaCoordenada(xPrincipal + (radio*2), yPrincipal + radio)
+    IrHastaCoordenada(xPrincipal + (radio*2), yPrincipal)
+    IrHastaCoordenada(xPrincipal + (radio*2), yPrincipal + radio)
+    IrHastaCoordenada(xPrincipal + radio, yPrincipal + radio)
+  fin
+  proceso rellEspSwastikas(E xpos: numero; E ypos: numero; E xpos2: numero; E radio: numero)
+  variables
+    cant, hechos, mov, distanciaTotal, esPosible: numero
+  comenzar
+    cant:= 0
+    hechos:= 0
+    mov:= 0
+    distanciaTotal:= xpos2 - xpos
+    si (distanciaTotal > 100)
+      distanciaTotal:= 100
+    esPosible:= 0
+    
+    si ((radio*2) < distanciaTotal)
+      cant:= distanciaTotal / (radio*2)
+      esPosible:= 1
+    
+    si (esPosible = 1)
+      Pos(xpos, ypos)
+      mientras (hechos <> cant)
+        swastika(xpos+mov, ypos, radio)
+        hechos:= hechos + 1
+        mov:= mov + (radio*2)
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot robot1
+  comenzar
+    Pos(1,1)
+    rellEspSwastikas(1,1,100,20)
+  fin
+variables
+  R-info : robot1
+comenzar
+  AsignarArea(R-info,ciudad)
+  Iniciar(R-info, 1 , 1)
+fin

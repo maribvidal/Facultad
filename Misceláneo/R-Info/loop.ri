@@ -1,0 +1,35 @@
+programa Cap3EjemploVariables
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot robot1
+  variables
+    numAv: numero
+    numCa: numero
+    {----}
+    direccion: numero
+  comenzar
+    Pos(1,1)
+    numAv:= 1
+    numCa:= 1
+    direccion:= 1
+    {----}
+    mientras (numAv = numCa)
+      si (direccion = 1) & (numAv < 100)
+        numAv:= numAv + 1
+        numCa:= numCa + 1
+      si (direccion = 1) & (numAv = 100)
+        direccion:= 2
+      si (direccion = 2) & (numAv > 1)
+        numAv:= numAv - 1
+        numCa:= numCa - 1
+      si (direccion = 2) & (numAv = 1)
+        direccion:=1
+      Pos(numAv, numCa)
+  fin
+variables
+  R-info: robot1
+comenzar
+  AsignarArea(R-info, ciudad)
+  Iniciar(R-info, 1,1)
+fin

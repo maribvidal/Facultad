@@ -1,0 +1,85 @@
+programa boludeo
+procesos
+  proceso IrHastaCoordenada(E x: numero; E y: numero)
+  comenzar
+    mientras ~(y = PosCa)
+      si (PosCa < y)
+        mover
+      si (PosCa > y)
+        derecha
+        derecha
+        mover
+        derecha
+        derecha
+    mientras ~(x = PosAv)
+      si (PosAv < x)
+        derecha
+        mover
+        repetir 3
+          derecha
+      si (PosAv > x)
+        repetir 3
+          derecha
+        mover
+        derecha
+  fin
+
+  proceso mover2(E dir: numero; E pasos: numero)
+  comenzar
+    si (dir = 0) {DERECHA}
+      si ((100 - PosAv) > pasos)
+        IrHastaCoordenada(PosAv + pasos, PosCa) 
+      sino
+        Informar('No_se_pudo_realizar_movimiento', 100 - PosAv, pasos)
+    si (dir = 1) {ARRIBA}
+      si ((100 - PosCa) > pasos)
+        IrHastaCoordenada(PosAv, PosCa + pasos)
+      sino
+        Informar('No_se_pudo_realizar_movimiento', 100 - PosCa, pasos)
+    si (dir = 2) {IZQUIERDA}
+      si (PosAv > pasos)
+        IrHastaCoordenada(PosAv - pasos, PosCa)
+      sino
+        Informar('No_se_pudo_realizar_movimiento', PosAv, pasos)
+    si (dir = 3) {ABAJO}
+      si (PosCa > pasos)
+        IrHastaCoordenada(PosAv, PosCa - pasos)
+      sino
+        Informar('No_se_pudo_realizar_movimiento', PosCa, pasos)
+  fin
+  
+  proceso baile(E z: numero; E t: numero)
+  variables
+    x, y, turnos: numero
+  comenzar
+    si ((100-z) > z)
+      mientras (turnos < t)
+        Random(x, 50-z, 50+z)
+        Random(y, 50-z, 50+z)
+        IrHastaCoordenada(x,y)
+        turnos:= turnos + 1
+      Informar('El_baile_duro_un_total_de', turnos)
+    sino
+      Informar('La_zona_debe_ser_mas_pequeña', ((100-z) > z))
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot robot1
+  comenzar
+    baile(5, 5)
+  fin
+  robot robot2
+  comenzar
+    baile(15,5)
+  fin
+variables
+  Rojo: robot1
+  Azul: robot2
+comenzar
+  AsignarArea(Rojo, ciudad) 
+  AsignarArea(Azul, ciudad) 
+  Iniciar(Rojo, 1,1) 
+  Iniciar(Azul, 2,1) 
+fin
+

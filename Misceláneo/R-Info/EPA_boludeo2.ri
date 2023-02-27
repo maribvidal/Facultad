@@ -1,0 +1,139 @@
+programa boludeo
+procesos
+  proceso esperar {Porque no hay otra forma de que un robot no haga nada}
+  comenzar
+    Pos(PosAv,PosCa)
+  fin
+  
+  proceso conteo(E num: numero) {Una carrera no es una carrera sin un conteo inicial}
+  comenzar
+    mientras(num <> 0)
+      si (num > 2)
+        Informar(num)
+      si (num = 2)
+        Informar('En_sus_marcas', num)
+      si (num = 1)
+        Informar('Listos...', num)
+      num:= num - 1
+    Informar('Ya', num)
+  fin
+  
+  proceso evento(ES segs2: numero) {Necesitamos que ocurran cosas en medio de la carrera}
+  variables
+    tipoEv: numero
+  comenzar
+    segs2:= 0
+    Random(tipoEv,1,99) {Que los eventos sean diferentes}
+    {---}
+    si (tipoEv <= 25)
+      Informar('piso_un_charco_de_lodo_en', PosAv, PosCa)
+      Pos(PosAv,PosCa - 3)
+      segs2:= 3
+    si (tipoEv > 25) & (tipoEv <= 50)
+      Informar('aparecio_messi_y_si_o_si_tenia_que_sacarse_una_foto', PosAv, PosCa)
+      Pos(PosAv,PosCa - 1)
+      segs2:= 1
+    si (tipoEv > 50) & (tipoEv <= 75)
+      Informar('se_le_ocurrio_grabar_un_tiktok', PosAv, PosCa)
+      Pos(PosAv,PosCa - 1)
+      repetir 4
+        derecha
+      segs2:= 4
+    si (tipoEv > 75)
+      Informar('esta_medio_duro', PosAv, PosCa)
+      derecha
+      derecha
+      mover
+      derecha
+      derecha
+      segs2:= 4
+  fin
+  
+  proceso carrera(E dist: numero; ES segs: numero)
+  variables
+    chanceObs: numero
+    numRand: numero
+    segs2: numero
+    flores: numero
+    papeles: numero
+  comenzar
+    flores:= 0
+    papeles:= 0
+    Random(numRand,1,99)
+    {---}
+    mientras (PosCa < dist)
+      mover
+      segs:= segs + 1
+      Random(chanceObs,1,99)
+      si (HayFlorEnLaEsquina)
+        Informar('se_quedo_juntando_las_flores_de_la_esquina', V)
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+          flores:= flores + 1
+        segs:= segs + flores
+        flores:= 0
+      si (HayPapelEnLaEsquina)
+        Informar('se_quedo_juntando_los_papeles_de_la_esquina', V)
+        mientras (HayPapelEnLaEsquina)
+          tomarPapel
+          papeles:= papeles + 1
+        segs:= segs + papeles
+        papeles:= 0
+      si (chanceObs = numRand) {Si justo el primer número al azar coincide con el otro...}
+        segs2:= 0
+        evento(segs2)
+        segs:= segs + segs2
+    Informar('termino_la_carrera_en_', segs)
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot robot1
+  variables
+    tiempoMio: numero
+    tiempoOtro: numero
+  comenzar
+    conteo(5)
+    EnviarMensaje(V, Azul)
+    carrera(100, tiempoMio)
+    {---}
+    {Comparar los tiempos de los dos robots}
+    EnviarMensaje(tiempoMio, Azul)
+    RecibirMensaje(tiempoOtro, Azul)
+    si (tiempoMio < tiempoOtro) 
+      Informar('es_el_ganador', (tiempoMio < tiempoOtro))
+    si (tiempoMio > tiempoOtro)
+      Informar('es_el_perdedor', (tiempoMio < tiempoOtro))
+    si (tiempoMio = tiempoOtro)
+      Informar('hubo_empate', (tiempoMio = tiempoOtro))
+  fin
+  robot robot2
+  variables
+    puedeCorrer: boolean
+    tiempoMio: numero
+    tiempoOtro: numero
+  comenzar
+    RecibirMensaje(puedeCorrer, Rojo)
+    mientras (~puedeCorrer)
+      esperar
+    carrera(100, tiempoMio)
+    {---}
+    {Comparar los tiempos de los dos robots}
+    EnviarMensaje(tiempoMio, Rojo)
+    RecibirMensaje(tiempoOtro, Rojo)
+    si (tiempoMio < tiempoOtro)
+      Informar('es_el_ganador', (tiempoMio < tiempoOtro))
+    si (tiempoMio = tiempoOtro)
+      Informar('hubo_empate', (tiempoMio = tiempoOtro))
+    si (tiempoMio > tiempoOtro)
+      Informar('es_el_perdedor', (tiempoMio < tiempoOtro))
+  fin
+variables
+  Rojo: robot1
+  Azul: robot2
+comenzar
+  AsignarArea(Rojo, ciudad)
+  AsignarArea(Azul, ciudad)
+  Iniciar(Rojo, 49,1)
+  Iniciar(Azul, 51,1)
+fin

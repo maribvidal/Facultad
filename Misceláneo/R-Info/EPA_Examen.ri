@@ -1,0 +1,48 @@
+programa Examen_EPA
+procesos
+  proceso contarFlores(ES numFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina) {Mientras hay flores en la esquina, contar las flores y luego depositarlas}
+      tomarFlor
+      numFlores:= numFlores + 1
+    repetir numFlores
+      depositarFlor
+  fin
+  proceso cuadrado(E lado: numero; ES esqPapeles: numero)
+  variables
+    numFlores, esqFlores, esqPapeles: numero
+  comenzar
+    repetir 4
+      repetir lado
+        mover
+        contarFlores(numFlores) {Invocar el proceso que cuenta la cantidad de flores por esquina}
+        si (numFlores = 10) {Si en una esquina hay exactamente 10 flores...}
+          esqFlores:= esqFlores + 1 {Sumarle a la cantidad de esquinas de flores}
+        si ~(HayPapelEnLaEsquina) {Si en una esquina NO hay papeles...}
+          esqPapeles:= esqPapeles + 1 {Sumarle a la cantidad de esquinas de papeles}
+      derecha {Girar cuando se alcance el largo del lado}
+    Informar(esqFlores) {Informar la cantidad de esquinas con 10 flores}
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot robot1
+  variables
+    tamaño, esqPap: numero
+  comenzar
+    Pos(1,1)
+    tamaño:= 3
+    mientras (esqPap <> 5) {Mientras la cantidad de esquinas papeles sea diferente de 5...}
+      cuadrado(tamaño, esqPap)
+      tamaño:= tamaño + 2
+      Pos(1,PosCa+1) {Sumar una calle}
+  fin
+variables
+  R-info: robot1
+comenzar
+  AsignarArea(R-info, ciudad)
+  Iniciar(R-info, 1,1)
+fin
+
+
+
