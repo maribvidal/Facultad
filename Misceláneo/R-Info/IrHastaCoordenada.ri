@@ -1,4 +1,4 @@
-programa suasticas
+programa IrHastaCoordenada
 procesos
   proceso IrHastaCoordenada(E equis: numero; E yriega: numero)
   comenzar
