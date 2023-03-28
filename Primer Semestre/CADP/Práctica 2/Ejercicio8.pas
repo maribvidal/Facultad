@@ -1,4 +1,4 @@
-program Ejercicio6;
+program Ejercicio8;
 type
     rango = 0..1000; {Para ponerle un límite al monto}
 var
