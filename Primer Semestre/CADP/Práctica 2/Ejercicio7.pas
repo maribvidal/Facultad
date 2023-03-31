@@ -1,4 +1,4 @@
-program Ejercicio6;
+program Ejercicio7;
 type
     tiempo = 1..1000; {Para poner un límite de tiempo}
 var
@@ -27,8 +27,8 @@ begin
             piloto1:= p;
             tiempo2:= tiempo1;
             tiempo1:= t;
-        end;
-        if (t < tiempo2) then {Si el tiempo ingresado es menor que tiempo2...}
+        end
+        else if (t < tiempo2) then {Si el tiempo ingresado es menor que tiempo2...}
         begin
             piloto2:= p;
             tiempo2:= t;
@@ -39,8 +39,8 @@ begin
             piloto3:= p;
             tiempo4:= tiempo3;
             tiempo3:= t;
-        end;
-        if (t > tiempo4) then {Si el tiempo ingresado es mayor que tiempo4...}
+        end
+        else if (t > tiempo4) then {Si el tiempo ingresado es mayor que tiempo4...}
         begin
             piloto4:= p;
             tiempo4:= t;
