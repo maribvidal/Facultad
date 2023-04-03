@@ -1,0 +1,11 @@
+CADP 2023
+Práctica 2 (parte 1) – Funciones y procedimientos
+1. El código primero imprime un "3", y, acto seguido, un "21".
+2. El código primero imprime un "3" por lo que está escrito en el procedure, y luego imprime un "31", ya que el "b:= 2;" del programa principal
+se ignora porque el valor de b fue reemplazado durante el procedure, ya que no había un b definido dentro de el, y entonces se tuvo que recurrir al b local.
+3. Este código es erroneo porque la variable b nunca es definida de manera global o local, solo se la puede encontrar dentro de un procedure, 
+pero esto no lo puede leer el programa principal.
+4. El segundo código, a diferencia del primero, tira error. Esto ocurre debido a que, como el procedure no tiene una variable para a, 
+y tampoco existe una variable global para a, entonces el procedure no tiene de donde agarrar, y produce error. El procedure no puede leer ni modificar
+las variables locales.
+5. El problema es que en ningún momento se lee la función "cuatro", ni tampoco se define a. Para que funcione, podría asignársele a "a:=" la función "cuatro".
