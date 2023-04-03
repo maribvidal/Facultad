@@ -1,6 +1,5 @@
 {Realice un módulo que lea del teclado números enteros hasta que llegue un valor negativo. 
 Al finalizar la lectura, el módulo debe imprimir en pantalla cuál fue el número par más alto.}
-program ejercicio6a;
 function lecturaNumeros: integer;
     var
         numIngresado, numPar: integer;
@@ -21,7 +20,3 @@ function lecturaNumeros: integer;
         write('El número par mas alto fue: ',numPar);
         lecturaNumeros:= numPar; {Se obtiene el mayor número par al llamar la función}
     end;
-begin
-    lecturaNumeros;
-    {No le asigno una variable a la función lecturaNumeros porque la función de por sí hace todo el trabajo}
-end.
