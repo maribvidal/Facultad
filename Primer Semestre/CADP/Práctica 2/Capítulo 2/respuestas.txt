@@ -1,0 +1,25 @@
+CADP 2023
+Práctica 2 (parte 2) – Funciones, procedimientos y parámetros
+RESPUESTAS
+
+1) a. Si se introduce un 10 en la variable "x", se imprime un 25 final.
+   b. Si se introdujera un 10 con la modificación planteada en el enunciado, la variable "x" no se modificaría en el programa principal a causa de que,
+   cuando le sacaron el VAR al parámetro, el parámetro pasó de ser uno de REFERENCIA a uno de VALOR, por lo que no se está modificando la variable.
+   c. Tira error, porque la variable "i" está siendo usada por la estructura de control FOR.
+
+2) a. Se imprime "Pares: 4 Ímpares: 4".
+
+3) i. Primer error: falta un punto y coma al final de la línea del procedure
+   ii. Segundo error: falta inicializar la variable entera "i", que se usa en la estructura FOR del procedure.
+   iii. Tercer error: faltan parámetros de referencia y/o variables globales. El procedure no puede pasarle el resultado de la cuenta al programa
+       principal de ninguna forma.
+   iv. Cuarto error: falta definir las variables "a" y "b" y "ok" al principio del programa principal.
+   v. Quinto error: la variable booleana "ok" debería ser inicializada como una operación AND y no una OR.
+   vi. Sexto error: falta hacer operaciones en result o usarlo en un procedure de entrada/salida para que tenga algún resultado.
+   
+4) Error en línea 2: falta invertir el orden de los parámetros / falta convertir a "salario" a un parámetro de referencia.
+   Error en línea 8: falta poner una variable de referencia para "maxSalarios".
+   Error en línea 9-10: sacar el definir "maxSalario" del procedure.
+   Error en línea 20: falta definir "sumaSalarios".
+   Error en línea 25: falta agregar a "maxSalario" a los parámetros invocados.
+   
