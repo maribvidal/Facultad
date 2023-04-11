@@ -1,27 +1,29 @@
 program ejercicio6;
 procedure leerProducto(var precio: real; var codigo: integer; var tipo: string);
     begin
-        write('Ingrese el precio del producto: '); read(precio);
-        write('Ingrese el código del producto: '); read(codigo);
-        write('Ingrese el tipo de producto: '); read(tipo);
+        write('Ingrese el precio del producto: '); readln(precio);
+        write('Ingrese el código del producto: '); readln(codigo);
+        write('Ingrese el tipo de producto: '); readln(tipo);
     end;
 procedure actualizarPrecios(nuevoTipo: string; nuevoPrecio: real; nuevoCodigo: integer; var barPrecio1: real; var barPrecio2: real; var pantPrecio: real; var barCodigo1: integer; var barCodigo2: integer; var pantCodigo: integer);
     begin
-        if (nuevoPrecio <= barPrecio1) then
+        if (nuevoPrecio < barPrecio1) then
             begin
+                barPrecio2:= barPrecio1;
+                barCodigo2:= barCodigo1;
                 barPrecio1:= nuevoPrecio;
                 barCodigo1:= nuevoCodigo;
-            end;
-        else
+            end
+        else if (nuevoPrecio < barPrecio2) then
             begin
                 barPrecio2:= nuevoPrecio;
                 barCodigo2:= nuevoCodigo;
             end;
-        if (nuevoTipo = "pantalón") and (nuevoPrecio > pantPrecio) then
+        if (nuevoTipo = 'pantalon') and (nuevoPrecio > pantPrecio) then
             begin
-                pantPrecio:= nuevoPrecio
+                pantPrecio:= nuevoPrecio;
                 pantCodigo:= nuevoCodigo;
-            end;
+            end
     end;
 var
     i, cod, barCod1, barCod2, pantCod: integer;
@@ -33,11 +35,12 @@ begin
     for i:= 1 to 4 do begin {Leer 100 productos}
         leerProducto(prec, cod, t);
         precPromedio:= precPromedio + prec;
-        actualizarPrecios(prec, cod, barPrec1, barPrec2, barCod1, barCod2, pantCod);
+        actualizarPrecios(t, prec, cod, barPrec1, barPrec2, pantPred, barCod1, barCod2, pantCod);
     end;
-    precPromedio:= precPromedio div 100; {Porque se leyeron 100 precios}
+    precPromedio:= precPromedio/100; {Porque se leyeron 100 precios}
+    writeln(' ---------- ');
     writeln('El código del primer producto mas barato es: ',barCod1);
     writeln('El código del segundo producto mas barato es: ',barCod2);
     writeln('El código del pantalón mas caro es: ',pantCod);
-    write('El precio promedio de todos los productos es: ',precPromedio);
+    write('El precio promedio de todos los productos es: ',precPromedio:2:1);
 end.
