@@ -32,7 +32,7 @@ var
 begin
     barPrec1:= 1000; barPrec2:= 1000; pantPred:= 0; precPromedio:= 0; {Inicializar las variables}
     barCod1:= 0; barCod2:= 0; pantCod:= 0;
-    for i:= 1 to 4 do begin {Leer 100 productos}
+    for i:= 1 to 100 do begin {Leer 100 productos}
         leerProducto(prec, cod, t);
         precPromedio:= precPromedio + prec;
         actualizarPrecios(t, prec, cod, barPrec1, barPrec2, pantPred, barCod1, barCod2, pantCod);
