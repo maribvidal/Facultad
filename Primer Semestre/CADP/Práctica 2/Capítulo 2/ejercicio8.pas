@@ -17,7 +17,8 @@ procedure calcularDigitos(secuencia: integer; var sumaDigitosPares, cantidadDigi
         end;
     end;
 var
-    sec, sumDigPar, cantDigImpar: integer;
+    sec: LongInt;
+    sumDigPar, cantDigImpar: integer;
 begin
     sumDigPar:= 0; cantDigImpar:= 0;
     write('Ingresar secuencia de números enteros: '); read(sec);
