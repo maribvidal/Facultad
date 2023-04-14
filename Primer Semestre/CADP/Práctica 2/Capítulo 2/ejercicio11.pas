@@ -11,7 +11,7 @@ procedure seCumpleSeqA(var verificar: boolean; var largo: integer);
     var
         caracter: char;
     begin
-        writeln(' --- SECUENCIA X --- ');
+        writeln(' --- SECUENCIA A --- ');
         writeln(' >Para terminar la secuencia, ingrese un "%"');
         write(' >Ingrese cualquier carácter (menos "$"): '); readln(caracter);
         while (caracter <> '%') and (verificar) do begin {Mientras el CARACTER no sea un "%"", o, siga siendo uno de los simbolos permitidos...}
@@ -34,7 +34,7 @@ procedure seCumpleSeqB(var verificar: boolean; largo: integer);
         ingresos:= 0;
         vecesArroba:= 0;
         writeln('                     ');
-        writeln(' --- SECUENCIA Y --- ');
+        writeln(' --- SECUENCIA B --- ');
         write(' >Ingrese cualquier carácter: '); readln(caracter);
         writeln(' >(',ingresos,'/',largo,')');
         while (caracter <> '*') and (ingresos < largo) do begin {Mientras el CARACTER no sea un "*"", o, el largo de la secuencia sea menor a la variable...}
