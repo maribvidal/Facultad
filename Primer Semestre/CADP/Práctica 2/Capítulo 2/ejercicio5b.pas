@@ -11,7 +11,7 @@ begin
     paresEsp:= 0;
     write('Ingrese un número: '); read(numA); {Leer variables}
     write('Ingrese otro número: '); read(numB);
-    while (numA <> 0) and (numB <> 0) do begin {Si ambos números del par son diferentes a 0...}
+    while (numA <> 0) or (numB <> 0) do begin {Si ambos números del par son diferentes a 0...}
         paresLeidos:= paresLeidos + 1;
         verifSiNumDoble(numA, numB, verif);
         if (verif) then {Si el número B es el doble del número A...}
