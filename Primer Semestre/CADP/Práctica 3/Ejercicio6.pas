@@ -29,13 +29,19 @@ procedure procesarMarca(var cantEsp, cantProd: integer; var marcaProd: string; v
         marcaProd:= '';
         leerMp(mp);
         marcaActual:= mp.brand;
-        while (mp.brand = marcaActual) do begin
+        while (mp.brand = marcaActual) and (mp.cores <> 0) do begin
+            writeln('Print en 33');
             infoRelevanteMp(mp, cantEsp);
-            if (mp.size = 14) then begin cantProd:= cantProd + 1; end;
+            marcaProd:= mp.brand;
+            writeln('Print en 39');
+            if (mp.size = 14) then begin 
+                cantProd:= cantProd + 1; 
+            end;
             leerMp(mp);
         end;
-        marcaProd:= mp.brand;
-        if (mp.cores = 0) then begin terminar:= true; end;
+        if (mp.cores = 0) then begin 
+            terminar:= false;
+        end;
     end;
 procedure actualizarMax(cantProd: integer; marcaProd: string; var cantMax1, cantMax2: integer; var marcaMax1, marcaMax2: string);
     begin
@@ -52,7 +58,6 @@ procedure actualizarMax(cantProd: integer; marcaProd: string; var cantMax1, cant
     end;
 var
     terminar: boolean;
-    mp: microprocessor;
     marcaProd, marcaMax1, marcaMax2: string;
     cantEsp, cantProd, cantMax1, cantMax2: integer;
 begin
