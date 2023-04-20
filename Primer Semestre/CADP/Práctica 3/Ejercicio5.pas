@@ -31,27 +31,15 @@ procedure procesarMarca(var precioMax: real; var marcaMax, modeloMax: string; va
         cant:= 0;
         leerAuto(c);
         nom:= c.marca;
-        while (seguir) do begin
-            if (nom <> c.marca) then begin
-                mProm:= mProm/cant;
-                writeln('El precio promedio de ',nom,' fue de ',mProm:2:2);
-                mProm:= 0;
-                cant:= 0;
-                if (c.marca = 'ZZZ') then begin
-                    writeln('ping');
-                    seguir:= false;
-                end;
-                nom:= c.marca;
-                writeln('A PARTIR DE AHORA, SE VA A LEER LA NUEVA MARCA (',nom,').');
-                writeln('--------------');
-            end;
-            if (c.marca <> 'ZZZ') then begin
-                cant:= cant + 1;
-                actualizarMaximo(c, marcaMax, modeloMax, precioMax);
-                mProm:= mProm + c.precio;
-                leerAuto(c);
-            end;
+        while (nom = c.marca) and (c.marca <> 'ZZZ') do begin
+            mProm:= mProm + c.precio;
+            cant:= cant + 1;
+            actualizarMaximo(c, marcaMax, modeloMax, precioMax);
+            leerAuto(c);
         end;
+        mProm:= mProm/cant;
+        writeln('El precio promedio de la marca ',nom,' es de $',mProm:2:2);
+        if (c.marca = 'ZZZ') then begin seguir:= false; end;
     end;
 var 
     seguir: boolean;
