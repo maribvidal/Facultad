@@ -1,0 +1,4 @@
+1) a. Los elementos del vector "números" son iguales a la escala del 1 al 10.
+   b. Al terminar el programa, los valores del vector "números" son diferentes porque en el segundo for se les sumaron el número anterior a cada uno.
+   c. Se podría sumarle "+1" al "i" y reemplazar "i-1" por simplemente "i" para que los valores que se tomen sean los mismos que en el código original.
+   d. Los valores contenidos en "números" van a ser todos 1.
