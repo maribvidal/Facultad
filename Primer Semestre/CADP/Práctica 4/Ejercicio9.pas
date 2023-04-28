@@ -1,7 +1,7 @@
 program Ejercicio9;
 const
     sizeLimit = 400; //Límite físico del vector
-    ano_actual = 2023; //Porque puede cambiar XD
+    ano_actual = 2020;
 type
     rangoTxt = string[20]; //Limitar rangos
     rangoNum = 0..9999;
