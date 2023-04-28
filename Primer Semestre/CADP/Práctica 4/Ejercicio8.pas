@@ -1,7 +1,7 @@
 program Ejercicio8;
 const
     sizeLimit = 400; //Límite físico del vector
-    ano_actual = 2023; //Porque puede cambiar XD
+    ano_actual = 2020;
 type
     rangoTxt = string[20]; //Limitar rangos
     rangoNum = 0..9999;
@@ -40,7 +40,7 @@ function esDNIPar(d: integer):boolean;
     end;
 procedure actualizarMaximos(a: alumno; var edad1, edad2: integer; var nombre1, nombre2, apellido1, apellido2: string);
     begin
-        if ((ano_actual - (a.ano)) > (edad1)) then begin //2023 - año_de_nacimiento = edad
+        if ((ano_actual - (a.ano)) > (edad1)) then begin //2023 - año_de_nacimiento = edad. También se puede, mas facil, comparar quien tiene el menor año de nacimiento pero YOLO. 
             edad2:= edad1;
             nombre2:= nombre1;
             apellido2:= apellido1;
