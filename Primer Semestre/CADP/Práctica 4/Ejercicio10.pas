@@ -1,6 +1,6 @@
 program Ejercicio10;
 const
-    dimF = 3; //A lo sumo, el vector de salarios debe tener 300 espacios.
+    dimF = 300; //A lo sumo, el vector de salarios debe tener 300 espacios.
 type
     vector = array [1..dimF] of real;
 procedure cargarVector(var v: vector; var dimL: integer);
