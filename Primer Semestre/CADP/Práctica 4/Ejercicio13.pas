@@ -1,7 +1,7 @@
 program Ejercicio13;
 const
-    dimF = 2; //Puntos diferentes del planeta
-    dimF2 = 5;
+    dimF = 100; //Puntos diferentes del planeta
+    dimF2 = 50;
 type
     vector = array [1..dimF] of real; //Vector para las temperaturas promedio
     vector2 = array [1..dimF2] of vector; //Vector para los 50 años
