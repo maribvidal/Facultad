@@ -1,17 +1,17 @@
 program Ejercicio14;
 const
-    dimF = 10; //1000 proyectos
+    dimF = 4; //1000 proyectos
 type
     dosCositas = record //para el punto c y d
         monto: real;
         cantArqSoft: integer;
     end;
     codigo = array [1..1000] of dosCositas; //Vector para los codigos del proyecto
-    rangoNum: 0..9999;
-    rangoTxt: str[40];
+    rangoNum = 0..9999;
+    rangoTxt = string[40];
     proyecto = record //Registro del proyecto
         pais_origen: rangoTxt;
-        cod_proj: 1..1000;
+        cod_proj: -1..1000;
         nombre: rangoTxt;
         rol: 1..5;
         horas: rangoNum;
@@ -37,7 +37,7 @@ procedure leerProyecto(var p: proyecto);
     end;
 procedure leerVector(var v: vector; var dimL: integer);
     var
-        i, aux: integer;
+        i: integer;
     begin
         i:= 1; //Comenzar index en 1
         write('Código del proyecto: '); readln(v[i].cod_proj);
@@ -48,14 +48,9 @@ procedure leerVector(var v: vector; var dimL: integer);
         end;
         dimL:= i-1;
     end;
-//a) El monto total invertido en desarrolladores con residencia en Argentina.
-//b) La cantidad total de horas trabajadas por Administradores de bases de datos.
-//c) El código del proyecto con menor monto invertido.
-//d) La cantidad de Arquitectos de software de cada proyecto.
-procedure encontrarProyectoMontoMin(c: codigo);
+procedure encontrarProyectoMontoMin(c: codigo; var montoMin: real; var codMin: integer);
     var
-        i. codMin: integer;
-        montoMin: real;
+        i: integer;
     begin
         montoMin:= 99999;
         codMin:= 0;
@@ -66,17 +61,18 @@ procedure encontrarProyectoMontoMin(c: codigo);
             end;
         end;
     end;
-procedure procesarVector(v: vector; dimL: integer; var cMontoMin: integer; var pMontoMin: real);
+procedure leerArquitectosPorProyecto(c: codigo);
     var
-        i, horasAdmBaseDatos: integer;
-        r: roles;
-        c: codigo;
-        montoArgentino: real;
+        i: integer;
     begin
-        montoArgentino:= 0;
-        montoProyectoMin:= 99999;
-        codProyectoMin:= 0;
-        horasAdmBaseDatos:= 0;
+        for i:= 1 to 1000 do begin
+            writeln('El proyecto código ',i,' tiene ',c[i].cantArqSoft,' arquitectos de software');
+        end;
+    end;
+procedure procesarVector(v: vector; dimL: integer; var horasAdmBaseDatos, cMontoMin: integer; var montoArgentino, pMontoMin: real);
+    var
+        i: integer;
+    begin
         for i:= 1 to dimL do begin //Recorrer todos los espacios llenos del vector
             if (v[i].pais_origen = 'Argentina') then begin //punto a
                 montoArgentino:= montoArgentino + salarioPorRol(v[i].rol, v[i].horas);
@@ -90,9 +86,20 @@ procedure procesarVector(v: vector; dimL: integer; var cMontoMin: integer; var p
             end;
         end;
         encontrarProyectoMontoMin(v[i].c, pMontoMin, cMontoMin);
+        leerArquitectosPorProyecto(v[i].c);
     end;
 var
-    
+    v: vector;
+    dimL, cMontoMin, horasAdmBaseDatos: integer;
+    pMontoMin, montoArgentino: real;
 begin
-    
+    montoArgentino:= 0;
+    pMontoMin:= 99999;
+    cMontoMin:= 0;
+    horasAdmBaseDatos:= 0;
+    leerVector(v, dimL);
+    procesarVector(v, dimL, horasAdmBaseDatos, cMontoMin, montoArgentino, pMontoMin);
+    writeln('El monto total invertido en desarrolladores con residencia en Argentina: $',montoArgentino:2:2);
+    writeln('La cantidad total de horas trabajadas por Administradores de bases de datos: ',horasAdmBaseDatos,'hs');
+    writeln('El código del proyecto con menor monto invertido: ',cMontoMin);
 end.
