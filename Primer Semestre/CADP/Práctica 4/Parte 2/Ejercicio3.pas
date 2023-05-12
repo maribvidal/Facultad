@@ -1,7 +1,7 @@
 program ej3;
 const
-    dimF = 4; //"Vector de a lo sumo 200 elementos"
-    dias_del_mes = 4;
+    dimF = 200; //"Vector de a lo sumo 200 elementos"
+    dias_del_mes = 31;
 type
     mes = 1..dias_del_mes;
     viaje = record
