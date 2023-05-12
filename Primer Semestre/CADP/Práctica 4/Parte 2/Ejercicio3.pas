@@ -1,7 +1,7 @@
 program ej3;
 const
-    dimF = 200; //"Vector de a lo sumo 200 elementos"
-    dias_del_mes = 31;
+    dimF = 4; //"Vector de a lo sumo 200 elementos"
+    dias_del_mes = 4;
 type
     mes = 1..dias_del_mes;
     viaje = record
@@ -24,11 +24,13 @@ procedure cargarVector(var v: vector; var dimL: integer);
     begin
         i:= 0;
         leerViaje(vi);
+        writeln;
         while (i < dimF) and (vi.distancia <> 0) do begin
             i:= i + 1;
             dimL:= dimL + 1;
             v[i]:= vi;
             leerViaje(vi); //Cuando se termine de procesar el viaje anterior, leer otro
+            writeln;
         end;
     end;
 procedure actualizarMinimo(viaje_actual: viaje; var diaMin, distMin: integer; var montoMin: real);
@@ -61,15 +63,26 @@ procedure leerViajesPorDia(v2: vector2);
             writeln('[Dia ',i,']: ',v2[i],' viajes realizados.');
         end;
     end;
-procedure modificarVector(var v: vector; var dimL: integer);
-    var 
+procedure eliminarElemento(var v: vector; var dimL: integer; posicion: integer);
+    var
         i: integer;
     begin
-        for i:= 1 to dimL do begin
-            if (v[i].distancia = 100) then begin
-                v[i].distancia:= 0; //Eliminar elemento CORREGIR
-            end;
+        for i:= posicion to dimL do begin
+            v[i]:= v[i+1]; //Asignarle al elemento actual el valor del siguiente elemento
         end;
+        dimL:= dimL - 1; //La dimensión lógica es un espacio mas pequeña
+    end;
+procedure modificarVector(var v: vector; var dimL:integer);
+    var
+	    i, e: integer;
+    begin
+        e:= 0; //Viajes eliminados
+	    for i:= 1 to dimL do begin
+	        if (v[i].distancia = 100) and ((i+e) <= dimL) then begin
+	            eliminarElemento(v, dimL, i);
+	            e:= e + 1;
+	        end;
+	    end;
     end;
 var
     v: vector;
