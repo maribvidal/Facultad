@@ -14,10 +14,10 @@ type
         monto: real;
     end;
     vector = array [1..dimF] of client;
-    vContratosMes = array [1..12] of integer; //Para el punto A
-    vContratosAno = array [2006..2023] of integer; //Para el punto A
-    vCategorias = array ['A'..'F'] of integer; //Para el punto B
-    vCodigos = array [1..2400] of integer; //Para el punto C
+    vContMes = array [1..12] of integer; //Para el punto A
+    vContAno = array [2006..2023] of integer; //Para el punto A
+    vCat = array ['A'..'F'] of integer; //Para el punto B
+    vCod = array [1..2400] of real; //Para el punto C, guarda montos
 function cuantosSuperanMonto(v: vector; monto: real):integer;
     var
         i, aux: integer;
@@ -61,22 +61,60 @@ procedure actualizarMaximo(contratos1: integer; ano1: integer; var contratos2: i
             ano2:= ano1;
         end;
     end;
-procedure procesarVector(var v: vector; var contratosMax, anoMax: integer; var cantEsp: integer);
+procedure leerContratosMesAno(contMeses: vContMes; contAnos: vContAno); //Punto A
     var
         i: integer;
-        contratosMax, anoMax: integer; //Punto A
+    begin
+        for i:= 1 to 12 do begin //Meses
+            writeln('En el mes ',i,' se firmaron un total de ',contMeses[i],' contratos.');
+        end;
+        for i:= 2006 to 2023 do begin //Años
+            writeln('En el año ',i,' se firmaron un total de ',contAnos[i],' contratos.');
+        end;
+    end;
+procedure leerCategorias(categorias: vCat); //Punto B
+    var
+        i: char;
+    begin
+        for i:= 'A' to 'F' do begin
+            write('La categoría ',char,' tuvo un total de ',categorias[i],' clientes.');
+        end;
+    end;
+procedure leerCiudades(ciudades: vCod); //Punto C
+    var
+        i, j, codMax: integer;
+        montoMax: real;
+    begin
+        montoMax:= -1;
+        codMax:= 0;
+        for i:= 1 to 10 do begin //Ir sacando el monto mayor por la fuerza bruta XD
+            for j:= 1 to 2400 do begin //Codigos de las ciudades
+                if (ciudades[j] > montoMax) then begin
+                    montoMax:= ciudades[j];
+                    codMax:= j;
+                end;
+            end;
+            write('El código de la ',i,'° ciudad con el mayor monto es ',codMax);
+            ciudades[codMax]:= -1; //Asignarle un valor menor al mayor monto del vector así se encuentra otro monto máximo 
+        end;
+    end;
+procedure procesarVector(var v: vector; var vContMes: vContMes; var vContAno: vContAno; var vCat: vCat; var vCod: vCod; var anoMax: integer; var cantEsp: integer);
+    var
+        i: integer;
+        contratosMax: integer; //Punto A
         promedio: real; //Punto D
     begin
+        contratosMax:= -1;
         promedio:= 0;
         for i:= 1 to dimF do begin
             //Punto A
-            vContratosMes[v[i].fecha.mes]:= vContratosMes[v[i].fecha.mes] + 1;
-            vContratosAno[v[i].fecha.ano]:= vContratosAno[v[i].fecha.ano] + 1;
-            actualizarMaximo(vContratosAno[v[i].fecha.ano], v[i].fecha.ano, contratosMax, anoMax); //Actualizar año en que se firmó la mayor cantidad de contratos
+            vContMes[v[i].fecha.mes]:= vContMes[v[i].fecha.mes] + 1;
+            vContAno[v[i].fecha.ano]:= vContAno[v[i].fecha.ano] + 1;
+            actualizarMaximo(vContAno[v[i].fecha.ano], v[i].fecha.ano, contratosMax, anoMax); //Actualizar año en que se firmó la mayor cantidad de contratos
             //Punto B 
-            vCategorias[v[i].categoria]:= vCategorias[v[i].categoria] + 1; //Aumentar la cantidad de dicha categoría
+            vCat[v[i].categoria]:= vCat[v[i].categoria] + 1; //Aumentar la cantidad de dicha categoría
             //Punto C
-            vCodigos[v[i].codigo]:= vCodigos[v[i].codigo] + 1; //Asignarle gente al código de la ciudad
+            vCod[v[i].codigo]:= vCod[v[i].codigo] + 1; //Asignarle gente al código de la ciudad
             //Punto D
             promedio:= promedio + v[i].monto; //Sumarle a promedio el monto de cada cliente de AWS
         end;
@@ -85,11 +123,19 @@ procedure procesarVector(var v: vector; var contratosMax, anoMax: integer; var c
     end;
 var
     v: vector;
-    contratosMax, anoMax, cantEsp: integer;
+    anoMax, cantEsp: integer;
+    vContMes: vContMes;
+    vContAno: vContAno;
+    vCat: vCat;
+    vCod: vCod;
 begin
-    contratosMax:= -1;
     anoMax:= 0;
     cantEsp:= 0;
     cargarVector(v);
-    procesarVector(v, contratosMax, anoMax, cantEsp);
+    procesarVector(v, vContMes, vContAno, vCat, vCod, anoMax, cantEsp);
+    leerContratosMesAno(vContMes, vContAno);
+    writeln('El año en que se firmó la mayor cantidad de contratos fue el ',anoMax,'.');
+    leerCategorias(vCat);
+    leerCiudades(vCod);
+    writeln('La cantidad de clientes que superan mensualmente el monto promedio entre todos los clientes es de ',cantEsp);
 end.
