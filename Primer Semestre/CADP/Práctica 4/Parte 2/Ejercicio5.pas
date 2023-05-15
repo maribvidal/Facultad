@@ -1,6 +1,6 @@
 program Ejercicio5;
 const
-    dimF = 4; //Se dispone de la información de 500 clientes.
+    dimF = 11; //Se dispone de la información de 500 clientes.
 type
     date = record
         dia: 1..30;
@@ -76,8 +76,8 @@ procedure leerCategorias(categorias: vCat); //Punto B
     var
         i: char;
     begin
-        for i:= 'A' to 'F' do begin
-            write('La categoría ',char,' tuvo un total de ',categorias[i],' clientes.');
+        for i:='A' to 'F' do begin
+            writeln('La categoría ',i,' tuvo un total de ',categorias[i],' clientes.');
         end;
     end;
 procedure leerCiudades(ciudades: vCod); //Punto C
@@ -94,8 +94,9 @@ procedure leerCiudades(ciudades: vCod); //Punto C
                     codMax:= j;
                 end;
             end;
-            write('El código de la ',i,'° ciudad con el mayor monto es ',codMax);
-            ciudades[codMax]:= -1; //Asignarle un valor menor al mayor monto del vector así se encuentra otro monto máximo 
+            writeln('El código de la ',i,'° ciudad con el mayor monto es ',codMax);
+            ciudades[codMax]:= -1; //Asignarle un valor menor al mayor monto del vector así se encuentra otro monto máximo
+            montoMax:= -1;
         end;
     end;
 procedure procesarVector(var v: vector; var vContMes: vContMes; var vContAno: vContAno; var vCat: vCat; var vCod: vCod; var anoMax: integer; var cantEsp: integer);
@@ -124,18 +125,20 @@ procedure procesarVector(var v: vector; var vContMes: vContMes; var vContAno: vC
 var
     v: vector;
     anoMax, cantEsp: integer;
-    vContMes: vContMes;
-    vContAno: vContAno;
-    vCat: vCat;
-    vCod: vCod;
+    v2: vContMes;
+    v3: vContAno;
+    v4: vCat;
+    v5: vCod;
 begin
     anoMax:= 0;
     cantEsp:= 0;
     cargarVector(v);
-    procesarVector(v, vContMes, vContAno, vCat, vCod, anoMax, cantEsp);
-    leerContratosMesAno(vContMes, vContAno);
+    procesarVector(v, v2, v3, v4, v5, anoMax, cantEsp);
+    leerContratosMesAno(v2, v3);
     writeln('El año en que se firmó la mayor cantidad de contratos fue el ',anoMax,'.');
-    leerCategorias(vCat);
-    leerCiudades(vCod);
+    leerCategorias(v4);
+    writeln;
+    leerCiudades(v5);
+    writeln;
     writeln('La cantidad de clientes que superan mensualmente el monto promedio entre todos los clientes es de ',cantEsp);
 end.
