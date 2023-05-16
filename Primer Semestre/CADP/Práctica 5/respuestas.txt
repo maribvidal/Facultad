@@ -1,0 +1,19 @@
+Práctica 5 – Punteros
+PARTE CONCEPTUAL
+1) ¿Qué se define como memoria estática?
+Se define como memoria estática aquella memoria que no se puede modificar durante la ejecución del programa.
+
+2) ¿Qué se define como memoria dinámica?
+Se define como memoria dinámica aquella memoria que SI se puede modificar durante la ejecución del trabajo.
+Ante esta necesidad responden los punteros, que le piden a sistema un poco de memoria para poder almacenar
+una variable de manera temporal.
+
+3) ¿Qué es una variable de tipo puntero?
+Un puntero es un tipo de variable que almacena la dirección de memoria de un objeto para luego poder usar.
+
+4) ¿Qué hace la operación “NEW” aplicada en una variable del tipo puntero?
+Esta operación asigna una dirección de memoria al puntero.
+
+¿Qué hace la operación “DISPOSE” aplicada en una variable del tipo puntero?
+Esta operación desvincula al puntero de la dirección de memoria que posea en el momento, incluyendo
+también el valor almacenado en aquella dirección.
