@@ -14,7 +14,7 @@ const
     SIMBOLO_jugador = 'P';
     SIMBOLO_flor = '8';
     SIMBOLO_vacio = '_';
-    SIMBOLO_pared = 'II';
+    SIMBOLO_pared = 'I';
 type
     player = record //REGISTRO DEL JUGADOR
         nombre: string[8];
@@ -99,6 +99,7 @@ procedure coordenada_usada_agregar(var c: coordenadas_usadas; var CU_dimL: integ
                 CU_dimL:= CU_dimL + 1;
                 c[CU_dimL].x:= x;
                 c[CU_dimL].y:= y;
+                //writeln(' COORDENADA AGREGADA ',x,' ',y);
             end else begin
                 writeln(' ERROR: SE AGOTARON LAS COORDENADAS');
             end;
@@ -124,16 +125,17 @@ procedure coordenada_usada_eliminar(var c: coordenadas_usadas; var CU_dimL: inte
     begin
         if (coordenada_existe(x, y)) then begin
             if (CU_dimL >= 0) then begin
-                CU_dimL:= CU_dimL - 1;
                 c_pos:= coordenada_usada_adentro(c, CU_dimL, x, y);
                 if (c_pos <> -1) then begin //SI LA COORDENADA ESTÁ DENTRO DEL VECTOR
                     for i:=c_pos to CU_dimL do begin //PROCEDER A ELIMINARLA
                         c[i]:= c[i+1]; //DESPLAZAR ELEMENTOS DEL VECTOR
                     end;
                     CU_dimL:= CU_dimL - 1; //SUSTRAERLE UNA UNIDAD A LA DIMENSIÓN LÓGICA
+                    //writeln(' COORDENADA ELIMINADA ',x,' ',y);
                 end else begin
                     writeln(' ERROR: NO SE ENCUENTRA LA COORDENADA DENTRO DEL VECTOR');
                 end;
+                CU_dimL:= CU_dimL - 1;
             end else begin
                 writeln(' ERROR: NO PUEDEN HABER MENOS COORDENADAS');
             end;
@@ -141,34 +143,17 @@ procedure coordenada_usada_eliminar(var c: coordenadas_usadas; var CU_dimL: inte
             writeln(' ERROR: ESA COORDENADA ESTÁ FUERA DEL MUNDO');
         end;
     end;
-procedure mapa_crear_flores(var m: mapa; var c: coordenadas_usadas; var CU_dimL: integer; cantidad: integer); //APARECER FLORES EN EL MAPA
-    var
-        i: integer;
-        posx, posy, posx2, posy2: longint;
+procedure mapa_crear_pared(var m: mapa; var c: coordenadas_usadas; var CU_dimL: integer; x, y: integer); //APARECER FLORES EN EL MAPA
     begin
-        i:= 0;
-        posx:= 0;
-        posx2:= 0;
-        posy:= 0;
-        posy2:= 0;
-        if (CU_dimL + cantidad <= 50) then begin
-            while (i <> cantidad) do begin //LLENAR LOS ESPACIOS CON FLORES
-                while (posx = posx2) or (posy = posy2) do begin //ASEGURARSE QUE LAS POSICIONES SEAN DIFERENTES DE LAS ANTERIORES
-                    posx:= random(9)+1;
-                    posy:= random(4)+1;
-                end;
-                if (coordenada_usada_adentro(c, CU_dimL, posx, posy) <> -1) then begin //ASEGURARSE QUE LA COORDENADA NO ESTÉ ADENTRO DEL VECTOR
-                    coordenada_usada_agregar(c, CU_dimL, posx, posy);
-                    m[posy][posx]:= SIMBOLO_flor;
-                    i:= i + 1; //AGREGAR COORDENADA Y SEGUIR EL CONTEO
-                end else begin
-                    writeln(' ERROR: ESA COORDENADA YA SE ENCUENTRA EN USO');
-                end;
-                posx2:= posx;
-                posy2:= posy;
+        if (CU_dimL+1 <= 49) then begin
+            if (coordenada_usada_adentro(c, CU_dimL, x, y) <> -1) then begin
+                m[y][x]:= SIMBOLO_pared;
+                coordenada_usada_agregar(c, CU_dimL, x, y);
+            end else begin
+                writeln(' ERROR: ESA COORDENADA YA ESTÁ SIENDO USADA');
             end;
         end else begin
-            writeln(' ERROR: NO SE CUENTA CON EL SUFICIENTE ESPACIO PARA LA OPERACIÓN');
+            writeln(' ERROR: NO QUEDA ESPACIO');
         end;
     end;    
 
@@ -182,7 +167,9 @@ procedure jugador_inicializar(var j: player; var c: coordenadas_usadas; var CU_d
         j.se_puede_mover:= true; //Variable reservada para fines especiales
         j.x:= 3; //El jugador aparece en el centro del mapa (3, 1)
         j.y:= 1; //El jugador aparece en el centro del mapa (3, 1)
-        coordenada_usada_agregar(c, CU_dimL, 3, 1);
+        CU_dimL:= CU_dimL + 1;
+        c[CU_dimL].x:= j.x;
+        c[CU_dimL].y:= j.y;
     end;
 procedure jugador_borrar_posicion(var m: mapa; j: player); //COLOCAR AL JUGADOR EN TAL COORDENADA
     begin
@@ -194,8 +181,10 @@ procedure jugador_coordenada(var m: mapa; var j: player; x, y: integer; var c: c
     begin
         aux:= coordenada_existe(x, y);
         if (aux) then begin
+            if (coordenada_usada_adentro(c, CU_dimL, j.x, j.y) <> -1) then begin
+                coordenada_usada_eliminar(c, CU_dimL, j.x, j.y); //ELIMINAR COORDENADA USADA
+            end;
             jugador_borrar_posicion(m, j); //Borrar el 1 de la posición anterior
-            coordenada_usada_eliminar(c, CU_dimL, x, y); //ELIMINAR COORDENADA USADA
             m[y][x]:= SIMBOLO_jugador;
             coordenada_usada_agregar(c, CU_dimL, x, y); //AGREGAR NUEVA COORDENADA USADA
             j.y:= y; //Actualizar coordenada X del jugador
@@ -239,7 +228,7 @@ procedure jugador_hacerse_dano(var m: mapa; var j: player);
     end;
     
 //CONSOLA
-procedure consola(var m: mapa; var j: player; var c: coordenadas_usadas; var CU_dimL: integer);
+procedure consola(var m: mapa; var j: player; var c: coordenadas_usadas; var CU_dimL: integer; var runtime: boolean);
     var
         tipo_accion: string[10];
     begin
@@ -248,6 +237,8 @@ procedure consola(var m: mapa; var j: player; var c: coordenadas_usadas; var CU_
             jugador_stats(j); end
         else if (tipo_accion = 'AUTODAÑO') then begin //AUTO-INFLINGIRSE DAÑO
             jugador_hacerse_dano(m, j); end
+        else if (tipo_accion = 'TERMINAR') then begin //TERMINAR JUEGO
+            runtime:= false; end
         else if (tipo_accion = 'MOVER') then begin //MOVIMIENTO
             if (j.se_puede_mover) then begin
                 write(' ¿HACIA DONDE?: '); readln(tipo_accion);
@@ -276,21 +267,22 @@ var
     j: player;
     c: coordenadas_usadas;
     
-    runtime: boolean;
     CU_dimL: integer;
+    runtime: boolean;
 begin
     //INICIALIZAR JUEGO
-    runtime:= true; //EL JUEGO SE ESTÁ EJECUTANDO
+    runtime:= true;
+    CU_dimL:= 0;
     jugador_inicializar(j, c, CU_dimL);
     mapa_cargar(m);
-    CU_dimL:= 0;
     jugador_coordenada(m, j, j.x, j.y, c, CU_dimL);
     lineas();
+    mapa_crear_pared(m, c, CU_dimL, 3, 2);
     mapa_leer(m);
     
     //MIENTRAS EL JUEGO SE EJECUTE
     while (runtime) and (j.vida > 0) do begin
-        consola(m, j, c, CU_dimL);
+        consola(m, j, c, CU_dimL, runtime);
         lineas();
         mapa_leer(m);
     end;
