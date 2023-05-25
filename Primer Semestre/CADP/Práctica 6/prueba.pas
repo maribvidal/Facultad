@@ -104,4 +104,4 @@ begin
     cargarLista(l1); //No escribimos los procesos requeridos para esto porque el enunciado aclara que ya se DISPONE con esta información
     nuevaLista(l1, l2);
     imprimirLista(l2);
-end;
+end.
