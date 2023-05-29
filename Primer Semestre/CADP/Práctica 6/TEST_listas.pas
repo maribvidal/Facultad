@@ -46,6 +46,26 @@ procedure recorrerLista(p: lista); //RECORRER LA LISTA DE NODOS
             p:= p^.siguiente; //ASIGNARLE LA DIRECCIÓN Y EL CONTENIDO DEL SIGUIETNE PUNTERO EN LA LISTA
         end;
     end;
+procedure eliminarNodo(var p: lista; valor: integer);
+    var
+        actual, anterior: lista;
+    begin
+        actual:= p;
+        while (actual <> nil) do begin //Mientras no se llegue al último elemento de la lista
+            if not (actual^.contenido > valor) then begin //Si el contenido de la dirección actual NO ES menor que el valor
+                anterior:= actual;
+                actual:= actual^.siguiente;
+            end else begin //Caso contrario
+                if (actual = p) then begin //Si el elemento que entra en el criterio es el primero
+                    p:= p^.siguiente;
+                end else begin //Para los demás
+                    anterior^.siguiente:= actual^.siguiente;
+                end;
+                dispose(actual);
+                actual:= anterior;
+            end
+        end;
+    end;
 var
     primerNodo: lista; //MEMORIA ESTÁTICA - 4 bytes (variable local)
     ultimoNodo: lista; //MEMORIA ESTÁTICA - 4 bytes (variable local)
