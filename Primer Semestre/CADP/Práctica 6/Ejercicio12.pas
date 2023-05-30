@@ -76,7 +76,8 @@ procedure procesarLista(l: lista; var incisoB: integer; var incisoC: real);
         pantPromedio:= 0;
         verAndroidActual:= l^.data.android;
         while (l <> nil) do begin //Mientras no se haya llegado al último elemento de la lista...
-            while (l^.data.android = verAndroidActual) and (l <> nil) do begin //Mientras la versión de android siga siendo la misma... (CORTE DE CONTROL)
+            verAndroidActual:= l^.data.android;
+            while (l <> nil) and (l^.data.android = verAndroidActual) do begin //Mientras la versión de android siga siendo la misma... (CORTE DE CONTROL)
                 cantDisp:= cantDisp + 1; //Inciso C
                 cantDispVer:= cantDispVer + 1; //Inciso A
                 if (l^.data.memoria > 3) and (l^.data.pantalla <= 5) then begin //Inciso B
@@ -86,10 +87,7 @@ procedure procesarLista(l: lista; var incisoB: integer; var incisoC: real);
                 l:= l^.sig; //Seguir avanzando en la lista
             end;
             writeln('La cantidad de dispositivos con la versión de Android ',verAndroidActual,' es de ',cantDispVer);
-            cantDispVer:= 0; //Resetear variable
-            if (l <> nil) then begin
-                verAndroidActual:= l^.data.android; //Actualizar versión de Android actual
-            end;
+            cantDispVer:= 0; //Resetear variable 
         end;
         incisoB:= cantDispEsp;
         incisoC:= (pantPromedio / cantDisp);
