@@ -99,3 +99,66 @@ begin
         writeln(v[i].personas);
     end;
 end.
+
+program ejercicioVectores;
+const
+    dimF = 20;
+type
+    vect = array [1..20] of integer;
+procedure cargarVectorDeManeraRandom(var v: vect; var dimL: integer);
+    var
+        i, num: integer;
+    begin
+        i:= 1;
+        write('NUM: '); readln(num);
+        while (i <= dimF) and (num <> -1) do begin
+            v[i]:= num;
+            dimL:= dimL + 1;
+            i:= i + 1;
+            write('NUM: '); readln(num);
+        end;
+    end;
+procedure insertarNumeroEnPos(var v: vect; var dimL: integer; num, pos: integer);
+    var
+        i: integer;
+    begin
+        if (dimL+1 <= dimF) and (pos > 0) and (pos <= dimL) then begin
+            for i:= dimL downto pos do begin //Desplazar todos los elementos desde el final hasta el siguiente de la posición deseada
+                v[i+1]:= v[i];
+            end; //Hay un espacio libre (la posición deseada)
+            v[pos]:= num; //Asignarle a esa posición el valor pedido
+        end;
+    end;
+procedure eliminarPos(var v: vect; var dimL: integer; pos: integer);
+    var
+        i: integer;
+    begin
+        if (dimL > 0) and (pos > 0) and (pos <= dimL) then begin
+            for i:= pos to (dimL-1) do begin
+                v[i]:= v[i+1];
+            end;
+            dimL:= dimL - 1;
+        end;
+    end;
+procedure leerVector(v: vect; dimL: integer);
+    var
+        i: integer;
+    begin
+        for i:= 1 to dimL do begin
+            writeln(v[i]);
+        end;
+    end;
+var
+    v: vect;
+    dimL, pos, num: integer;
+begin
+    cargarVectorDeManeraRandom(v, dimL);
+    read(num);
+    read(pos);
+    writeln;
+    insertarNumeroEnPos(v, dimL, num, pos);
+    leerVector(v, dimL);
+    eliminarPos(v, dimL, pos);
+    writeln;
+    leerVector(v, dimL);
+end.
