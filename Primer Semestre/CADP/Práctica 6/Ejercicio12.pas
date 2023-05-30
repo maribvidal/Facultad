@@ -102,7 +102,7 @@ begin
     recorrerLista(l);
     writeln;
     procesarLista(l, incisoB, incisoC);
-    writeln('La cantidad de dispositivos con más de 3 GB de memoria y pantallas de a lo sumo a 5 pulgadas es de ',incisoB);
     writeln;
+    writeln('La cantidad de dispositivos con más de 3 GB de memoria y pantallas de a lo sumo a 5 pulgadas es de ',incisoB);
     write('El tamaño promedio de las pantallas de todos los dispositivos es de ',incisoC:2:2,'pulgadas');
 end.
