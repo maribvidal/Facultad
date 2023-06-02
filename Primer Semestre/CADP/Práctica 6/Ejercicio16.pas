@@ -6,10 +6,10 @@ type
     corredor = record 
         nombre: string[10];
         apellido: string[10];
-        distancia: 0..9999; 
+        distancia: -1..9999; 
         tiempo: 0..9999; 
         pais: string[10];
-        ciudad_inicio: string[10];
+        ciudad_inicial: string[10];
         ciudad_final: string[10];
     end;
     nodo = record
@@ -32,7 +32,7 @@ procedure leerCorredor(var c: corredor);
             write('Apellido: '); readln(c.apellido);
             write('Tiempo: '); readln(c.tiempo);
             write('Pais: '); readln(c.pais);
-            write('Ciudad del inicio: '); readln(c.ciudad_inicio);
+            write('Ciudad del inicio: '); readln(c.ciudad_inicial);
             write('Ciudad del final: '); readln(c.ciudad_final);
         end;
     end;
@@ -42,7 +42,7 @@ procedure agregarNodo(var l: lista; c: corredor); //De adelante
     begin
         new(aux);
         aux^.data:= c;
-        aux^.sig:= l;
+        aux^.sig:= nil;
         if (l = nil) then begin
             l:= aux;
         end else begin
@@ -55,13 +55,14 @@ procedure cargarLista(var l: lista);
         c: corredor;
     begin
         leerCorredor(c);
+        writeln;
         while (c.distancia <> corte) do begin //Mientras la distancia ingresada sea diferente de -1...
             agregarNodo(l, c);
             leerCorredor(c);
             writeln;
         end;
     end;
-procedure actualizarMaximo(nombreActual: string; corActual, distActual: integer; var nombreNuevo: string; var corNuevo, distNuevo);
+procedure actualizarMaximo(nombreActual: string; corActual, distActual: integer; var nombreNuevo: string; var corNuevo, distNuevo: integer);
     begin
         if (corActual > corNuevo) then begin
             nombreNuevo:= nombreActual;
@@ -74,14 +75,13 @@ procedure procesarLista(l: lista; var puntoB: string; var puntoB2, puntoD: integ
         paisActual, ciudadInicialActual: string[10];
         A_cantCorredores, A_distTotal, A_tiempoTotal: integer;
         B_corredores, B_dist, B_corredoresMax: integer;
-        C_brasilCorredores, C_brasilDist: integer;
-        D_corredores:= 0;
+        C_brasilCorredores, C_brasilDist: real;
         E_corredores: integer;
         E_pasoTotal: real;
     begin
         //Inicializar variables
-        paisActual:= l^.data.pais;
-        ciudadInicialActual:= l^.data.ciudad_inicial;
+        paisActual:= '';
+        ciudadInicialActual:= '';
         A_cantCorredores:= 0;
         A_distTotal:= 0;
         A_tiempoTotal:= 0;
@@ -90,13 +90,13 @@ procedure procesarLista(l: lista; var puntoB: string; var puntoB2, puntoD: integ
         B_corredoresMax:= -1;
         C_brasilCorredores:= 0;
         C_brasilDist:= 0;
-        D_corredores:= 0;
         E_corredores:= 0;
         E_pasoTotal:= 0;
-        
         //Recorrer toda la lista
         while (l <> nil) do begin //Romper cuando se llegue al último elemento
+            paisActual:= l^.data.pais;
             while (l <> nil) and (l^.data.pais = paisActual) do begin //Romper cuando el país leido sea diferente del paisActual
+                ciudadInicialActual:= l^.data.ciudad_inicial;
                 while (l <> nil) and (l^.data.ciudad_inicial = ciudadInicialActual) do begin //Romper cuando la ciudad leida sea diferente de la ciudad actual
                     //Punto A
                     A_cantCorredores:= A_cantCorredores + 1;
@@ -114,8 +114,8 @@ procedure procesarLista(l: lista; var puntoB: string; var puntoB2, puntoD: integ
                     end;
                     
                     //Punto D
-                    if (l^.data.ciudad_final <> l^.data.ciudad_inicial) then begin
-                        D_corredores:= D_corredores + 1;
+                    if (l^.data.ciudad_inicial <> l^.data.ciudad_final) then begin
+                        puntoD:= puntoD + 1;
                     end;
                     
                     //Punto E - Sacar cantidad de corredores y paso total
@@ -133,18 +133,15 @@ procedure procesarLista(l: lista; var puntoB: string; var puntoB2, puntoD: integ
                 B_dist:= 0;
                 
                 //Punto E - Sacar el promedio
-                if (l^.data.ciudad_inicial = 'Boston') then begin
+                if (ciudadInicialActual = 'Boston') then begin
                     puntoE:= (E_pasoTotal / E_corredores);
                 end;
-                
-                //Reiniciar variables
-                ciudadInicialActual:= l^.data.ciudad_inicial;
             end;
             //Punto C - Sacar promedio
-            puntoC:= (C_brasilDist / C_brasilCorredores);
-            
-            //Reiniciar variables
-            paisActual:= l^.data.pais;
+            if (C_brasilDist <> 0) and (C_brasilCorredores <> 0) then begin
+                puntoC:= (C_brasilDist / C_brasilCorredores);
+            end;
+            writeln('pe');
         end;
         //Punto A - Leer cantidad total de corredores, la distancia total recorrida y el tiempo total de carrera de todos los corredores.
         writeln('Cantidad total de corredores: ', A_cantCorredores);
@@ -165,13 +162,13 @@ begin
     puntoC:= 0;
     puntoD:= 0;
     puntoE:= 0;
-    procesarLista(l, puntoB, puntoD, puntoC, puntoE);
+    procesarLista(l, puntoB, puntoB2, puntoD, puntoC, puntoE);
     writeln('Nombre de la ciudad que convocó la mayor cantidad de corredores: ',puntoB);
     writeln('Cantidad total de kilómetros recorridos por los corredores de esa ciudad: ',puntoB2);
     writeln;
-    writeln('Distancia promedio recorrida por corredores de Brasil: ',puntoC);
+    writeln('Distancia promedio recorrida por corredores de Brasil: ',puntoC:2:2);
     writeln;
     writeln('Cantidad de corredores que partieron de una ciudad y finalizaron en otra ciudad: ',puntoD);
     writeln;
-    write('Paso (cantidad de minutos por km) promedio de los corredores de la ciudad de Boston: ', puntoE);
+    write('Paso (cantidad de minutos por km) promedio de los corredores de la ciudad de Boston: ', puntoE:2:2);
 end.
