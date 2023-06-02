@@ -1,0 +1,191 @@
+Program eje1;
+
+Const 
+  LIM_DNI = 33555444;
+  MAX_RANGO = 5;
+
+Type 
+  cadena = string[50];
+  tRango = 1..MAX_RANGO;
+  tDigitos = 0..9;
+
+  persona = Record
+    dni: integer;
+    apeynombre: cadena;
+    edad: integer;
+    codigo: tRango;
+  End;
+
+  lista = ^nodo;
+
+  nodo = Record
+    dato: persona;
+    sig: lista;
+  End;
+
+  generos = array[tRango] Of integer;
+  
+
+Procedure leerPersona(Var p:persona);
+Begin
+  With p Do
+    Begin
+      readln(dni);
+      readln(apeynom);
+      readln(edad);
+      readln(codigo);
+    End;
+End;
+
+Procedure agregarPersona(Var l: lista; p: persona);
+
+Var 
+  aux: lista;
+Begin
+  new(aux);
+  aux^.dato := p;
+  aux^.sig := l;
+  l := aux;
+End;
+
+Procedure cargarLista(Var l: lista);
+
+Var 
+  p: persona;
+Begin
+  l := Nil;
+
+  Repeat
+    leerPersona(p);
+    agregarPersona(l, p);
+  Until (p.dni = LIM_DNI);
+End;
+
+
+Procedure inicializarGeneros(Var vec: generos);
+
+Var 
+  i: tRango;
+Begin
+  For i:= 1 To MAX_RANGO Do
+    vec[i] := 0;
+End;
+
+Function masParesQImpares(num: integer): boolean;
+
+Var 
+  dig: tDigitos;
+  cantPares, cantImpares: integer;
+Begin
+  cantPares := 0;
+  cantImpares := 0;
+  
+
+  While (num <> 0) Do
+    Begin
+      dig := num Mod 10;
+ 
+      If ((dig Mod 2) = 0) Then
+        cantPares := cantPares + 1
+      Else
+        cantImpares := cantImpares + 1;
+
+      num := num Div 10;
+    End;
+
+
+  masParesQImpares := (cantPares > cantImpares)
+
+End;
+
+Procedure procesar(l: lista; Var vec: generos; Var cantCumple: integer);
+Begin
+  cantCumple := 0;
+
+  While (l <> Nil) Do
+    Begin
+      If (masParesQImpares(l^.dato.dni)) Then
+        cantCumple := cantCumple + 1;
+
+      vec[l^.dato.codigo] := vec[l^.dato.codigo] + 1;
+
+      l := l^.sig;
+    End;
+End;
+
+Procedure calcularMaximos(vec: generos; Var maxCodigo1, maxCodigo2: tRango);
+
+Var 
+  max1, max2: integer;
+  i: tRango;
+Begin
+
+  max1 := -9999;
+  max2 := -9999;
+
+  For i:= 1 To MAX_RANGO Do
+    Begin
+      If (vec[i] > max1) Then
+        Begin
+          max2 := max1;
+          maxCodigo2 := maxCodigo1;
+          max1 := vec[i];
+          maxCodigo1 := i;
+        End
+      Else If (vec[i] > max2) Then
+             Begin
+               max2 := vec[i];
+               maxCodigo2 := i;
+             End;
+    End;
+End;
+
+
+Procedure eliminarPersona(Var l:lista; dni: integer; Var ok: boolean);
+
+Var 
+  ant, act: lista;
+Begin
+  ant := l;
+  act := l;
+  ok := false;
+  While (act <> Nil) And (act^.dato.dni <> dni) Do
+    Begin
+      ant := act;
+      act := act^.sig;
+    End;
+
+  If (act <> Nil) Then
+    Begin
+      ok := true;
+      If (ant = act) Then
+        l := act^.sig
+      Else
+        ant^.sig := act^.sig;
+
+      dispose(act);
+
+    End;
+End;
+
+
+
+var 
+  l: lista;
+  vec: generos;
+  cantCumple, dni: integer;
+  max1, max2: tRango;
+  ok: boolean;
+begin
+  inicializarGeneros(vec);
+  cargarLista(l);
+  procesar(l, vec, cantCumple);
+  calcularMaximos(vec, max1, max2);
+
+  readln(dni);
+  eliminarPersona(l, dni, ok);
+
+  writeln('...', cantCumple);
+  writeln('...', max1);
+  writeln('...', max2);
+end.
