@@ -1,15 +1,14 @@
 program Ejercicio4;
 const
-    emb_dimF = 42;
+    dimF = 42;
 type
-    t_peso = 1..42;
-    v_peso = array [t_peso] of integer;
     lista = ^nodo;
+    v_peso = array [1..dimF] of integer;
     paciente = record
         nombre: string[10];
         apellido: string[10];
-        semana_peso: v_peso;
-        dimL: t_peso;
+        peso: v_peso;
+        dimL: integer;
     end;
     nodo = record
         data: paciente;
@@ -24,8 +23,8 @@ procedure leerPaciente(var p: paciente); //SE DISPONE
         i:= 1;
         write('NOMBRE: '); readln(p.nombre);
         write('APELLIDO: '); readln(p.apellido);
-        while (i <= emb_dimF) and (seguir <> 0) do begin
-            write('INGRESE EL PESO REGISTRADO EN LA SEMANA ',i,': '); readln(p.semana_peso[i]);
+        while (i <= dimF) and (seguir <> 0) do begin
+            write('INGRESE EL PESO REGISTRADO EN LA SEMANA ',i,': '); readln(p.peso[i]);
             write('¿SEGUIR? (0/1): '); readln(seguir);
             dimL:= dimL + 1;
             i:= i + 1;
@@ -63,23 +62,25 @@ procedure cargarLista(var l: lista); //SE DISPONE
     end;
 procedure procesarLista(l: lista);
     var
-        i, semanaMax, pesoMax, pesoTotal: integer;
+        i, semanaMax, pesoAnterior, aumentoMax, pesoTotal: integer;
     begin
-        pesoMax:= -1;
         semanaMax:= 0;
+        aumentoMax:= -1;
         pesoTotal:= 0;
         while (l <> nil) do begin
+            pesoAnterior:= l^.data.peso[1];
             for i:= 1 to l^.data.dimL do begin
-                if (l^.data.semana_peso[i] > pesoMax) then begin
-                    pesoMax:= l^.data.semana_peso[i];
+                if ((l^.data.peso[i] - pesoAnterior) > aumentoMax) then begin
+                    aumentoMax:= (l^.data.peso[i] - pesoAnterior);
                     semanaMax:= i;
+                    pesoTotal:= pesoTotal + (l^.data.peso[i] - pesoAnterior);
                 end;
-                pesoTotal:= pesoTotal + l^.data.semana_peso[i];
+                pesoAnterior:= l^.data.peso[i];
             end;
-            writeln('Semana con mayor peso: ',semanaMax);
-            writeln('Aumento de peso total: ',pesoTotal);
+            writeln('SEMANA CON MAYOR AUMENTO DE PESO: ',semanaMax);
+            writeln('AUMENTO DE PESO TOTAL: ',pesoTotal);
             semanaMax:= 0;
-            pesoMax:= 0;
+            aumentoMax:= -1;
             pesoTotal:= 0;
             l:= l^.sig;
         end;
@@ -88,6 +89,6 @@ var
     l: lista;
 begin
     l:= nil;
-    cargarLista(l); //SE DISPONE
+    cargarLista(l);
     procesarLista(l);
 end.
