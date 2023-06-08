@@ -3,7 +3,7 @@ const
     corte = -1;
 type
     t_tema = 1..10;
-    t_codigo = 1..1500;
+    t_codigo = -1..1500;
     lista = ^nodo;
     lista2 = ^nodo2;
     lista3 = ^nodo3;
@@ -107,7 +107,7 @@ procedure cargarLista(var l: lista);
 procedure inciso1(l: lista; var l2: lista3); //Retornar, en una estructura adecuada, numero de socio y su cantidad de préstamos para cada socio que realizó más de 20 préstamos
     var
         contador: integer;
-        aux: lista;
+        aux: lista2;
     begin
         while (l <> nil) do begin
             contador:= 0;
@@ -135,7 +135,7 @@ procedure inciso2y3(l: lista; var v: vector_temas; var cantVeces: integer);
             while (l^.data.prestamos <> nil) do begin
                 //la cantidad de veces que se sacaron libros para cada tema
                 cantVeces:= cantVeces + 1;
-                v[l^.data.prestamos.data.codigo]:= v[l^.data.prestamos.data.codigo] + 1;
+                v[l^.data.prestamos^.data.codigo]:= v[l^.data.prestamos^.data.codigo] + 1;
                 l^.data.prestamos:= l^.data.prestamos^.sig;
             end;
         end;
@@ -158,7 +158,7 @@ procedure actualizarMaximo(prestamosActual, nroActual: integer; var prestamosNue
 //retornar el número de tema con mayor cantidad de préstamos. El programa debe informar dicho valor
 procedure puntoB(l: lista; v: vector_temas; var nroMax: integer);
     var
-        prestamosMax: integer;
+        i, prestamosMax: integer;
     begin
         prestamosMax:= -1;
         for i:= 1 to 10 do begin
@@ -169,6 +169,8 @@ function igualParImpar(nro: integer):boolean;
     var
         pares, impares: integer;
     begin
+        pares:= 0;
+        impares:= 0;
         while (nro <> 0) do begin
             if ((nro mod 10) mod 2) = 0 then begin
                 pares:= pares + 1;
