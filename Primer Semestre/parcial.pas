@@ -25,19 +25,22 @@ function cincoDigitosImpares(dni: longint):boolean;
     var
         impares: integer;
     begin
+        impares:= 0;
         while (dni <> 0) do begin
             if ((dni mod 10) mod 2) <> 0 then
                 impares:= impares + 1;
-            dni:= dni div 0;
+            dni:= dni div 10;
         end;
         cincoDigitosImpares:= (impares = 5);
     end;
 procedure leerCompra(var c: compra);
     begin
         with c do begin
-            readln(dni);
-            readln(categoria);
-            readln(kilos_comprados);
+            write('dni: '); readln(dni);
+            if (dni <> corte) then begin
+                write('categoria: '); readln(categoria);
+                write('kilos comprados: '); readln(kilos_comprados);
+            end;
         end;
     end;
 procedure agregarNodo(var l: lista; c: compra);
@@ -58,10 +61,11 @@ procedure puntoA(var l: lista);
         leerCompra(c);
         while (c.dni <> -1) do begin
             agregarNodo(l, c);
+            writeln;
             leerCompra(c);
         end;
     end;
-procedure puntoB(l: lista; v1: v_categorias; var v2: v_categorias; var cantEsp: integer; var dniMax: longint);
+procedure puntoB(l: lista; v1: v_categorias; var v2: v_categorias2; var cantEsp: integer; var dniMax: longint);
     var
         i, aux, dineroMax: integer;
     begin
@@ -86,6 +90,7 @@ procedure puntoB(l: lista; v1: v_categorias; var v2: v_categorias; var cantEsp: 
     end;
 var
     l: lista;
+    i: integer;
     v1: v_categorias;
     v2: v_categorias2;
     cantEsp: integer;
@@ -93,16 +98,19 @@ var
 begin
     dniMax:= 0;
     cantEsp:= 0;
-    cargarVector(v1); //SE DISPONE
+    for i:= 1 to dimF do begin
+        v1[i].nombre:= 'XD';
+        v1[i].precio_kilo:= 2;
+    end;
     for i:= 1 to dimF do begin
         v2[i]:= 0;
     end;
     l:= nil;
     puntoA(l);
     puntoB(l, v1, v2, cantEsp, dniMax);
-    writeln(cantEsp);
-    writeln(dniMax);
+    writeln('cant de dni con 5 impares: ', cantEsp);
+    writeln('el dni mas grande: ',dniMax);
     for i:= 1 to dimF do begin
-        writeln(v2[li]);
+        writeln(v2[i]);
     end;
 end.
