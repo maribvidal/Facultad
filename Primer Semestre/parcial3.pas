@@ -51,6 +51,7 @@ procedure cargarLista(var l: lista);
             write('¿Seguir? (0/1): '); readln(seguir);
         end;
     end;
+//LOS DEMAS LOS PIDE EL EJERCICIO
 procedure leerCategoria(var c2: categoria);
     begin
         write('Nombre de la categoría: '); readln(c2.nombre);
@@ -61,7 +62,7 @@ procedure cargarVector(var v: v_categorias);
         c2: categoria;
         i: integer;
     begin
-        for i:= 1 to 10 do begin
+        for i:= 1 to 26 do begin
             leerCategoria(c2);
             v[i]:= c2;
         end;
