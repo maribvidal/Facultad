@@ -4,13 +4,11 @@ exponente db 1000b; Exponente 8 BSS
 
 ORG 3000H; Subrutinas
 ajustar: NOP
-CMP AL, 0; Fijarse si el exponente es igual a 0
-JZ no_posible
-CMP AL, 0FFh; Fijarse si el exponente es igual a 255
-JZ  no_posible
 DEC AL; Decrementar el exponente
+JO  no_posible; Si dió overflow es porque no es posible
 ADD AH, AH; Sumar mantisa a la misma mantisa para doblarla
 JC no_posible; Si la operación anterior devuelve carry, entonces
+MOV BL, 00H
 jmp final
 no_posible: MOV BL, 0FFH; Si no es posible el ajuste...
 final: RET
