@@ -1,139 +1,140 @@
-//Una remisería dispone de información acerca de los viajes realizados durante el mes de mayo de 2020.
+//3. Una remisería dispone de información acerca de los viajes realizados durante el mes de mayo de 2020.
 //De cada viaje se conoce: número de viaje, código de auto, dirección de origen, dirección de destino y
 //kilómetros recorridos durante el viaje. Esta información se encuentra ordenada por código de auto y
 //para un mismo código de auto pueden existir 1 o más viajes. Se pide:
 //a. Informar los dos códigos de auto que más kilómetros recorrieron.
-program Ejercicio3;
+//b. Generar una lista nueva con los viajes de más de 5 kilómetros recorridos, ordenada por número de viaje.
+
+program Hello;
 type
-    lista = ^nodo;
-    t_rango = 0..9999;
     viaje = record
-        num: t_rango;
-        cod: t_rango;
-        dir_origen: string[10];
-        dir_destino: string[10];
-        km: t_rango;
+        numViaje: integer;
+        codAuto: integer;
+        dirOrigen: string;
+        dirDestino: string;
+        kmRecorridos: integer;
     end;
+    lista = ^nodo; //Lista que se dispone
     nodo = record
         data: viaje;
         sig: lista;
     end;
-procedure leerViaje(var v: viaje);
-    begin
-        with v do begin
-            write('Número de viaje: '); readln(num);
-            write('Código de auto: '); readln(cod);
-            write('Dirección de origen: '); readln(dir_origen);
-            write('Dirección de destino: '); readln(dir_destino);
-            write('Kilómetros recorridos: '); readln(km);
-        end;
+    lista2 = ^nodo2; //Lista nueva
+    nodo2 = record
+        data: viaje;
+        sig: lista2;
     end;
-procedure agregarNodo(var l: lista; v: viaje); //Adelante (no importa cual se elija)
+function esPar(num: integer):boolean; //LO HAGO DE EJERCICIO
     var
-        nuevo: lista;
+        aux, aux2: integer;
     begin
-        new(nuevo);
-        nuevo^.data:= v;
-        nuevo^.sig:= nil;
+        aux:= 0; //Inicializar variables
+        aux2:= 0;
+        while (num <> 0) do begin
+            if (((num mod 10) mod 2) = 0) then
+                aux:= aux + 1;
+            aux2:= aux2 + 1;
+            num:= num div 10;
+        end;
+        esPar:= (aux = aux2); //Si ambas variables son iguales, es porque el número es PAR
+    end;
+procedure leerViaje(var v: viaje); //SE DISPONE
+    begin
+        //write('Ingrese el número del viaje: '); readln(v.numViaje);
+        write('Ingrese el código del auto: '); readln(v.codAuto);
+        //write('Ingrese la dirección de origen: '); readln(v.dirOrigen);
+        //write('Ingrese la dirección de llegada: '); readln(v.dirDestino);
+        write('Ingrese la cantidad de kilometros recorridos: '); readln(v.kmRecorridos);
+    end;
+procedure agregarNodo(var l: lista; contenido: viaje); //SE DISPONE
+    var
+        aux: lista;
+    begin
+        new(aux);
+        aux^.data:= contenido;
+        aux^.sig:= nil;
         if (l <> nil) then
-            nuevo^.sig:= l;
-        l:= nuevo;
+            aux^.sig:= l;
+        l:= aux;
     end;
-procedure cargarLista(var l: lista);
+procedure cargarLista(var l: lista); //SE DISPONE
     var
+        seguir: integer;
         v: viaje;
-        cod_actual: t_rango;
-        seguir: char;
     begin
-        leerViaje(v);
-        cod_actual:= v.cod;
-        seguir:= 'A';
-        while (seguir <> 'N') do begin
-            while (seguir <> 'N') and (cod_actual = v.cod) do begin //Corte de control
-                agregarNodo(l, v);
-                writeln;
-                write('¿Seguir? '); readln(seguir);
-                if (seguir <> 'N') then begin
-                    leerViaje(v);
-                end;
-            end;
-            cod_actual:= v.cod;
-        end;
-        writeln('ping');
-    end;
-procedure actualizarMaximo(codActual, kmActual: integer; var codNuevo, kmNuevo, codNuevo2, kmNuevo2: integer);
-    begin
-        if (kmActual > kmNuevo) then begin
-            codNuevo2:= codNuevo;
-            kmNuevo2:= kmNuevo;
-            codNuevo:= codActual;
-            kmNuevo:= kmActual;
-        end else if (kmActual > kmNuevo2) then begin
-            codNuevo2:= codActual;
-            kmNuevo2:= kmActual;
+        seguir:= 1;
+        while (seguir <> 0) do begin
+            leerViaje(v);
+            agregarNodo(l, v);
+            write('¿Seguir? (0/1): '); readln(seguir);
         end;
     end;
-//a. Informar los dos códigos de auto que más kilómetros recorrieron.
-procedure puntoA(l: lista; var cod1, cod2: integer);
+procedure agregarNodo2(var l2: lista2; contenido: viaje);
     var
-        kmMax, kmMax2: integer;
+        aux: lista2;
     begin
-        kmMax:= -1;
-        kmMax2:= -1;
-        while (l <> nil) do begin
-            actualizarMaximo(l^.data.cod, l^.data.km, cod1, kmMax, cod2, kmMax2);
-            l:= l^.sig;
+        new(aux);
+        aux^.data:= contenido;
+        aux^.sig:= nil;
+        if (l2 <> nil) then
+            aux^.sig:= l2;
+        l2:= aux;
+    end;
+procedure actualizarMaximos(codActual, kmAcumulado: integer; var codAuto1, codAuto2, kmRec1, kmRec2: integer);
+    begin
+        if (kmAcumulado > kmRec1) then begin
+            codAuto2:= codAuto1;
+            kmRec2:= kmRec1;
+            codAuto1:= codActual;
+            kmRec1:= kmAcumulado;
+        end else if (kmAcumulado > kmRec2) then begin
+            codAuto2:= codActual;
+            kmRec2:= kmAcumulado;
         end;
     end;
-//b. Generar una lista nueva con los viajes de más de 5 kilómetros recorridos, ordenada por número de viaje.
-procedure puntoB(l: lista; var l2: lista);
+procedure generarLista2(l: lista; var l2: lista2);
+    begin
+        //La lista2 va a estar ordenada por número de viaje de por si, ya que la primera lista estaba ordenada
+        while (l <> nil) do begin 
+            if (l^.data.kmRecorridos > 5) then
+                agregarNodo2(l2, l^.data);
+            l:= l^.sig; //Ir al próximo elemento
+        end;
+    end;
+procedure procesarLista(l: lista);
     var
-        nuevo, ant, act: lista;
+        codActual, codAuto1, codAuto2, kmRec1, kmRec2, kmAcumulador: integer;
     begin
-        while (l <> nil) do begin //Recorrer lista
-            if (l^.data.km > 5) then begin //Si el elemento actual recorrió mas de 5 km, tenerlo en cuenta
-                new(nuevo);
-                nuevo^.data:= l^.data;
-                nuevo^.sig:= nil;
-                if (l2 = nil) then begin
-                    l2:= nuevo;
-                end else begin
-                    act:= l;
-                    ant:= l;
-                    while (act <> nil) and (act^.data.num > nuevo^.data.num) do begin //Buscar la posición
-                        ant:= act;
-                        act:= act^.sig;
-                    end;
-                    if (ant = act) then begin //Si no se movió de la primera posición...
-                        nuevo^.sig:= l2;
-                        l2:= nuevo;
-                    end else begin //Si sí se movió
-                        ant^.sig:= nuevo;
-                        nuevo^.sig:= act;
-                    end;
-                end;
-            end;
-            l:= l^.sig;
-        end;
-    end;
-procedure leerLista(l: lista);
-    begin
+        //Recorrer la lista
+        codAuto1:= 0;
+        codAuto2:= 0;
+        kmRec1:= 0;
+        kmRec2:= 0;
         while (l <> nil) do begin
-            writeln('KM: ',l^.data.num);
-            l:= l^.sig;
+            codActual:= l^.data.codAuto; //Actualizar el código del auto
+            kmAcumulador:= 0;
+            while (l <> nil) and (l^.data.codAuto = codActual) do begin //La información se encuentra ordenada por código de auto
+                kmAcumulador:= kmAcumulador + l^.data.kmRecorridos; //Sumar los KM recorridos por el auto
+                if (esPar(l^.data.codAuto)) then
+                    write('El código ',l^.data.codAuto,' es PAR');
+                l:= l^.sig; //Ir al próximo elemento
+            end;
+            actualizarMaximos(codActual, kmAcumulador, codAuto1, codAuto2, kmRec1, kmRec2);
         end;
+        write('Los códigos de los autos que mas kilometros recorrieron son: ',codAuto1,' ',codAuto2);
     end;
 var
-    l, l2: lista;
-    cod1, cod2: integer;
-begin
+    l: lista;
+    l2: lista2;
+begin   
     l:= nil;
     l2:= nil;
-    cod1:= 0;
-    cod2:= 0;
-    cargarLista(l); //SE DISPONE DE ESTA, NO TENÍA QUE ESCRIBIRLA
-    puntoA(l, cod1, cod2);
-    puntoB(l, l2);
-    leerLista(l2);
-    writeln('Los códigos de los autos que más kilómetros recorrieron: ',cod1,' ',cod2);
+    cargarLista(l); //Se dispone
+    procesarLista(l);
+    generarLista2(l, l2);
+    writeln;
+    while (l2 <> nil) do begin //Comprobar que la lista se cargó adecuadamente
+        writeln(l2^.data.kmRecorridos);
+        l2:= l2^.sig;
+    end;
 end.
