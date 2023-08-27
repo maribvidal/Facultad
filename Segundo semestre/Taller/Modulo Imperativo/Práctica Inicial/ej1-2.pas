@@ -1,7 +1,9 @@
 program untitled;
-const mat_const = 36;
+const 
+    mat_const = 36;
 	codigo_corte = 11111;
-type vector = array [1..mat_const] of integer;
+type 
+    vector = array [1..mat_const] of integer;
 	nota = 1..mat_const;
 	alumno = record
 		apellido: string;
@@ -9,7 +11,6 @@ type vector = array [1..mat_const] of integer;
 		materias: vector;
 		dimL: integer;
 	end;
-	
 	lista = ^nodo;
 	nodo = record
 		dato: alumno;
@@ -19,7 +20,7 @@ type vector = array [1..mat_const] of integer;
 		nro: integer;
 		promedio: real;
 	end;
-	lista2=^nodo2;
+	lista2 = ^nodo2;
 	nodo2 = record
 		dato: alumno2;
 		sig: lista2;
@@ -29,15 +30,15 @@ procedure agregarAdelante(var l: lista; a: alumno);
 	    nue: lista;
     begin 
 	    new(nue);
-	    nue^.dato:=a;
-	    nue^.sig:=l;
-	    l:=nue;
+	    nue^.dato:= a;
+	    nue^.sig:= l;
+	    l:= nue;
     end;
 procedure cargarVector(var v: vector; var dimL: integer);
 	var
 		notaa: integer;
 	begin
-		dimL:=0;
+		dimL:= 0;
 		write('Nota: '); readln(notaa);
 		while (dimL < mat_const) and (notaa > 4) do begin
 			dimL:= dimL + 1;
@@ -77,12 +78,11 @@ procedure agregarAdelante2(var l2: lista2; a2: alumno2);
     end;
 procedure recorrerLista(l: lista; var l2: lista2);
     var
-	    prom: real;
-	    i, dimL: integer;
-	    a2: alumno2;
-	    alumnoNro: integer;
+        prom: real;
+        i, dimL, alumnoNro: integer;
+        a2: alumno2;
 	begin
-	    while (l <> nil) do begin
+        while (l <> nil) do begin
 		    alumnoNro:= l^.dato.nro;
 		    dimL:= l^.dato.dimL;
 		    prom:= 0;
