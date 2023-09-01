@@ -18,4 +18,4 @@ PROGRAMA:
 
 A) La subrutina saca el factorial del número que se encuentra en el registro AX.
 B) El valor final del registro CX es la suma de todos los números anteriores positivos naturales (incluido el mismo) del que aparece en AX.
-D) La limitación mas grande es la del espacio de los registros. Si se quiere realizar el factorial de FFFFh, necesariamente se van a tener que utilizar mas registros o espacios de pila para almacenar el número (y aún así es bastante dificil), ya que con un solo registro no alcanza.
+D) La limitación mas grande es la del espacio de los registros. Si se quiere realizar el factorial de FFFFh de manera correcta, necesariamente se van a tener que utilizar mas registros o espacios de pila para almacenar el número (y aún así es bastante dificil), ya que con un solo registro no alcanza.
