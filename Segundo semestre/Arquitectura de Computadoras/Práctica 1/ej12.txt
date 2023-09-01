@@ -1,0 +1,21 @@
+PROGRAMA:
+1. Le pasa a CX 0000
+2. AX pasa a ser 0003
+3. Se llama a una subrutina llamada MUL (7FFE)
+4. Se compara a AX con 0
+5. Si la cuenta anterior dió flag 0, entonces se termina la rutina. No terminó.
+6. Sumarle a CX lo que está en AX (3) (CX = 3)
+7. Decrementar AX en 1 (2)
+8. Llamar de vuelta la subrutina (7FFC)
+9. Sumarle a CX lo que está en AX (2) (CX = 5)
+10. Decrementar AX en 1 (1)
+11. Llamar de vuelta la subrutina (7FFA)
+12. Sumarle a CX lo que está en AX (1) (CX = 6)
+13. Decrementar AX en 1 (0)
+14. Llamar de vuelta la subrutina (7FF8)
+15. Como la cuenta anterior (comparar AX con 0) dió FLAG, entonces se termina el programa.
+16. Pasa lo mismo con las otras llamadas a la misma subrutina (7FFA, 7FFC, 7FFE)
+
+A) La subrutina saca el factorial del número que se encuentra en el registro AX.
+B) El valor final del registro CX es la suma de todos los números anteriores positivos naturales (incluido el mismo) del que aparece en AX.
+D) La limitación mas grande es la del espacio de los registros. Si se quiere realizar el factorial de FFFFh, necesariamente se van a tener que utilizar mas registros o espacios de pila para almacenar el número (y aún así es bastante dificil), ya que con un solo registro no alcanza.
