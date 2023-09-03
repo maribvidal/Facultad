@@ -1,6 +1,6 @@
 org 1000h
 caracter db " "
-cadena db "the quick brown fox"
+cadena db "the way you start again when the dawn starts to creep"
 fin db 00h ;La cadena termina en 0
 
 org 3000h
