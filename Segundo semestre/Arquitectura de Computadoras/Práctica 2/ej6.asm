@@ -1,3 +1,4 @@
+;Hola, esta no es la forma óptima de resolver este ejercicio ni en pedo, saludos.
 ORG 1000H
 MSJ1 DB "INGRESE UN NUMERO: "
 MSJ2 DB "ERROR"
