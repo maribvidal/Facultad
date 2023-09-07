@@ -73,11 +73,11 @@ procedure imprimirOrden(a:arbol);
     if(a<>nil)then
       begin
         imprimirOrden(a^.HI);
-        writeln(a^.dato.nro);
+        writeln(a^.dato.nro, ' / nombre: ',a^.dato.nombre,' / edad: ',a^.dato.edad);
         imprimirOrden(a^.HD);
       end;
   end;
-function maximo(a:arbol):integer;
+function maximo(a:arbol):integer; //Punto B - Inciso I
   begin
     if(a<>nil)then begin//llego al final del lado derecho del arbol
      if (a^.HD <> nil) then begin
@@ -89,7 +89,7 @@ function maximo(a:arbol):integer;
       maximo:= -1;//en caso de que el arbol este vacio
     end;
   end;
-procedure minimo(a: arbol; var socioMin: socio);
+procedure minimo(a: arbol; var socioMin: socio); //Punto B - Inciso II
 	begin
 		if (a <> nil) then begin
 			if (a^.HI <> nil) then begin
@@ -99,23 +99,83 @@ procedure minimo(a: arbol; var socioMin: socio);
 			end;
 		end;
 	end;
-procedure mayorEdad(a:arbol;edadMax:integer;var codigo:integer);//puede ser funcion ????
+procedure mayorEdad(a:arbol;var edadMax:integer;var codigo:integer); //Punto B - Inciso III
   begin
     if(a<>nil)then
       begin
         mayorEdad(a^.HI,edadMax,codigo);
-        if(a^.dato.edad>edadMax)then begin
+        if(a^.dato.edad > edadMax)then begin
           codigo:=a^.dato.nro;
           edadmax:=a^.dato.edad;
           end;
         mayorEdad(a^.HD,edadMax,codigo);
       end;
   end;
+procedure aumentarEdad(a: arbol); //Punto B - Inciso IV / Se puede hacer función perfectamente
+    begin
+        if (a <> nil) then begin //Si la rama no está vacio...
+            aumentarEdad(a^.HI); //Invocar el módulo con el hijo izquierdo del nodo
+            a^.dato.edad:= a^.dato.edad + 1; //Incrementar la edad en una unidad (ahre formal era Xd)
+            aumentarEdad(a^.HD); //Invocar el módulo con el hijo derecho del nodo
+        end;
+    end;
+function encontrarValor(a: arbol; valor: integer):boolean; //Punto B - Inciso V
+    begin
+        if (a = nil) then begin
+            encontrarValor:= false;
+        end else if (a^.dato.nro = valor) then begin
+            encontrarValor:= true;
+        end else begin
+            if (valor < a^.dato.nro) then begin encontrarValor:= encontrarValor(a^.HI, valor); end //Si el número de socio es menor al valor, entonces buscar en el hijo izquierdo del nodo
+            else if (valor > a^.dato.nro) then begin encontrarValor:= encontrarValor(a^.HD, valor); end; //Si el número de socio es mayor al valor, entonces buscar en el hijo derecho del nodo
+        end;
+    end;
+function encontrarNombre(a: arbol; nombre: string):boolean; //Punto B - Inciso VI
+    begin
+        if (a = nil) then begin //Si la rama no está vacía...
+            encontrarNombre:= false;
+        end else if (a^.dato.nombre = nombre) then begin //Si el nodo actual tiene el nombre coincidente...
+            encontrarNombre:= true;
+        end else begin //Si no, a seguir buscando papi
+            encontrarNombre:= encontrarNombre(a^.HI, nombre);
+            encontrarNombre:= encontrarNombre(a^.HD, nombre);
+        end;
+    end;
+function cantidadMiembros(a: arbol; cantidad: integer):integer; 
+    begin
+        if (a <> nil) then begin //Si la rama no está vacía...
+            cantidad:= cantidad + 1; //Incrementar la cantidad en una unidad
+            cantidad:= cantidadMiembros(a^.HI, cantidad); //Asignarle a la variable cantidad la función para que devuelva el número que haya obtenido
+            cantidad:= cantidadMiembros(a^.HD, cantidad); //buscando por las otras ramas
+        end;
+        cantidadMiembros:= cantidad;
+    end;
+function sumarEdades(a: arbol; sumatoria: real):real; 
+    begin
+        if (a <> nil) then begin //Si la rama no está vacía...
+            sumatoria:= sumatoria + a^.dato.edad;
+            sumatoria:= sumarEdades(a^.HI, sumatoria);
+            sumatoria:= sumarEdades(a^.HD, sumatoria);
+        end;
+        sumarEdades:= sumatoria;
+    end;
+function promedioEdades(a: arbol):real;
+    begin
+        promedioEdades:= (sumarEdades(a, 0) / cantidadMiembros(a, 0));
+    end;
+procedure imprimirOrdenAscendente(a: arbol); //Es el mismo código que el de un módulo pasado 
+    begin
+        if (a<>nil)then begin
+            imprimirOrdenAscendente(a^.HI);
+            writeln(a^.dato.nro, ' / nombre: ',a^.dato.nombre,' / edad: ',a^.dato.edad);
+            imprimirOrdenAscendente(a^.HD);
+        end;
+    end;
 var 
 	a: arbol;
 	socioMin: socio;
 	edadm,codMax:integer;
-BEGIN
+begin
     a:=nil;edadm:=-1;codMax:=0;
     socioMin.nro:= 0;
     socioMin.nombre:= 'INICIALIZAR';
@@ -127,4 +187,11 @@ BEGIN
 	writeln(socioMin.nombre,' ',socioMin.nro);
 	mayorEdad(a,edadm,codMax);
 	writeln('EL CODIGO DE LA PERSONA DE MAYOR EDAD ES: ',codMax,' y su edad es: ',edadm);
-END.
+	aumentarEdad(a);
+	imprimirOrden(a);
+	writeln('¿Se encuenta el número de socio 3 en el arbol? ', encontrarValor(a, 3));
+	writeln('¿Se encuenta manolo en el arbol? ', encontrarNombre(a, 'manolo'));
+	writeln('En el arbol hay ', cantidadMiembros(a, 0), ' miembros');
+	writeln('El promedio de la edad de los miembros es de ', promedioEdades(a):2:2);
+	imprimirOrdenAscendente(a);
+end.
