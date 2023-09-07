@@ -1,27 +1,3 @@
-{1. Escribir un programa que:
-a. Implemente un módulo que lea información de socios de un club y las almacene en un árbol
-binario de búsqueda. De cada socio se lee número de socio, nombre y edad. La lectura finaliza
-con el número de socio 0 y el árbol debe quedar ordenado por número de socio.
-b. Una vez generado el árbol, realice módulos independientes que reciban el árbol como
-parámetro y que :
-i. Informe el número de socio más grande. Debe invocar a un módulo recursivo que
-retorne dicho valor.
-ii. Informe los datos del socio con el número de socio más chico. Debe invocar a un módulo
-recursivo que retorne dicho socio.
-iii. Informe el número de socio con mayor edad. Debe invocar a un módulo recursivo que
-retorne dicho valor.
-iv. Aumente en 1 la edad de todos los socios.
-v. Lea un valor entero e informe si existe o no existe un socio con ese valor. Debe invocar a
-un módulo recursivo que reciba el valor leído y retorne verdadero o falso.
-vi. Lea un nombre e informe si existe o no existe un socio con ese nombre. Debe invocar a
-un módulo recursivo que reciba el nombre leído y retorne verdadero o falso.
-vii. Informe la cantidad de socios. Debe invocar a un módulo recursivo que retorne dicha
-cantidad.
-viii. Informe el promedio de edad de los socios. Debe invocar al módulo recursivo del inciso
-vii e invocar a un módulo recursivo que retorne la suma de las edades de los socios.
-xi. Informe los números de socio en orden creciente.
-x. Informe los números de socio pares en orden decreciente.
-}
 program Ej1P3;
 const 
   FIN = 0;
@@ -45,6 +21,10 @@ procedure leerSocio(var s: socio);
 			writeln('INGRESE EDAD: '); readln(s.edad);
 		end;
 	end;
+function esPar(num: integer):boolean;
+    begin
+        esPar:= ((num mod 2) = 0);
+    end;
 procedure agregarArbol(var a: arbol; dato: socio);
 	begin
 		if (a = nil) then begin
@@ -163,12 +143,21 @@ function promedioEdades(a: arbol):real;
     begin
         promedioEdades:= (sumarEdades(a, 0) / cantidadMiembros(a, 0));
     end;
-procedure imprimirOrdenAscendente(a: arbol); //Es el mismo código que el de un módulo pasado 
+procedure imprimirOrdenAscendente(a: arbol); //Inciso IX
     begin
         if (a<>nil)then begin
             imprimirOrdenAscendente(a^.HI);
             writeln(a^.dato.nro, ' / nombre: ',a^.dato.nombre,' / edad: ',a^.dato.edad);
             imprimirOrdenAscendente(a^.HD);
+        end;
+    end;
+procedure imprimirParesDescendente(a: arbol); //Inciso X
+    begin
+        if (a<>nil)then begin
+            imprimirParesDescendente(a^.HD);
+            imprimirParesDescendente(a^.HI);
+            if (esPar(a^.dato.nro)) then
+                writeln(a^.dato.nro, ' / nombre: ',a^.dato.nombre,' / edad: ',a^.dato.edad);
         end;
     end;
 var 
@@ -194,4 +183,5 @@ begin
 	writeln('En el arbol hay ', cantidadMiembros(a, 0), ' miembros');
 	writeln('El promedio de la edad de los miembros es de ', promedioEdades(a):2:2);
 	imprimirOrdenAscendente(a);
+	imprimirParesDescendente(a);
 end.
