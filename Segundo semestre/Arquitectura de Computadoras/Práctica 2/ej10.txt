@@ -1,0 +1,17 @@
+a) La función de los registros del PIC: 
+ISR: Indica qué interrupciones se están llevando a cabo/ se han reconocido.
+IRR: Indica qué interrupciones están pendientes de ser atendidas. (Si el nivel de prioridad de las instrucciones es el mismo, entonces se irán atendiendo por orden de llegada)
+IMR: Permite o no la posibilidad de una interrupción de ser atendida.
+INT0-7: Cada uno de estos registros contiene el valor del vector de interrupcióncorrespondiente a la entrada del mismo nombre.
+INT0: Destinado para detener la ejecución del procesador.
+INT6: Destinado para recibir inputs del teclado
+INT7: Destinado para imprimir a la pantalla
+EOI: Registro de comandos de sólo escritura, donde la CPU deberá mandar el comando de final de interrupción. Indica que la interrupcion ya fue atendida.
+
+b) Cuáles de estos registros son programables y cómo trabaja la instrucción OUT.
+De los anteriormente mencionados, los programables son: el IMR y los INTx.
+La instrucción OUT funciona de manera parecida a un MOV, pero el OUT es exclusivo del PIC.
+
+c) Qué hacen y para qué se usan las instrucciones CLI y STI.
+Estas dos instrucciones sirven para habilitar y deshabilitar que las interrupciones interrumpan, las bloquean hasta que se invoca STI.
+Esto se hace para evitar que una interrupción rompa el programa.
