@@ -1,7 +1,8 @@
 ORG 1000H
 MSJ1 DB "INGRESE DOS DIGITOS: "
 MSJ2 DB " - "
-MSJ3 DB " = -"
+MSJ3 DB " = "
+MENOS DB "-"
 FIN DB ?
 
 ORG 1500H
@@ -22,26 +23,28 @@ MOV AL, 1
 INT 7;
 MOV CH, [BX]; Pasarlo a CH
 MOV BX, OFFSET MSJ3;
-MOV AL, OFFSET FIN - OFFSET MSJ3
+MOV AL, OFFSET MENOS - OFFSET MSJ3
 INT 7; Imprimir cadena 3 ' = '
 
 ;Cuentas
 SUB CL, '0'; Convertir número ASCII en número manejable en cuentas (reemplazar el '3' por un '0')
 SUB CH, '0'; Lo mismo con el segundo
 SUB CL, CH; Restar los dígitos
-MOV CH, 0; Dejarlo en 0
-CMP CL, 00h
 JZ PASAR; Si es cero, pasar de largo la siguiente sección
-
+JNC PASAR_2; Si la cuenta no da negativo, pasar
 ;Restarle 1 a CH e invertir los bits (hacer el opuesto al CA2 de binarios negativos)
+MOV BX, OFFSET MENOS
+MOV AL, 1
+INT 7; Imprimir el -
 DEC CL
 NOT CL
 ADD CL, '0'
-JMP PASAR_2
+JMP PASAR_3
 PASAR: MOV CL, 0; Dejarlo en 0 pq la cuenta dió 0
 ADD CL, '0'
-PASAR_2: NOP
-MOV BX, OFFSET NUM
+JMP PASAR_3
+PASAR_2: ADD CL, '0'
+PASAR_3: MOV BX, OFFSET NUM
 MOV BYTE PTR [BX], CL; Pasar el CL a la dirección NUM
 MOV AL, 1; Longitud de la cadena
 INT 7; Lectura
