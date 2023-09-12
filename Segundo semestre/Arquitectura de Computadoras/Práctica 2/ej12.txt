@@ -1,0 +1,25 @@
+A) El timer emite una interrupción al CPU cuando su registro CONT es mayor o igual a COMP. Cuando
+CONT es mayor o igual que COMP, se ejecuta la subrutina RUT_CLK. El registro CONT va incrementando
+de uno en uno por cada segundo en tiempo real que pase.
+
+B) CONT - Dirección 0010H (Este registro va incrementando su valor, en una unidad, por segundo)
+Se configura de la siguiente manera:
+
+//Constantes
+TIMER EQU 10H
+
+//Programa principal
+MOV AL, cantidad_de_segundos (Colocar los segundos en los que se quiera inicializar el registro)
+OUT TIMER, AL; Pasarle el valor de AL al registro CONT
+
+COMP - Dirección 0011H (Este registro es el que habilita la interrupción, por así decirlo.
+Cuando CONT sea igual o mayor a COMP, el TIMER le mandará una señal a la CPU de interrupción)
+Se configura de la siguiente manera:
+
+//Constantes
+TIMER EQU 10H
+
+//Programa principal
+MOV AL, cantidad_de_segundos (Colocar la cantidad de segundos que se quiera que pasen
+para que ocurra la interrupción)
+OUT TIMER + 1, AL; Pasarle el valor de AL al registro COMP
