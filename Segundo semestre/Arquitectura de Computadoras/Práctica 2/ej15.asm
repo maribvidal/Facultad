@@ -1,0 +1,61 @@
+TIMER EQU 10H
+PIC EQU 20H
+EOI EQU 20H
+ID_F10 EQU 10
+ID_CLK EQU 20
+
+ORG 40
+  DW RUT_F10
+
+ORG 44
+  DW RUT_CLK
+
+ORG 1000H
+NUM DB ?
+SEG DB 30H
+    DB 30H
+
+ORG 3000H
+  RUT_F10: INC CL
+  CMP CL, 1
+    JNZ PASAR_3
+    MOV CL, 0
+      CMP CH, 1
+      JNZ PASAR_2
+        MOV CH, 0
+        MOV DL, 1
+        MOV BX, OFFSET NUM
+        INT 6
+        JMP PASAR_3
+      PASAR_2: CMP DL, 1
+      JNZ PASAR_3
+        MOV CH, 1
+        MOV DL, 0
+        JMP PASAR_3
+    PASAR_3: MOV AL, EOI
+    OUT PIC, AL
+    IRET
+
+ORG 3500H
+  RUT_CLK: NOP
+  MOV AL, EOI
+  OUT PIC, AL
+  IRET
+
+ORG 2000H
+CLI
+  MOV AL, 0FCH
+  OUT PIC+1, AL
+  MOV AL, ID_F10
+  OUT PIC+4, AL
+  MOV AL, ID_CLK
+  OUT PIC+5, AL
+  MOV AL, 1
+  OUT TIMER+1, AL; Inicializar registro COMP en 1
+  MOV AL, 0
+  OUT TIMER, AL; Inicializar registro CONT en 0
+  MOV BX, OFFSET SEG
+STI
+LOOP: JMP LOOP
+INT 0
+END
