@@ -49,7 +49,7 @@ procedure generarPrestamo(var p: prestamo); //Generar préstamo
         p.ISBN:= Random(100) - 1;
         writeln('ISBN del libro >', p.ISBN);
         if (p.ISBN <> corte) then begin
-            p.nroSocio:= Random(1000); writeln('Número de socio >', p.nroSocio);
+            p.nroSocio:= Random(50); writeln('Número de socio >', p.nroSocio);
             p.dia:= 1 + Random(29); writeln('Día en el que se solicitó el préstamo >', p.dia);
             p.mes:= 1 + Random(11); writeln('Mes en el que se solicitó el préstamo >', p.mes);
             p.cantDiasPrestados:= 1 + Random(99); writeln('Cantidad de días que duró el préstamo >', p.cantDiasPrestados);
@@ -109,6 +109,38 @@ procedure generarArboles(var a1: arbol1; var a2: arbol2); //Este módulo tiene q
         end;
     end;
     
+//INDICES
+function moduloB(a: arbol1; masGrande: integer):integer;
+    begin
+        if (a = nil) then begin //Si el arbol/nodo está vacío entonces
+            moduloB:= 0;
+        end else begin //Si no...
+            if (a^.data.ISBN > masGrande) then //Si el ISBN del nodo actual es mayor al del parámetro...
+                masGrande:= moduloB(a^.HD, a^.data.ISBN); //Invocar de nuevo el módulo pero con el nuevo valor
+        end;
+        moduloB:= masGrande; //Devolver el valor mas grande encontrado
+    end;
+procedure moduloC(a: arbol2; ISBNmin: integer; var l: listaPrestamos); //Devolver la lista del ISBN menor
+    begin
+        if (a <> nil) then begin
+            if (a^.data^.data.ISBN < ISBNmin) then begin
+                //writeln(a^.data^.data.ISBN,' y ', ISBNmin);
+                ISBNmin:= a^.data^.data.ISBN;
+                moduloC(a^.HI, ISBNmin, a^.data); //Invocar de nuevo el módulo con la lista menor encontrada hasta el momento
+                l:= a^.data; //Recibir lista menor
+            end;
+        end;
+    end;
+procedure moduloD(a: arbol1; nroSocio: integer; var cantPrestamos: integer);
+    begin
+        if (a <> nil) then begin //No hay una foma eficiente de buscar en un árbol que está ordenado en base a otro elemento
+            if (a^.data.nroSocio = nroSocio) then //Incrementar la cantidad
+                cantPrestamos:= cantPrestamos + 1;
+            moduloD(a^.HI, nroSocio, cantPrestamos);
+            moduloD(a^.HD, nroSocio, cantPrestamos);
+        end;
+    end;
+    
 //PROCESOS PARA IMPRIMIR
 procedure imprimirArbol_1(a: arbol1);
     begin
@@ -138,16 +170,26 @@ procedure imprimirArbol_2(a: arbol2);
 var
     a1: arbol1;
     a2: arbol2;
+    l1: listaPrestamos;
+    nroSocio, cantPrestamos: integer;
     
 //PROGRAMA PRINCIPAL
 begin
-    //Inicializar arboles en nil
+    //Inicializar variables
     a1:= nil;
     a2:= nil;
+    l1:= nil;
+    cantPrestamos:= 0;
+    nroSocio:= 0;
     
     //Punto A
     Randomize;
     generarArboles(a1, a2);
     imprimirArbol_2(a2);
-    imprimirArbol_1(a1);
+    write('El ISBN mas grande del Arbol 1 es: ', moduloB(a1, 0));
+    moduloC(a2, 9999, l1);
+    imprimirListaPres(l1);
+    write('Ingrese un número de socio: '); readln(nroSocio);
+    moduloD(a1, nroSocio, cantPrestamos);
+    write('Cantidad de prestamos del socio N°',nroSocio,': ',cantPrestamos);
 end.
