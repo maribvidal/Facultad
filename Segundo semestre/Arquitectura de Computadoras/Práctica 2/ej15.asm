@@ -1,3 +1,4 @@
+;No creo q esta sea la mejor forma de resolver el ejercicio, but whatever
 ;CONSTANTES
 TIMER EQU 10H
 PIC EQU 20H
@@ -17,6 +18,7 @@ ORG 44; Handler del interruptor del TIMER
 ORG 1000H
 NUM DB ?
 MSJ DB "INGRESE UN NUMERO: "
+MSJ2 DB "PRESIONE F10 PARA INICIAR O DETENER EL CONTEO / "
 SEG DB 30H
     DB 30H
     DB 7CH; Espacio
@@ -32,10 +34,15 @@ ORG 3000H
         MOV DL, 1
         ;RECIBIR UN NÚMERO DEL USUARIO
         MOV BX, OFFSET MSJ; Mensaje
-        MOV AL, OFFSET SEG - OFFSET MSJ; Longitud
+        MOV AL, OFFSET MSJ2 - OFFSET MSJ; Longitud
         INT 7; Impresión
-        MOV BX, OFFSET NUM; Dirección de cadena
+        MOV BX, OFFSET SEG+1; Dirección a donde recibir el número
         INT 6; Recibir
+        MOV SEG, CERO; Inicializarlo en cero por las dudas
+        ;IMPRIMIRLO
+        MOV AL, 3
+        MOV BX, OFFSET SEG
+        INT 7; Imprimir
         ;SETEAR RELOJ
         MOV AL, 0
         OUT TIMER, AL
@@ -53,7 +60,7 @@ ORG 3500H
   RUT_CLK: NOP
   ;VERIFICAR SI SE PUEDE CONTAR
   CMP DL, 1
-  JNZ CLK_PASAR
+  JNZ CLK_PASAR2
       ;INCREMENTAR EL SEGUNDO DE LA IZQ.
       INC SEG+1
       CMP SEG+1, DIEZ
@@ -67,13 +74,13 @@ ORG 3500H
               MOV SEG, CERO
               JMP CLK_PASAR; Saltar a la etiqueta
   ;PASAR DE LARGO
-  CLK_PASAR: MOV AL, 2; Leer 3 celdas
+  CLK_PASAR: MOV AL, 3; Leer 3 celdas
   MOV BX, OFFSET SEG; Comenzar a leer desde la dir. de SEG
   INT 7
   ;REINICIAR CONT
   MOV AL, 0
   OUT TIMER, AL
-  ;TERMINAR INTERRUPCIÓN
+  CLK_PASAR2: NOP ;TERMINAR INTERRUPCIÓN
   MOV AL, EOI
   OUT PIC, AL
   IRET
@@ -88,6 +95,10 @@ CLI
   ;INICIALIZAR CX Y DX
   MOV CX, 0100h
   MOV DX, 0
+  ;LEER MENSAJE 2
+  MOV BX, OFFSET MSJ2
+  MOV AL, OFFSET SEG - OFFSET MSJ2
+  INT 7
   ;RESTO DEL PROGRAMA
   MOV AL, 0FCH
   OUT PIC+1, AL; IMR
