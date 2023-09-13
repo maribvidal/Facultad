@@ -16,6 +16,11 @@ type
         mes: t_mes;
         cantDiasPrestados: integer;
     end;
+    listaPrestamos = ^nodo3; //Para el arbol2
+    nodo3 = record
+        data: prestamo;
+        sig: listaPrestamos;
+    end;
     arbol1 = ^nodo1; //Arbol simplemente ordenado por ISBN
     arbol2 = ^nodo2; //Arbol que almacena todos los prestamos que compartan el mismo ISBN en un nodo (una lista)
     nodo1 = record 
@@ -27,11 +32,6 @@ type
         data: listaPrestamos;
         HI: arbol2;
         HD: arbol2;
-    end;
-    listaPrestamos = ^nodo3; //Para el arbol2
-    nodo3 = record
-        data: prestamo;
-        sig: listaPrestamos;
     end;
 //PROCESOS
 {procedure leerPrestamo(var p: prestamo); //Leer registro del prestamo
@@ -87,9 +87,9 @@ procedure cargarArbol_2(var a: arbol2; pres: prestamo); //Cargar el arbol compue
             a^.HI:= nil;
             a^.HD:= nil;
         end else begin
-            if (pres.ISBN > a^.data.ISBN) then begin //Si el ISBN del registro es mayor al ISBN del nodo...
+            if (pres.ISBN > a^.data^.data.ISBN) then begin //Si el ISBN del registro es mayor al ISBN del nodo...
                 cargarArbol_2(a^.HD, pres); //Mandarlo pa'la derecha
-            end else if (pres.ISBN < a^.data.ISBN) then begin //Si es menor...
+            end else if (pres.ISBN < a^.data^.data.ISBN) then begin //Si es menor...
                 cargarArbol_2(a^.HI, pres); //Mandarlo pa'la izquierda
             end else begin //Si es igual...
                 agregarNodo(a^.data, pres); //Agregarle el préstamo al nódo
@@ -102,8 +102,8 @@ procedure generarArboles(var a1: arbol1; var a2: arbol2); //Este módulo tiene q
     begin
         generarPrestamo(p);
         while (p.ISBN <> corte) do begin
-            cargarArbol_1(a1, pres); //Cargar primer árbol
-            cargarArbol_2(a2, pres); //Cargar segundo árbol
+            cargarArbol_1(a1, p); //Cargar primer árbol
+            cargarArbol_2(a2, p); //Cargar segundo árbol
             writeln; //Espacio
             generarPrestamo(p); //Leer otro préstamo
         end;
@@ -125,12 +125,13 @@ procedure imprimirListaPres(l: listaPrestamos);
             l:= l^.sig;
         end;
     end;
-procedure imprimirArbol_2(a: arbol1);
+procedure imprimirArbol_2(a: arbol2);
     begin
         if (a <> nil) then begin
-            imprimirArbol_1(a^.HI);
+            imprimirArbol_2(a^.HI);
             imprimirListaPres(a^.data);
-            imprimirArbol_1(a^.HD);
+            writeln;
+            imprimirArbol_2(a^.HD);
         end;
     end;
 //VARIABLES LOCALES
@@ -144,7 +145,9 @@ begin
     a1:= nil;
     a2:= nil;
     
+    //Punto A
     Randomize;
     generarArboles(a1, a2);
     imprimirArbol_2(a2);
+    imprimirArbol_1(a1);
 end.
