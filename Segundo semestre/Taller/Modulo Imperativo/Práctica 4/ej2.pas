@@ -140,6 +140,28 @@ procedure moduloD(a: arbol1; nroSocio: integer; var cantPrestamos: integer);
             moduloD(a^.HD, nroSocio, cantPrestamos);
         end;
     end;
+procedure moduloE(a: arbol2; nroSocio: integer; var cantPrestamos: integer); //Devolver la lista del ISBN menor
+    //--Funcion interna
+    function buscarPrestamosLista(nroSocio: integer; l: listaPrestamos):integer;
+        var
+            prest: integer;
+        begin
+            prest:= 0;
+            if (l <> nil) then begin
+                if (nroSocio = l^.data.nroSocio) then
+                    prest:= prest + 1;
+                prest:= prest + buscarPrestamosLista(nroSocio, l^.sig);
+            end;
+            buscarPrestamosLista:= prest;
+        end;
+    //--
+    begin
+        if (a <> nil) then begin //No hay una foma eficiente de buscar en un árbol que está ordenado en base a otro elemento
+            cantPrestamos:= cantPrestamos + buscarPrestamosLista(nroSocio, a^.data);
+            moduloE(a^.HI, nroSocio, cantPrestamos);
+            moduloE(a^.HD, nroSocio, cantPrestamos);
+        end;
+    end;
     
 //PROCESOS PARA IMPRIMIR
 procedure imprimirArbol_1(a: arbol1);
@@ -190,6 +212,7 @@ begin
     moduloC(a2, 9999, l1);
     imprimirListaPres(l1);
     write('Ingrese un número de socio: '); readln(nroSocio);
-    moduloD(a1, nroSocio, cantPrestamos);
+    //moduloD(a1, nroSocio, cantPrestamos);
+    moduloE(a2, nroSocio, cantPrestamos);
     write('Cantidad de prestamos del socio N°',nroSocio,': ',cantPrestamos);
 end.
