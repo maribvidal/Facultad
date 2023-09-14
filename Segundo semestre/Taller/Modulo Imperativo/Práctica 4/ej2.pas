@@ -1,3 +1,4 @@
+//Este código se podría hacer mil veces mejor totalmente
 program p4ej2;
 
 //CONSTANTES
@@ -33,6 +34,17 @@ type
         HI: arbol2;
         HD: arbol2;
     end;
+    isbnyVeces = record //Lista para el módulo F y G
+        ISBN: integer;
+        vecesPrestado: integer;
+    end;
+    arbol3 = ^nodo4;
+    nodo4 = record
+        data: isbnyVeces;
+        HI: arbol3;
+        HD: arbol3;
+    end;
+        
 //PROCESOS
 {procedure leerPrestamo(var p: prestamo); //Leer registro del prestamo
     begin
@@ -156,13 +168,95 @@ procedure moduloE(a: arbol2; nroSocio: integer; var cantPrestamos: integer); //D
         end;
     //--
     begin
-        if (a <> nil) then begin //No hay una foma eficiente de buscar en un árbol que está ordenado en base a otro elemento
+        if (a <> nil) then begin //No hay una forma eficiente de buscar en un árbol que está ordenado en base a otro elemento
             cantPrestamos:= cantPrestamos + buscarPrestamosLista(nroSocio, a^.data);
             moduloE(a^.HI, nroSocio, cantPrestamos);
             moduloE(a^.HD, nroSocio, cantPrestamos);
         end;
     end;
-    
+//PUNTO F
+procedure cargarArbol_3(var a: arbol3; ISBN, cantVeces: integer); //Cargar el arbol3
+    begin
+        if (a = nil) then begin
+            new(a);
+            a^.data.ISBN:= ISBN;
+            a^.data.vecesPrestado:= cantVeces;
+            a^.HI:= nil;
+            a^.HD:= nil;
+        end else begin
+            if (ISBN >= a^.data.ISBN) then //Si el ISBN del registro es mayor o igual al ISBN del nodo...
+                cargarArbol_3(a^.HD, ISBN, cantVeces) //Mandarlo pa'la derecha
+            else
+                cargarArbol_3(a^.HI, ISBN, cantVeces); //Mandarlo pa'la izquierda
+        end;
+    end;
+function cantISBN_1(a1: arbol1; ISBN: integer):integer; //Contar la cantidad de ISBNs que hay en un arbol tipo arbol1
+    var
+        cantidad: integer;
+    begin
+        cantidad:= 0;
+        if (a1 = nil) then begin
+            cantISBN_1:= 0;
+        end else begin
+            if (ISBN = a1^.data.ISBN) then
+                cantidad:= cantidad + 1;
+            cantidad:= cantidad + cantISBN_1(a1^.HI, ISBN);
+            cantidad:= cantidad + cantISBN_1(a1^.HD, ISBN);
+        end;
+        cantISBN_1:= cantidad;
+    end;
+procedure moduloF(a1: arbol1; var a3: arbol3);
+    begin
+        if (a1 <> nil) then begin
+            cargarArbol_3(a3, a1^.data.ISBN, cantISBN_1(a1, a1^.data.ISBN));
+            moduloF(a1^.HI, a3);
+            moduloF(a1^.HD, a3);
+        end;
+    end;
+//PUNTO G
+function cantISBN_2(a2: arbol2; ISBN: integer):integer; //Contar la cantidad de ISBNs que hay en un arbol tipo arbol2 (está hecho horrible)
+    var
+        cantidad: integer;
+    begin
+        cantidad:= 0;
+        if (a2 = nil) then begin
+            cantISBN_2:= 0;
+        end else begin
+            if (ISBN = a2^.data^.data.ISBN) then begin
+                while (a2^.data <> nil) do begin //Leer la lista
+                    cantidad:= cantidad + 1;
+                    a2^.data:= a2^.data^.sig;
+                end;
+            end;
+            cantidad:= cantidad + cantISBN_2(a2^.HI, ISBN);
+            cantidad:= cantidad + cantISBN_2(a2^.HD, ISBN);
+        end;
+        cantISBN_2:= cantidad;
+    end;
+procedure moduloG(a2: arbol2; var a3: arbol3);
+    begin
+        if (a2 <> nil) then begin
+            cargarArbol_3(a3, a2^.data^.data.ISBN, cantISBN_2(a2, a2^.data^.data.ISBN));
+            moduloG(a2^.HI, a3);
+            moduloG(a2^.HD, a3);
+        end;
+    end;
+//PUNTO I
+procedure moduloI(a1: arbol1; inf, sup: integer; var cantTotal: integer);
+    begin
+        if (a1 <> nil) then begin
+            if (a1^.data.ISBN >= inf) then
+                if (a1^.data.ISBN <= sup) then begin
+                    cantTotal:= cantTotal + cantISBN_1(a1, a1^.data.ISBN);
+                    moduloI(a1^.HI, inf, sup, cantTotal);
+                    moduloI(a1^.HD, inf, sup, cantTotal);
+                end
+                else
+                    moduloI(a1^.HI, inf, sup, cantTotal)
+            else
+                moduloI(a1^.HD, inf, sup, cantTotal);
+        end;
+    end;
 //PROCESOS PARA IMPRIMIR
 procedure imprimirArbol_1(a: arbol1);
     begin
@@ -188,21 +282,32 @@ procedure imprimirArbol_2(a: arbol2);
             imprimirArbol_2(a^.HD);
         end;
     end;
+procedure imprimirArbol_3(a3: arbol3); //PUNTO H - Pre-orden
+    begin
+        if (a3 <> nil) then begin
+            writeln('ISBN: ',a3^.data.ISBN,' / cantidad de veces que se prestó: ',a3^.data.vecesPrestado);
+            imprimirArbol_3(a3^.HI);
+            imprimirArbol_3(a3^.HD);
+        end;
+    end;
 //VARIABLES LOCALES
 var
     a1: arbol1;
     a2: arbol2;
+    a3: arbol3;
     l1: listaPrestamos;
-    nroSocio, cantPrestamos: integer;
+    nroSocio, cantPrestamos, cantTotal: integer;
     
 //PROGRAMA PRINCIPAL
 begin
     //Inicializar variables
     a1:= nil;
     a2:= nil;
+    a3:= nil;
     l1:= nil;
     cantPrestamos:= 0;
     nroSocio:= 0;
+    cantTotal:= 0;
     
     //Punto A
     Randomize;
@@ -214,5 +319,14 @@ begin
     write('Ingrese un número de socio: '); readln(nroSocio);
     //moduloD(a1, nroSocio, cantPrestamos);
     moduloE(a2, nroSocio, cantPrestamos);
-    write('Cantidad de prestamos del socio N°',nroSocio,': ',cantPrestamos);
+    writeln('Cantidad de prestamos del socio N°',nroSocio,': ',cantPrestamos);
+    writeln(cantISBN_1(a1, 83));
+    writeln(cantISBN_2(a2, 83));
+    moduloF(a1, a3);
+    imprimirArbol_3(a3);
+    writeln;
+    //moduloG(a2, a3); REPARAR MODULO G
+    //imprimirArbol_3(a3);
+    moduloI(a1, 10, 15, cantTotal);
+    writeln('Cantidad total de prestamos realizados que se encuentren entre el ISBN 10 y el 15: ',cantTotal);
 end.
