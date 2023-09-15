@@ -124,10 +124,10 @@ function retornarCantElemLista_2(l: listaMarcas):integer; //REPARAR
     var
         sumatoria: integer;
     begin
-        sumatoria:= 0;
-        if (l <> nil) then
-            sumatoria:= sumatoria + 1;
-            sumatoria:= sumatoria + retornarCantElemLista_2(l^.sig); //Sumar 1 MAS lo que retorne la función
+        sumatoria:= 1; //Al leer un elemento
+        if (l <> nil) then begin
+            sumatoria:= sumatoria + retornarCantElemLista_2(l^.sig);
+        end;
         retornarCantElemLista_2:= sumatoria;
     end;
 function retornarCantidadAutos_2(a2: arbolMarca; marca: str10):integer;
@@ -135,11 +135,13 @@ function retornarCantidadAutos_2(a2: arbolMarca; marca: str10):integer;
         sumatoria: integer;
     begin
         sumatoria:= 0;
-        if (a2 <> nil) and (a2^.marca <> marca) then begin //Si no coincide la marca entonces buscar por la lista
-            sumatoria:= retornarCantidadAutos_2(a2^.HI, marca);
-            sumatoria:= retornarCantidadAutos_2(a2^.HD, marca);
-        end else begin
-            sumatoria:= retornarCantElemLista_2(a2^.data); //Leer la lista de autos de la marca
+        if (a2 <> nil) then begin
+            if (a2^.marca <> marca) then begin //Si no coincide la marca entonces buscar por la lista
+                sumatoria:= retornarCantidadAutos_2(a2^.HI, marca);
+                sumatoria:= retornarCantidadAutos_2(a2^.HD, marca);
+            end else begin
+                sumatoria:= retornarCantElemLista_2(a2^.data); //Leer la lista de autos de la marca
+            end;
         end;
         retornarCantidadAutos_2:= sumatoria;
     end;
