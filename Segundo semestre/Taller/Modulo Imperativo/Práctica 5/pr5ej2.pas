@@ -27,6 +27,10 @@ type
         HI: arbolMarca;
         HD: arbolMarca;
     end;
+    
+    //Punto D
+    vectorAno = array [t_ano] of listaMarcas;
+    
 procedure leerAuto(var aut: auto);
     begin
         write('Patente del auto: '); readln(aut.patente);
@@ -145,9 +149,30 @@ function retornarCantidadAutos_2(a2: arbolMarca; marca: str10):integer;
         end;
         retornarCantidadAutos_2:= sumatoria;
     end;
+//Punto D
+procedure agruparAutos(a1: arbolPatente; var vec: vectorAno);
+    begin
+        if (a1 <> nil) then begin
+            agruparAutos(a1^.HI, vec);
+            agregarNodo_2(vec[a1^.data.anoFabricacion], a1^.data);
+            agruparAutos(a1^.HD, vec);
+        end;
+    end;
+procedure imprimirPuntoD(vec: vectorAno);
+    var
+        i: integer;
+    begin
+        for i:=2010 to 2018 do begin
+            while (vec[i] <> nil) do begin
+                writeln('Año: ',vec[i]^.data.anoFabricacion,' / Patente: ',vec[i]^.data.patente);
+                vec[i]:= vec[i]^.sig;
+            end;
+        end;
+    end;
 var
     a1: arbolPatente;
     a2: arbolMarca;
+    vec: vectorAno;
 begin
     a1:= nil;
     a2:= nil;
@@ -155,4 +180,6 @@ begin
     imprimirArbol_2(a2);
     writeln('Cantidad de autos marca Renault: ', retornarCantidadAutos_1(a1, 'F'));
     writeln('Cantidad de autos marca Renault: ', retornarCantidadAutos_2(a2, 'F'));
+    agruparAutos(a1, vec);
+    imprimirPuntoD(vec);
 end.
