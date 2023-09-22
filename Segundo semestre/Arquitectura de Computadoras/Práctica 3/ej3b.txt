@@ -1,0 +1,3 @@
+Las ventajas que presenta el PIO con respecto al HANDSHAKE se pueden reducir a estas dos:
+-Su capacidad para conectarse y ser modificado por los otros dispositivos del PIO (llaves y luces).
+-Su control de los bits y de habilitación y deshabilitación es mayor.
