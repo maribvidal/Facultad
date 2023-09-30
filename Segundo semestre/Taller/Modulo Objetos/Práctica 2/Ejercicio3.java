@@ -12,30 +12,28 @@ public class Ejercicio3 {
         String nombre;
         
         //Primer elemento
-        System.out.println("Ingrese el nombre del participante no." + dimL2 + ": ");
+        System.out.println("Ingrese el nombre del participante: ");
         nombre = Lector.leerString();
         dni = 1000 + GeneradorAleatorio.generarInt(1000);
         edad = 18 + GeneradorAleatorio.generarInt(50);
        
         //Simular proceso de inscripción (cargar matriz de personas)
         while (dimL1 < dimF1 && !(nombre.equals("ZZZ"))) {
-            //Crear objeto persona
-            Persona participante = new Persona(nombre, dni, edad);
-            matrizPersonas[dimL1][dimL2] = participante; //Asignarlo a su respecto lugar en la matriz
-            
-            System.out.println(dimL2 < dimF2);
-            
-            if (dimL2 < dimF2-1) {
+            dimL2 = 0;
+            while (dimL2 < dimF2 && !(nombre.equals("ZZZ"))) {
+                //Crear objeto persona
+                Persona participante = new Persona(nombre, dni, edad);
+                matrizPersonas[dimL1][dimL2] = participante; //Asignarlo a su respecto lugar en la matriz
                 dimL2++;
-                } else {
-                dimL2 = 0; dimF2++;
+                
+                System.out.println("Ingrese el nombre del participante: ");
+                nombre = Lector.leerString();
+                dni = 1000 + GeneradorAleatorio.generarInt(1000);
+                edad = 18 + GeneradorAleatorio.generarInt(50);
             }
-            System.out.println("Ingrese el nombre del participante no." + dimL2 + ": ");
-            nombre = Lector.leerString();
-            dni = 1000 + GeneradorAleatorio.generarInt(1000);
-            edad = 18 + GeneradorAleatorio.generarInt(50);
+            dimL1++;
+            System.out.println("");
         }
-        
         //Imprimir matriz
         int i, j;
         System.out.println(dimL1 + " " + dimL2);
