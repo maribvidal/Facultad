@@ -39,3 +39,9 @@ public class Ej03Estantes {
         }
     }
 }
+
+/*
+    Punto C: ¿Qué modificaría en la clase definida para ahora permitir estantes que almacenen como máximo N libros? ¿Cómo instanciaría el estante?
+    RESP: Para que se pueda cambiar el máximo de libros que pueda almacenar cada instancia de la clase, pondría una variable "cantidadMaxima" como dimF del vector que se pudiera modificar dentro del comportamiento del objeto.
+        El estante probablemente lo instanciaria como "Estante( cantidad de libros a almacenar)", osea que en el constructor solo pondría la variable cantidadMáxima.
+*/
