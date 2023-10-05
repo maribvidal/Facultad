@@ -1,52 +1,35 @@
 package tema3;
 
-import PaqueteLectura.GeneradorAleatorio;
+import PaqueteLectura.Lector;
 
-public class Hotel {
-    private int cantidadHabitaciones;
-    private Habitacion [] habitaciones;
-    
-    public Hotel(int cantidadHabitaciones) { //Constructor
-        int i;
-        GeneradorAleatorio.iniciar();
-        this.cantidadHabitaciones = cantidadHabitaciones;
-        habitaciones = new Habitacion[this.cantidadHabitaciones];
-        for (i = 0; i < this.cantidadHabitaciones; i++){
-            Habitacion h = new Habitacion();
-            h.setCostoNoche(2000 + GeneradorAleatorio.generarDouble(6000));
-            h.setEstaOcupada(false);
-            System.out.println(i + " " + h.toString());
-            this.habitaciones[i] = h;
+public class Ej04 {
+    public static void main(String[] args) {
+        int i, cliEdad, n = 5;//numero habitaciones 
+        String cliNombre, cliDNI;
+        Hotel hotel = new Hotel(n);
+        Cliente c;
+        
+        for (i = 0; i < (n - 2); i++) {
+            //Leer información del cliente
+            System.out.println("Nombre del cliente: ");
+            cliNombre = Lector.leerString();
+            System.out.println("DNI del cliente: ");
+            cliDNI = Lector.leerString();
+            System.out.println("Edad del cliente: ");
+            cliEdad = Lector.leerInt();
+            
+            //Crear cliente
+            c = new Cliente(cliNombre, cliDNI, cliEdad);
+            
+            //Meter cliente al hotel
+            hotel.meterCliente(i, c);
         }
-    }
-    
-    //Otros métodos de instancia
-    public void meterCliente(int indice, Cliente c) {
-        this.habitaciones[indice].setCliente(c);
-        this.habitaciones[indice].setEstaOcupada(true);
-    }
-    
-    public void aumentarPrecio(double monto) {
-        int i;
-        for (i = 0; i < this.cantidadHabitaciones; i++)
-            this.habitaciones[i].setCostoNoche(this.habitaciones[i].getCostoNoche() + monto);
-    }
-    
-    @Override
-    public String toString() {
-        int i;
-        String cadenaTexto = "";
-        //{Habitación 1: costo, libre u ocupada, información del cliente si está ocupada}
-        //Crear cadena de texto
-        for (i = 0; i < this.cantidadHabitaciones; i++) {
-            cadenaTexto = cadenaTexto + "{Habitación " + i + ": " + habitaciones[i].getCostoNoche() + ", ";
-            if (habitaciones[i].getEstaOcupada()) {
-                cadenaTexto = cadenaTexto + "ocupada, " + habitaciones[i].getCliente().toString() + "} \n";
-            } else {
-                cadenaTexto = cadenaTexto + "libre} \n";
-            }
-            //cadenaTexto = cadenaTexto + habitaciones[i].getCliente().getNombre() + "\n"; INTENTABA INVOCAR UN CLIENTE Q NO EXISTÍA
-            }
-        return cadenaTexto;
+        
+        //Mostrar el hotel
+        System.out.println(hotel.toString());
+        
+        //Aumentar el precio de todas las habitaciones y mostrar hotel nuevamente
+        hotel.aumentarPrecio(50);
+        System.out.println(hotel.toString());
     }
 }
