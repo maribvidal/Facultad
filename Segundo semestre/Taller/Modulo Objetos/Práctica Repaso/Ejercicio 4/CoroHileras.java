@@ -23,11 +23,15 @@ public class CoroHileras extends Coro {
     //Otros métodos
     @Override
     public void agregarCorista(Corista nuevoCorista) {
-        this.matriz_coristas[this.vec_indice][this.vec_matriz[this.vec_indice]] = nuevoCorista;
-        if (this.vec_matriz[this.vec_indice] < this.dimL_C) //Comprobar si la matriz está llena
-            this.vec_matriz[this.vec_indice]++;
-        if (this.vec_matriz[this.vec_indice] == this.dimL_C)
-            this.vec_indice++;
+        if (this.vec_indice < this.dimL_F) {
+            //System.out.println(this.vec_indice + " " + this.vec_matriz[this.vec_indice]); - DEBUG
+            if (this.vec_matriz[this.vec_indice] < this.dimL_C) { //Comprobar si la matriz está llena
+                this.matriz_coristas[this.vec_indice][this.vec_matriz[this.vec_indice]] = nuevoCorista;
+                this.vec_matriz[this.vec_indice]++;
+                if (this.vec_matriz[this.vec_indice] == this.dimL_C)
+                    this.vec_indice++;
+            }
+        }
     }
     @Override
     public boolean estaLleno() {
@@ -38,8 +42,10 @@ public class CoroHileras extends Coro {
         boolean aux = true;
         int i = 0, j = 0, valColPas = 0, valColAct, valPriAct, valPriPas = 9999;
         
-        while (i < this.vec_indice && aux) { //Mientras i sea menor que el tope y, hasta ahora, el coro se encuentre "bien formado"...
+        //No estoy orgulloso de como escribí este while, pero al menos hace lo que debe hacer sin cometer errores
+        while (i <= this.vec_indice && this.vec_matriz[this.vec_indice] > 0 && aux) { //Mientras i sea menor que el tope y, hasta ahora, el coro se encuentre "bien formado"...
             valPriAct = this.matriz_coristas[i][j].getTonoFundamental();
+            valColPas = valPriAct; //Asignarle el mismo valor para iterar bien el segundo while
             if (valPriAct >= valPriPas) //Si el tono de la primera persona de esta columna es mayor que el de la columna pasada...
                 aux = false;
             while (j < this.vec_matriz[i] && aux) { //Mientras j sea menor que el indice y, hasta ahora, el coro se encuentre "bien formado"...
@@ -50,6 +56,7 @@ public class CoroHileras extends Coro {
                 j++;
             }
             j = 0;
+            valPriPas = valPriAct; //Asignarle al valPriPas el valor del valPriAct para llevar el registro
             i++;
         }
         return aux;
@@ -57,9 +64,11 @@ public class CoroHileras extends Coro {
     @Override
     public String mostrarCoristas() {
         String aux = "";
-        for (int i = 0; i < this.vec_indice; i++) {
-            for (int j = 0; j < this.vec_matriz[i]; j++)
+        for (int i = 0; i <= this.vec_indice; i++) {
+            for (int j = 0; j < this.vec_matriz[i]; j++) {
+                //System.out.println(this.vec_indice + " " + i + " " + this.vec_matriz[i] + " " + j); - DEBUG
                 aux = aux + this.matriz_coristas[i][j].toString() + "\n";
+            }
         }
         return aux;
     }
