@@ -1,0 +1,14 @@
+A) - Lo que hace esencialmente el programa es comprobar si un elemento está dentro de la tabla.
+  Si lo está, pone un 1 en el registro R10, en caso contrario, se queda el 0 puesto al principio del programa.
+
+B) La ventaja del Branch Target Buffer es que, si el lazo es sencillo y no tiene que comprobar varios saltos de línea,
+  el BTB salta o no dependiendo de si se equivoca o no en dar el salto. Osea, el BTB comienza asumiendo que no debe saltar,
+  pero cuando se llega a la instrucción BNEZ comienza a atascarse porque SI debía saltar (y por lo tanto predijió mal), entonces
+  ahora comienza a asumir que debe saltar cuando llegue al mismo control de salto, y hace esto hasta que, de nuevo, falla en su predicción
+  y debe cambiarla (lo que pasa cuando R1 si es igual a 0). Trabaja usando un buffer.
+
+C)
+  XXXXXXX / SIN BTB / CON BTB
+  CPI:    / 1,651   / 1,558 
+  CICLOS: / 71      / 67
+  INSTR:  / 43      / 43
