@@ -20,4 +20,5 @@ esmenor: dadd r4, r0, r0; Ponerlo en 0 porque el numero es menor
 		sd r4, res(r1)
 avanzar: daddi r1, r1, 8
 	bne r1, r6, loop
+ 	sd r3, cant(r0)
 	halt
