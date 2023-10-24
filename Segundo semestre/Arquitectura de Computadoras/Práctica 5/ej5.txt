@@ -1,0 +1,5 @@
+         //TABLA//
+REGISTRO / NOMBRE / ¿PARA QUE SE LO UTILIZA?                       / ¿PRESERVADO?
+r0        $zero    se lo utiliza para inicializar variables en 0 y        NO
+                   cargar o guardar a una dirección de memoria sin
+                   hacer desplazamiento (lo mismo que un MD)
