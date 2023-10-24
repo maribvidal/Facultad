@@ -1,0 +1,13 @@
+a) 16 Ciclos
+  7 Instrucciones
+  2.286 CPI
+
+b) Se generan 4 atascos por dependencia de datos debido a que los datos que se quieren guardar 
+  aún están siendo procesados en la etapa EX (el MUL y lo que está abajo suyo ya que son numeros flotantes)
+
+c) Las instrucciones que generan los Atascos Estructurales son el "s.d f3, res1(r0)" y el "s.d f4, res2(r0)".
+
+d) Aparece un atasco tipo Write After Read ya que el primer "add.d" está leyendo el f1 para poder multiplicarlo
+  con el f2, y mientras tanto la siguiente instrucción lo está pidiendo para poder escribirlo.
+
+e) Agregar una instrucción "nop" soluciona el RAW del ADD ya que tiene tiempo para recibir el dato.
