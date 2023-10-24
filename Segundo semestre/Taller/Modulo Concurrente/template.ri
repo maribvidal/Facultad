@@ -1,0 +1,15 @@
+programa roberto
+
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot tipo1
+  comenzar
+    Pos(1,1)
+  fin 
+variables
+  robot1: tipo1
+comenzar
+  AsignarArea(robot1, ciudad)
+  Iniciar(robot1, 1, 1)
+fin
