@@ -4,4 +4,13 @@ r0        $zero    se lo utiliza para inicializar variables en 0 y        NO
                    cargar o guardar a una dirección de memoria sin
                    hacer desplazamiento (lo mismo que un MD)
 r1        $at      reservado para ser usado por el ensamblador            NO
-r2-r3     $v0-$v1  valores de retorno de la subrutina llamada
+r2-r3     $v0-$v1  valores de retorno de la subrutina llamada             NO
+r4-r7     $a0-$a3  argumentos pasados a la subrutina llamada              NO
+r8-r15    $t0-$t7  registros temporales. no son conservados.              NO
+r16-r23   $s0-$s7  registros salvados durante el llamado a subrutinas     SI
+r24-r25   $t8-$t9  registros temporales. no son conservados.              NO
+r26-r27   $k0-$k1  para uso del kernel del sistema operativo              NO
+r28       $gp      puntero a la zona de la mem. est. del programa         SI                        
+r29       $sp      puntero al tope de la pila                             SI
+r30       $fp      puntero al marco actual de la pila                     SI
+r31       $ra      dirección de retorno en un llamado a una subrutina     SI
