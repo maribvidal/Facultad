@@ -1,0 +1,77 @@
+programa ej2
+procesos
+  proceso juntarPapel(ES papelesJuntados: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papelesJuntados:= papelesJuntados + 1
+  fin
+  proceso recorrerLado(ES papelesJuntados: numero)
+  comenzar
+    repetir 9 {Recorrer 9 unidades}
+      juntarPapel(papelesJuntados)
+      mover
+  fin
+areas
+  perimetro: AreaC(10, 10, 20, 20)
+robots
+  robot robotAr
+  variables
+    papelesJuntados: numero
+  comenzar
+    papelesJuntados:= 0
+    recorrerLado(papelesJuntados)
+    Informar(papelesJuntados)
+  fin
+  robot robotDer
+  variables
+    papelesJuntados: numero
+  comenzar
+    papelesJuntados:= 0
+    derecha
+    recorrerLado(papelesJuntados)
+    Informar(papelesJuntados)
+  fin
+  robot robotAb
+  variables
+    papelesJuntados: numero
+  comenzar
+    papelesJuntados:= 0
+    derecha
+    derecha
+    recorrerLado(papelesJuntados)
+    Informar(papelesJuntados)
+  fin
+  robot robotIzq
+  variables
+    papelesJuntados: numero
+  comenzar
+    papelesJuntados:= 0
+    repetir 3
+      derecha
+    recorrerLado(papelesJuntados)
+    Informar(papelesJuntados)
+  fin
+variables
+  robot1: robotAr
+  robot2: robotDer
+  robot3: robotAb
+  robot4: robotIzq
+comenzar
+  AsignarArea(robot1, perimetro) 
+  AsignarArea(robot2, perimetro) 
+  AsignarArea(robot3, perimetro) 
+  AsignarArea(robot4, perimetro)
+  Iniciar(robot1, 10, 10) 
+  Iniciar(robot2, 10, 20) 
+  Iniciar(robot3, 20, 20) 
+  Iniciar(robot4, 20, 10) 
+fin
+
+{A}
+{Si se quiere realizar el ejercicio con el área que recorre cada robot en privado, entonces se deberían crear 4 areas que comprendan}
+{Su lado y a donde quiere llegar (por ej, el robot1 va desde 10, 10 hasta 10, 19), pero si solo se quiere declarar el área del perímetro}
+{del cuadrado para recorrer, entonces hay que declarar un área compartida de (10, 10) hasta (20, 20)}
+
+{B}
+{No existe riesgo de colisión si cada robot se mueve en cada momento y avanza hacia donde tiene que ir}
