@@ -1,0 +1,68 @@
+programa ej3
+procesos
+  {Procesos para juntar las cosas}
+  proceso juntarPapel(ES papelesJuntados: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papelesJuntados:= papelesJuntados + 1
+  fin
+  proceso juntarFlor(ES floresJuntadas: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      floresJuntadas:= floresJuntadas + 1
+  fin
+  {Contar las esquinas en las cuales se cumpla la condición (CANT. PAPELES > CANT. FLORES)}
+  proceso esqCondicion(ES esqCond: numero)
+  variables
+    papelesJuntados: numero
+    floresJuntadas: numero
+    condicion: boolean
+  comenzar
+    papelesJuntados:= 0
+    floresJuntadas:= 0
+    juntarPapel(papelesJuntados)
+    juntarFlor(floresJuntadas)
+    si (papelesJuntados > floresJuntadas)
+      esqCond:= esqCond + 1
+  fin
+  {Recorrer escalón}
+  proceso recorrerEscalon(E tmn: numero; ES esqCond: numero)
+  comenzar
+    repetir tmn
+      mover
+      esqCondicion(esqCond)
+    derecha
+    repetir tmn
+      mover
+      esqCondicion(esqCond)
+    repetir 3 {Volver a la orientación inicial}
+      derecha
+  fin
+areas 
+  perimetro: AreaC(1, 1, 50, 50)
+robots
+  robot tipo1
+  variables
+    esqCond: numero
+  comenzar
+    esqCond:= 0
+    recorrerEscalon(1, esqCond)
+    recorrerEscalon(2, esqCond)
+    recorrerEscalon(3, esqCond)
+    recorrerEscalon(4, esqCond)
+    Informar("Cantidad de esquinas ", esqCond)
+  fin
+variables
+  boberto: tipo1
+  mamerto: tipo1
+  ruperto: tipo1
+comenzar
+  AsignarArea(boberto, perimetro)
+  AsignarArea(mamerto, perimetro)
+  AsignarArea(ruperto, perimetro)
+  Iniciar(boberto, 1, 1)
+  Iniciar(mamerto, 8, 1)
+  Iniciar(ruperto, 16, 1)
+fin
