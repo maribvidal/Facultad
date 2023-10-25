@@ -12,56 +12,41 @@ procesos
       juntarPapel(papelesJuntados)
       mover
   fin
-areas
-  perimetro: AreaC(10, 10, 20, 20)
-robots
-  robot robotAr
-  variables
-    papelesJuntados: numero
+  proceso ubicar
   comenzar
-    papelesJuntados:= 0
-    recorrerLado(papelesJuntados)
-    Informar(papelesJuntados)
-  fin
-  robot robotDer
-  variables
-    papelesJuntados: numero
-  comenzar
-    papelesJuntados:= 0
-    derecha
-    recorrerLado(papelesJuntados)
-    Informar(papelesJuntados)
-  fin
-  robot robotAb
-  variables
-    papelesJuntados: numero
-  comenzar
-    papelesJuntados:= 0
-    derecha
-    derecha
-    recorrerLado(papelesJuntados)
-    Informar(papelesJuntados)
-  fin
-  robot robotIzq
-  variables
-    papelesJuntados: numero
-  comenzar
-    papelesJuntados:= 0
-    repetir 3
+    si (PosCa = 20)
       derecha
+    si (PosAv = 20)
+      derecha
+      si (PosCa = 10)
+        derecha
+        derecha
+  fin
+areas
+  areaRob1: AreaP(10, 10, 10, 19)
+  areaRob2: AreaP(10, 20, 19, 20)
+  areaRob3: AreaP(20, 11, 20, 20)
+  areaRob4: AreaP(11, 10, 20, 10)
+robots
+  robot tipoGeneral
+  variables
+    papelesJuntados: numero
+  comenzar
+    papelesJuntados:= 0
+    ubicar
     recorrerLado(papelesJuntados)
     Informar(papelesJuntados)
   fin
 variables
-  robot1: robotAr
-  robot2: robotDer
-  robot3: robotAb
-  robot4: robotIzq
+  robot1: tipoGeneral
+  robot2: tipoGeneral
+  robot3: tipoGeneral
+  robot4: tipoGeneral
 comenzar
-  AsignarArea(robot1, perimetro) 
-  AsignarArea(robot2, perimetro) 
-  AsignarArea(robot3, perimetro) 
-  AsignarArea(robot4, perimetro)
+  AsignarArea(robot1, areaRob1) 
+  AsignarArea(robot2, areaRob2) 
+  AsignarArea(robot3, areaRob3) 
+  AsignarArea(robot4, areaRob4)
   Iniciar(robot1, 10, 10) 
   Iniciar(robot2, 10, 20) 
   Iniciar(robot3, 20, 20) 
