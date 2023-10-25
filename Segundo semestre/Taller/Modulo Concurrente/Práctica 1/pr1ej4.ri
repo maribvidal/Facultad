@@ -1,0 +1,64 @@
+programa ej4
+procesos
+  {Proceso para limpiar la esquina de flores}
+  proceso limpiarFlores
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  {Proceso para limpiar la esquina de papeles}
+  proceso limpiarPapeles
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  {Proceso que determina si hay que tomar papel o flor (en base a la posición)}
+  proceso limpiarGeneral
+  comenzar
+    si (PosAv < 26) | (PosAv > 50) & (PosAv < 76)
+      limpiarFlores
+    sino {La otra opción que queda es que se trate de las áreas pares}
+      limpiarPapeles
+  fin
+  {Recorrer escalón}
+  proceso recorrerArea(E limite: numero)
+  variables
+    avIni: numero
+    caIni: numero
+  comenzar
+    avIni:= PosAv
+    caIni:= PosCa
+    repetir limite {Se asume que el robot comienza en (1, Av)}
+      repetir 24 {La longitud de cada área es de 25 calles}
+        limpiarGeneral
+        mover
+      Pos(PosAv - 24, PosCa + 1)
+    repetir 24
+      limpiarGeneral
+      mover
+    Pos(avIni, caIni)
+  fin
+areas 
+  area1: AreaP(1, 1, 25, 100)
+  area2: AreaP(26, 1, 50, 100)
+  area3: AreaP(51, 1, 75, 100)
+  area4: AreaP(76, 1, 100, 100)
+robots
+  robot tipo1
+  comenzar
+    derecha
+    recorrerArea(99)
+    Pos(PosAv + 50, 1)
+    recorrerArea(99)
+  fin
+variables
+  robPares: tipo1
+  robImpares: tipo1
+comenzar
+  AsignarArea(robImpares, area1)
+  AsignarArea(robImpares, area3)
+  AsignarArea(robPares, area2)
+  AsignarArea(robPares, area4)
+  Iniciar(robImpares, 1, 1)
+  Iniciar(robPares, 26, 1)
+fin
