@@ -1,0 +1,79 @@
+programa pr1ej5
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso juntarPapeles
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso trabajarTramo(E hasta: numero; E tipoTramo: numero)
+  comenzar
+    si (tipoTramo = 0)
+      mientras (PosAv <> hasta)
+        juntarFlores
+        mover
+      mientras (HayFlorEnLaBolsa) {Para este entonces ya llegamos a la última esquina}
+        depositarFlor
+    sino
+      mientras (PosCa <> hasta)
+        juntarPapeles
+        mover
+      mientras (HayPapelEnLaBolsa) {Para este entonces ya llegamos a la última esquina}
+        depositarPapel
+  fin
+  proceso trabajarSector(E posIni: numero; E desde: numero; E hasta: numero; E tipoTramo: numero)
+  comenzar
+    si (tipoTramo = 0)
+      Pos(desde, posIni)
+      trabajarTramo(hasta, tipoTramo)
+      Pos(desde, posIni - 5)
+      trabajarTramo(hasta, tipoTramo)
+    sino
+      Pos(posIni, desde)
+      trabajarTramo(hasta, tipoTramo)
+      Pos(posIni + 5, desde)
+      trabajarTramo(hasta, tipoTramo)
+  fin
+areas
+  areaRobot1: AreaP(1, 75, 15, 80) {15 esquinas}
+  areaRobot2: AreaP(75, 80, 80, 100) {20 esquinas}
+  areaRobot3: AreaP(70, 10, 100, 15) {30 esquinas}
+  areaRobot4: AreaP(10, 1, 15, 10) {15 esquinas}
+robots
+  robot tipo1
+  comenzar
+    derecha
+    trabajarSector(80, 1, 15, 0)
+  fin
+  robot tipo2
+  comenzar
+    trabajarSector(75, 80, 100, 1)
+  fin
+  robot tipo3
+  comenzar
+    derecha
+    trabajarSector(70, 15, 100, 0)
+  fin
+  robot tipo4
+  comenzar
+    trabajarSector(10, 1, 10, 1)
+  fin
+variables
+  robot1: tipo1
+  robot2: tipo2
+  robot3: tipo3
+  robot4: tipo4
+comenzar
+  AsignarArea(robot1, areaRobot1)
+  AsignarArea(robot2, areaRobot2)
+  AsignarArea(robot3, areaRobot3)
+  AsignarArea(robot4, areaRobot4)
+  Iniciar(robot1, 1, 80)
+  Iniciar(robot2, 75, 80)
+  Iniciar(robot3, 70, 15)
+  Iniciar(robot4, 10, 1)
+fin
