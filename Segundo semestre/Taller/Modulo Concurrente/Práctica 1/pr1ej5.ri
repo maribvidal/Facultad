@@ -56,7 +56,7 @@ robots
   robot tipo3
   comenzar
     derecha
-    trabajarSector(70, 15, 100, 0)
+    trabajarSector(15, 70, 100, 0)
   fin
   robot tipo4
   comenzar
