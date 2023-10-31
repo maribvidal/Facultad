@@ -1,0 +1,69 @@
+programa pr2ej1
+procesos
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso recorrerSector(ES cantFlores: numero)
+  comenzar
+    cantFlores:= 0
+    repetir 9
+      juntarFlores(cantFlores)
+      mover
+  fin
+areas
+  perimetro: AreaPC(1, 1, 2, 20)
+robots
+  robot juntador
+  variables
+    floresJuntadas: numero
+    quienSoy: numero
+  comenzar
+    {Recibir identificador}
+    RecibirMensaje(quienSoy, robotFiscalizador)
+    {Juntar las flores del sector asignado}
+    floresJuntadas:= 0
+    recorrerSector(floresJuntadas)
+    {Comunicación con el robot fiscalizador}
+    EnviarMensaje(quienSoy, robotFiscalizador)
+    EnviarMensaje(floresJuntadas, robotFiscalizador)
+  fin
+  robot fiscalizador
+  variables
+    identificador: numero
+    cantidadRobot1: numero
+    cantidadRobot2: numero
+    diferencia: numero
+  comenzar
+    {Enviar identificadores}
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    {Recibir cantidades}
+    repetir 2
+      RecibirMensaje(identificador, *)
+      si (identificador = 1)
+        RecibirMensaje(cantidadRobot1, robot1)
+      sino
+        RecibirMensaje(cantidadRobot2, robot2)
+    {Calcular la diferencia}
+    si (cantidadRobot1 > cantidadRobot2)
+      diferencia:= cantidadRobot1 - cantidadRobot2
+    sino {Cubrir los casos en los que el robot2 tiene o mas flores juntadas o la misma cantidad}
+      diferencia:= cantidadRobot2 - cantidadRobot1
+    {Informarla}
+    Informar("Diferencia con respecto al perdedor ", diferencia)
+  fin
+variables
+  robot1: juntador
+  robot2: juntador
+  robotFiscalizador: fiscalizador
+comenzar
+  AsignarArea(robot1, perimetro)
+  AsignarArea(robot2, perimetro)
+  AsignarArea(robotFiscalizador, perimetro)
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 2, 11)
+  Iniciar(robotFiscalizador, 2, 1)
+fin
