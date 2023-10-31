@@ -1,0 +1,46 @@
+programa pr2ej1
+procesos
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso recorrerSector(ES cantFlores: numero)
+  comenzar
+    cantFlores:= 0
+    repetir 9
+      juntarFlores(cantFlores)
+      mover
+  fin
+areas
+  perimetro: AreaPC(1, 1, 2, 20)
+robots
+  robot juntador
+  variables
+    floresJuntadas: numero
+    loQueJuntoEl: numero
+  comenzar
+    {Juntar las flores del sector asignado}
+    floresJuntadas:= 0
+    recorrerSector(floresJuntadas)
+    {Comunicación con el otro robot}
+    si (PosAv = 2)
+      EnviarMensaje(floresJuntadas, robot1)
+      RecibirMensaje(loQueJuntoEl, robot1)
+    sino
+      EnviarMensaje(floresJuntadas, robot2)
+      RecibirMensaje(loQueJuntoEl, robot2)
+    {Comprobar quien recogió mas flores}
+    si (floresJuntadas > loQueJuntoEl)
+      Informar("Diferencia de flores ", floresJuntadas - loQueJuntoEl)
+  fin
+variables
+  robot1: juntador
+  robot2: juntador
+comenzar
+  AsignarArea(robot1, perimetro)
+  AsignarArea(robot2, perimetro)
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 2, 11)
+fin
