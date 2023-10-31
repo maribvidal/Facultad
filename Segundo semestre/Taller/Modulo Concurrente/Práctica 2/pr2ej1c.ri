@@ -30,7 +30,6 @@ robots
   variables
     cantidadActual: numero
     cantidadMax: numero
-    diferencia: numero
   comenzar
     {Inicializar variables}
     cantidadMax:= 0
