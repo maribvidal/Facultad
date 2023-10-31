@@ -1,0 +1,68 @@
+programa pr2ej1
+procesos
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso recorrerSector(ES cantFlores: numero)
+  comenzar
+    cantFlores:= 0
+    repetir 9
+      juntarFlores(cantFlores)
+      mover
+  fin
+areas
+  perimetro: AreaC(1, 1, 6, 60)
+robots
+  robot juntador
+  variables
+    floresJuntadas: numero
+  comenzar
+    {Juntar las flores del sector asignado}
+    floresJuntadas:= 0
+    recorrerSector(floresJuntadas)
+    {Comunicación con el robot fiscalizador}
+    EnviarMensaje(floresJuntadas, robotFiscalizador)
+  fin
+  robot fiscalizador
+  variables
+    cantidadActual: numero
+    cantidadMax: numero
+    diferencia: numero
+  comenzar
+    {Inicializar variables}
+    cantidadMax:= 0
+    {Actualizar máximo}
+    repetir 6
+      RecibirMensaje(cantidadActual, *)
+      si (cantidadMax < cantidadActual)
+        cantidadMax:= cantidadActual
+    {Informar la cantidad máxima}
+    Informar("El ganador juntó la siguiente cantidad de flores ", cantidadMax)
+  fin
+variables
+  robot1: juntador
+  robot2: juntador
+  robot3: juntador
+  robot4: juntador
+  robot5: juntador
+  robot6: juntador
+  robotFiscalizador: fiscalizador
+comenzar
+  AsignarArea(robot1, perimetro)
+  AsignarArea(robot2, perimetro)
+  AsignarArea(robot3, perimetro)
+  AsignarArea(robot4, perimetro)
+  AsignarArea(robot5, perimetro)
+  AsignarArea(robot6, perimetro)
+  AsignarArea(robotFiscalizador, perimetro)
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 2, 11)
+  Iniciar(robot3, 3, 21)
+  Iniciar(robot4, 4, 31)
+  Iniciar(robot5, 5, 41)
+  Iniciar(robot6, 6, 51)
+  Iniciar(robotFiscalizador, 2, 1)
+fin
