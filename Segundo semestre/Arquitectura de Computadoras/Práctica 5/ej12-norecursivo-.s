@@ -2,7 +2,6 @@
 	valor: .word 10
 	result: .word 0
 .text
-	daddi $sp, $zero, 0x400
 	ld $a0, valor($zero)
 	jal factorial
 	sd $v0, result($zero)
