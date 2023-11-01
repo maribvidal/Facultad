@@ -1,0 +1,87 @@
+programa pr2ej2
+procesos
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso juntarPapeles(ES cantPapeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles + 1
+  fin
+  proceso recorrerEscalon(ES condicion: boolean)
+  variables
+    altoAleatorio: numero
+    cantFlores: numero
+    cantPapeles: numero
+  comenzar
+    cantFlores:= 0
+    cantPapeles:= 0
+    {Recorrer ancho}
+    derecha
+    juntarFlores(cantFlores)
+    juntarPapeles(cantPapeles)
+    mover
+    {Recorrer alto}
+    repetir 3
+      derecha
+    Random(altoAleatorio, 1, 5)
+    repetir altoAleatorio
+      juntarFlores(cantFlores)
+      juntarPapeles(cantPapeles)
+      mover
+    {Comprobar condición}
+    si (cantFlores > cantPapeles)
+      condicion:= V
+    sino
+      condicion:= F
+  fin
+  proceso escalera(ES cantEsp: numero)
+  variables
+    condicion: boolean
+  comenzar
+    repetir 4
+      recorrerEscalon(condicion)
+      si (condicion)
+        cantEsp:= cantEsp + 1
+  fin
+areas
+  perimetro: AreaC(1, 1, 50, 50)
+robots
+  robot robotJuntador
+  variables
+    cantEsp: numero
+  comenzar
+    cantEsp:= 0
+    escalera(cantEsp)
+    EnviarMensaje(cantEsp, robotJefe)
+  fin
+  robot robotJefe
+  variables
+    total: numero
+    actual: numero
+  comenzar
+    total:= 0
+    repetir 3
+      RecibirMensaje(actual, *)
+      total:= total + actual
+    Informar("cantidad total ", total)
+  fin
+variables
+  robot1: robotJuntador
+  robot2: robotJuntador
+  robot3: robotJuntador
+  robot4: robotJefe
+comenzar
+  AsignarArea(robot1, perimetro)
+  AsignarArea(robot2, perimetro)
+  AsignarArea(robot3, perimetro)
+  AsignarArea(robot4, perimetro)
+  Iniciar(robot4, 1, 1)
+  Iniciar(robot1, 2, 1)
+  Iniciar(robot2, 7, 1)
+  Iniciar(robot3, 12, 1)
+fin
