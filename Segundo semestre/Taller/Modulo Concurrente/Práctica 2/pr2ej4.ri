@@ -101,6 +101,8 @@ robots
         idMax:= idActual
     {Avisar al ganador e informar}
     acabarProceso(idMax)
+    Informar("gano ", idMax)
+    Informar("junto ", cantMax)
   fin
   robot robotRecolector
   variables
@@ -110,6 +112,7 @@ robots
     sigueConcediendo:= V
     mientras (sigueConcediendo)
       RecibirMensaje(sigueConcediendo, fiscalizador)
+      Informar(sigueConcediendo)
       si (sigueConcediendo)
         realizarTarea
       sino
