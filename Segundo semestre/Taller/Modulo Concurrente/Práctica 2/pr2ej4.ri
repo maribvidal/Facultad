@@ -1,0 +1,141 @@
+programa pr2ej4
+procesos
+  proceso juntar(ES cantJuntada: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantJuntada:= cantJuntada + 1
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantJuntada:= cantJuntada + 1
+  fin
+  proceso avisar(E id: numero)
+  comenzar
+    si (id = 1) {Conceder autorizaciones}
+      EnviarMensaje(V, reco1)
+    si (id = 2)
+      EnviarMensaje(V, reco2)
+    si (id = 3)
+      EnviarMensaje(V, reco3)
+    si (id = 4)
+      EnviarMensaje(V, reco4)
+  fin
+  proceso acabarProceso(E id: numero)
+  comenzar
+    EnviarMensaje(F, reco1)
+    EnviarMensaje(F, reco2)
+    EnviarMensaje(F, reco3)
+    EnviarMensaje(F, reco4)
+    si (id = 1)
+      EnviarMensaje(V, reco1)
+      EnviarMensaje(F, reco2)
+      EnviarMensaje(F, reco3)
+      EnviarMensaje(F, reco4)
+    si (id = 2)
+      EnviarMensaje(F, reco1)
+      EnviarMensaje(V, reco2)
+      EnviarMensaje(F, reco3)
+      EnviarMensaje(F, reco4)
+    si (id = 3)
+      EnviarMensaje(F, reco1)
+      EnviarMensaje(F, reco2)
+      EnviarMensaje(V, reco3)
+      EnviarMensaje(F, reco4)
+    si (id = 4)
+      EnviarMensaje(F, reco1)
+      EnviarMensaje(F, reco2)
+      EnviarMensaje(F, reco3)
+      EnviarMensaje(V, reco4)
+  fin
+  proceso avisarRecolector(ES idActual: numero)
+  variables
+    id: numero
+  comenzar
+    Random(id, 1, 4)
+    idActual:= id
+    avisar(idActual)
+  fin
+  proceso realizarTarea
+  variables
+    avIni, caIni, avRnd, caRnd, cantJuntada: numero
+  comenzar
+    cantJuntada:= 0
+    {Guardar la posición inicial}
+    avIni:= PosAv
+    caIni:= PosCa
+    {Obtener una nueva dirección y moverse para allí}
+    Random(avRnd, 25, 75)
+    Random(caRnd, 25, 75)
+    Pos(avRnd, caRnd)
+    {Limpiar y volver}
+    juntar(cantJuntada)
+    Pos(avIni, caIni)
+    EnviarMensaje(V, fiscalizador)
+    EnviarMensaje(cantJuntada, fiscalizador)
+  fin
+  proceso recibirRespuesta(ES cantJuntada: numero)
+  variables
+    termino: boolean
+  comenzar
+    RecibirMensaje(termino, *)
+    RecibirMensaje(cantJuntada, *)
+  fin
+areas
+  perimetro: AreaC(1, 1, 100, 24)
+  cuadranteExclusivo: AreaPC(25, 25, 75, 75)
+robots
+  robot robotFiscalizador
+  variables
+    cantRecogida, cantMax, idActual, idMax: numero
+  comenzar
+    {Inicializar variables}
+    cantMax:= 0
+    idMax:= 0
+    {En total hay 10 accesos que se concederán al azar}
+    repetir 10
+      avisarRecolector(idActual)
+      recibirRespuesta(cantRecogida)
+      {Mantener registrado quien es el robot que mas juntó}
+      si (cantRecogida > cantMax)
+        cantMax:= cantRecogida
+        idMax:= idActual
+    {Avisar al ganador e informar}
+    acabarProceso(idMax)
+  fin
+  robot robotRecolector
+  variables
+    sigueConcediendo: boolean
+    soyGanador: boolean
+  comenzar
+    sigueConcediendo:= V
+    mientras (sigueConcediendo)
+      RecibirMensaje(sigueConcediendo, fiscalizador)
+      si (sigueConcediendo)
+        realizarTarea
+      sino
+        RecibirMensaje(soyGanador, fiscalizador)
+    si (soyGanador)
+      Pos(50,50)
+  fin
+variables
+  fiscalizador: robotFiscalizador
+  reco1: robotRecolector
+  reco2: robotRecolector
+  reco3: robotRecolector
+  reco4: robotRecolector
+comenzar
+  AsignarArea(fiscalizador, perimetro)
+  AsignarArea(reco1, perimetro)
+  AsignarArea(reco2, perimetro)
+  AsignarArea(reco3, perimetro)
+  AsignarArea(reco4, perimetro)
+  AsignarArea(reco1, cuadranteExclusivo)
+  AsignarArea(reco2, cuadranteExclusivo)
+  AsignarArea(reco3, cuadranteExclusivo)
+  AsignarArea(reco4, cuadranteExclusivo)
+  Iniciar(fiscalizador, 1, 1)
+  Iniciar(reco1, 25, 1)
+  Iniciar(reco2, 30, 1)
+  Iniciar(reco3, 35, 1)
+  Iniciar(reco4, 40, 1)
+fin
