@@ -15,11 +15,11 @@ procesos
   proceso recorrerSector(ES cantObjetos: numero)
   comenzar
     repetir 9 {Solo hay que moverse 9 unidades}
-      mover
       si (PosCa = 1) {Quienes juntan papeles solo son los robots del equipo A}
         juntarPapeles(cantObjetos)
       sino
         juntarFlores(cantObjetos)
+      mover
   fin
 areas
   areaEquipoA: AreaPC(1, 1, 20, 1)
