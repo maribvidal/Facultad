@@ -57,7 +57,7 @@ robots
   comenzar
     cantEsp:= 0
     escalera(cantEsp)
-    EnviarMensaje(cantEsp, robotJefe)
+    EnviarMensaje(cantEsp, robot4)
   fin
   robot robotJefe
   variables
@@ -80,8 +80,8 @@ comenzar
   AsignarArea(robot2, perimetro)
   AsignarArea(robot3, perimetro)
   AsignarArea(robot4, perimetro)
-  Iniciar(robot4, 1, 1)
   Iniciar(robot1, 2, 1)
   Iniciar(robot2, 7, 1)
   Iniciar(robot3, 12, 1)
+  Iniciar(robot4, 1, 1)
 fin
