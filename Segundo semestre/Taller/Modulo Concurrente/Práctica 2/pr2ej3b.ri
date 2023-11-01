@@ -1,0 +1,96 @@
+programa pr2ej3
+procesos
+  proceso juntarPapeles(ES cantPapeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles + 1
+  fin
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso recorrerSector(ES cantObjetos: numero)
+  comenzar
+    repetir 9 {Solo hay que moverse 9 unidades}
+      si (PosCa = 1) {Quienes juntan papeles solo son los robots del equipo A}
+        juntarPapeles(cantObjetos)
+      sino
+        juntarFlores(cantObjetos)
+      mover
+  fin
+  proceso reubicacion
+  comenzar
+    Pos(PosAv + 11, PosCa)
+  fin
+  proceso realizarTarea(E tipo: numero; E cantRecogida: numero)
+  comenzar
+    recorrerSector(cantRecogida)
+    si (PosCa = 1)
+      si (tipo = 0)
+        EnviarMensaje(V, A2)
+        EnviarMensaje(cantRecogida, A2)
+      sino
+        EnviarMensaje(V, A1)
+        EnviarMensaje(cantRecogida, A1)
+    sino
+      si (tipo = 0)
+        EnviarMensaje(V, B2)
+        EnviarMensaje(cantRecogida, B2)
+      sino
+        EnviarMensaje(V, B1)
+        EnviarMensaje(cantRecogida, B1)
+  fin
+  proceso recibirRespuesta(ES cantRecogida: numero)
+  variables
+    avanzar: boolean
+  comenzar
+    RecibirMensaje(avanzar, *)
+    RecibirMensaje(cantRecogida, *)
+  fin
+areas
+  areaEquipoA: AreaPC(1, 1, 40, 1)
+  areaEquipoB: AreaPC(1, 5, 40, 5)
+robots
+  robot tipo1
+  variables
+    cantRecogida: numero
+  comenzar
+    derecha
+    cantRecogida:= 0
+    realizarTarea(0, cantRecogida)
+    reubicacion
+    recibirRespuesta(cantRecogida)
+    realizarTarea(0, cantRecogida)
+  fin
+  robot tipo2
+  variables
+    cantRecogida: numero
+    avanzar: boolean
+    puedeAvanzar: boolean
+  comenzar
+    derecha
+    recibirRespuesta(cantRecogida)
+    realizarTarea(1, cantRecogida)
+    reubicacion
+    recibirRespuesta(cantRecogida)
+    recorrerSector(cantRecogida)
+    Informar("cantidad recogida ", cantRecogida)
+  fin
+variables
+  A1: tipo1
+  B1: tipo1
+  A2: tipo2
+  B2: tipo2
+comenzar
+  AsignarArea(A1, areaEquipoA)
+  AsignarArea(A2, areaEquipoA)
+  AsignarArea(B1, areaEquipoB)
+  AsignarArea(B2, areaEquipoB)
+  Iniciar(A1, 1, 1)
+  Iniciar(A2, 11, 1)
+  Iniciar(B1, 1, 5)
+  Iniciar(B2, 11, 5)
+fin
