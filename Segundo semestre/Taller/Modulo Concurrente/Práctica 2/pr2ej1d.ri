@@ -54,16 +54,20 @@ robots
       {Preguntar por el identificador}
       si (idActual = 1)
         RecibirMensaje(cantidadActual, robot1)
-      si (idActual = 2)
-        RecibirMensaje(cantidadActual, robot2)
-      si (idActual = 3)
-        RecibirMensaje(cantidadActual, robot3)
-      si (idActual = 4)
-        RecibirMensaje(cantidadActual, robot4)
-      si (idActual = 5)
-        RecibirMensaje(cantidadActual, robot5)
-      si (idActual = 6)
-        RecibirMensaje(cantidadActual, robot6)
+      sino
+        si (idActual = 2)
+          RecibirMensaje(cantidadActual, robot2)
+        sino 
+          si(idActual = 3)
+            RecibirMensaje(cantidadActual, robot3)
+          sino
+            si (idActual = 4)
+              RecibirMensaje(cantidadActual, robot4)
+            sino
+              si (idActual = 5)
+                RecibirMensaje(cantidadActual, robot5)
+              sino
+                RecibirMensaje(cantidadActual, robot6)
       {Actualizar máximo}
       si (cantidadActual > cantidadMax)
         cantidadMax:= cantidadActual
