@@ -13,12 +13,14 @@ procesos
   comenzar
     si (id = 1) {Conceder autorizaciones}
       EnviarMensaje(V, reco1)
-    si (id = 2)
-      EnviarMensaje(V, reco2)
-    si (id = 3)
-      EnviarMensaje(V, reco3)
-    si (id = 4)
-      EnviarMensaje(V, reco4)
+    sino
+      si (id = 2)
+        EnviarMensaje(V, reco2)
+      sino
+        si (id = 3)
+          EnviarMensaje(V, reco3)
+        sino
+          EnviarMensaje(V, reco4)
   fin
   proceso acabarProceso(E id: numero)
   comenzar
@@ -31,21 +33,23 @@ procesos
       EnviarMensaje(F, reco2)
       EnviarMensaje(F, reco3)
       EnviarMensaje(F, reco4)
-    si (id = 2)
-      EnviarMensaje(F, reco1)
-      EnviarMensaje(V, reco2)
-      EnviarMensaje(F, reco3)
-      EnviarMensaje(F, reco4)
-    si (id = 3)
-      EnviarMensaje(F, reco1)
-      EnviarMensaje(F, reco2)
-      EnviarMensaje(V, reco3)
-      EnviarMensaje(F, reco4)
-    si (id = 4)
-      EnviarMensaje(F, reco1)
-      EnviarMensaje(F, reco2)
-      EnviarMensaje(F, reco3)
-      EnviarMensaje(V, reco4)
+    sino
+      si (id = 2)
+        EnviarMensaje(F, reco1)
+        EnviarMensaje(V, reco2)
+        EnviarMensaje(F, reco3)
+        EnviarMensaje(F, reco4)
+      sino
+        si (id = 3)
+          EnviarMensaje(F, reco1)
+          EnviarMensaje(F, reco2)
+          EnviarMensaje(V, reco3)
+          EnviarMensaje(F, reco4)
+        sino
+          EnviarMensaje(F, reco1)
+          EnviarMensaje(F, reco2)
+          EnviarMensaje(F, reco3)
+          EnviarMensaje(V, reco4)
   fin
   proceso avisarRecolector(ES idActual: numero)
   variables
