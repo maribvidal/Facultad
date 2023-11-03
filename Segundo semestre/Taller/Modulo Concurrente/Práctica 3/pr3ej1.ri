@@ -1,0 +1,116 @@
+programa pr3ej1
+procesos
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso juntarPapeles(ES cantPapeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles + 1
+  fin
+  proceso bloquearAlAzar(ES avOrig: numero; ES caOrig: numero; ES posAv: numero; ES posCa: numero)
+  variables
+    posAv, posCa: numero
+  comenzar
+    avOrig:= PosAv
+    caOrig:= PosCa
+    {Obtener esquina al azar perteneciente al área}
+    si (PosAv < 8)
+      Random(posAv, 1, 5)
+      Random(posCa, 1, 10)
+    sino
+      Random(posAv, 6, 10)
+      Random(posCa, 1, 9)
+    {Bloquearla}
+    BloquearEsquina(posAv, posCa)
+  fin
+  proceso finalizarTarea
+  variables
+    avOrig, caOrig: numero
+  comenzar
+    avOrig:= PosAv
+    caOrig:= PosCa
+    BloquearEsquina(10, 10)
+    Pos(10, 10)
+    mientras (HayFlorEnLaBolsa)
+      depositarFlor
+    Pos(avOrig, caOrig)
+    LiberarEsquina(10, 10)
+  fin
+  proceso tareaPrincipal(ES objetosJuntados: numero)
+  variables
+    avOrig, caOrig, avNue, caNue: numero
+  comenzar
+    bloquearAlAzar(avOrig, caOrig, avNue, caNue)
+    Pos(avNue, caNue)
+    si (PosAv < 6)
+      juntarFlores(objetosJuntados)
+    sino
+      juntarPapeles(objetosJuntados)
+    Pos(avOrig, caOrig)
+    LiberarEsquina(avNue, caNue)
+  fin
+areas
+  areaFloreros: AreaPC(1,1,5,10)
+  esqFloreros: AreaPC(6,10,7,10)
+  areaPapeleros: AreaPC(6,1,10,9)
+  esqPapeleros: AreaPC(8,10,9,10)
+  esqCompartida: AreaC(10,10,10,10)
+robots
+  robot robotFlorero
+  variables
+    intentos, floresJuntadas: numero
+  comenzar
+    {Inicializar}
+    intentos:= 5
+    floresJuntadas:= 0
+    {Programa principal}
+    mientras (intentos > 0)
+      tareaPrincipal(floresJuntadas)
+      intentos:= intentos - 1
+    finalizarTarea
+  fin
+  robot robotPapelero
+  variables
+    intentos, papelesJuntados, avOrig, caOrig, avNue, caNue: numero
+  comenzar
+    {Inicializar}
+    intentos:= 3
+    papelesJuntados:= 0
+    {Programa principal}
+    mientras (intentos > 0)
+      tareaPrincipal(papelesJuntados)
+      intentos:= intentos - 1
+    finalizarTarea
+  fin
+variables
+  florero1: robotFlorero
+  florero2: robotFlorero
+  papelero1: robotPapelero
+  papelero2: robotPapelero
+comenzar
+  {Sector de los floreros}
+  AsignarArea(florero1, areaFloreros)
+  AsignarArea(florero2, areaFloreros)
+  AsignarArea(florero1, esqFloreros)
+  AsignarArea(florero2, esqFloreros)
+  {Sector de los papeleros}
+  AsignarArea(papelero1, areaPapeleros)
+  AsignarArea(papelero2, areaPapeleros)
+  AsignarArea(papelero1, esqPapeleros)
+  AsignarArea(papelero2, esqPapeleros)
+  {Sector compartido}
+  AsignarArea(florero1, esqCompartida)
+  AsignarArea(florero2, esqCompartida)
+  AsignarArea(papelero1, esqCompartida)
+  AsignarArea(papelero2, esqCompartida)
+  {Iniciar robots}
+  Iniciar(florero1, 6, 10)
+  Iniciar(florero2, 7, 10)
+  Iniciar(papelero1, 8, 10)
+  Iniciar(papelero2, 9, 10)
+fin
