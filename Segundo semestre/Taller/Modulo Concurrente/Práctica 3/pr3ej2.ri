@@ -1,0 +1,127 @@
+programa pr3ej2
+procesos
+  proceso juntarFlores(ES floresJuntadas: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      floresJuntadas:= floresJuntadas + 1
+  fin
+  proceso juntarPapeles(ES papelesJuntados: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papelesJuntados:= papelesJuntados + 1
+  fin
+  proceso juntarGeneral(ES objetosJuntados: numero)
+  comenzar
+    si (PosAv < 16) {Punto donde se separan ambos robots}
+      juntarFlores(objetosJuntados)
+    sino
+      juntarPapeles(objetosJuntados)
+  fin
+  proceso bloqueoTemporal(ES objetosJuntados: numero)
+  comenzar
+    BloquearEsquina(15, 15)
+    mover
+    juntarGeneral(objetosJuntados)
+    derecha
+    derecha
+    mover
+    LiberarEsquina(15, 15)
+  fin
+  proceso reorientacion(E tipo: numero)
+  comenzar
+    si (PosAv < 16)
+      si (tipo = 0)
+        repetir 3
+          derecha
+      sino
+        derecha
+    sino
+      si (tipo = 0)
+        derecha
+      sino
+        repetir 3
+          derecha
+  fin
+  proceso escalon(E largo: numero; ES objetosJuntados: numero)
+  comenzar
+    {Primer lado}
+    repetir largo
+      juntarGeneral(objetosJuntados)
+      mover
+    {Cambiar la orientación dependiendo del robot}
+    reorientacion(1)
+    {Segundo lado}
+    repetir largo
+      juntarGeneral(objetosJuntados)
+      mover
+    reorientacion(0)
+  fin
+  proceso trayecto(ES objetosJuntados: numero)
+  variables
+    largo: numero
+  comenzar
+    largo:= 5
+    {Primera parte del recorrido}
+    mientras (largo > 1)
+      escalon(largo, objetosJuntados)
+      largo:= largo - 1
+    {Parte conflictiva}
+    mover
+    largo:= 2
+    reorientacion(1)
+    bloqueoTemporal(objetosJuntados)
+    {Segunda parte del recorrido}
+    mientras (largo < 6)
+      escalon(largo, objetosJuntados)
+      largo:= largo + 1
+  fin
+areas
+  perimetroCarrera: AreaPC(1, 1, 31, 31)
+robots
+  robot robotParticipante
+  variables
+    objetosJuntados, id: numero
+  comenzar
+    objetosJuntados:= 0
+    si (PosAv < 16)
+      id:= 1
+    sino
+      id:= 2
+    trayecto(objetosJuntados)
+    Informar("recolectado ", objetosJuntados)
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(V, jefe)
+  fin
+  robot robotJefe
+  variables
+    hayGanador: boolean
+    idGanador: numero
+    id: numero
+  comenzar
+    hayGanador:= F
+    repetir 2
+      RecibirMensaje(id, *)
+      si (id = 1)
+        si (hayGanador = F)
+          RecibirMensaje(hayGanador, participante1)
+          idGanador:= 1
+      sino
+        si (hayGanador = F)
+          RecibirMensaje(hayGanador, participante2)
+          idGanador:= 2
+    Informar("gano ", idGanador)
+  fin
+variables
+  participante1: robotParticipante
+  participante2: robotParticipante
+  jefe: robotJefe
+comenzar
+  AsignarArea(participante1, perimetroCarrera)
+  AsignarArea(participante2, perimetroCarrera)
+  AsignarArea(jefe, perimetroCarrera)
+  Iniciar(participante1, 1, 1)
+  Iniciar(participante2, 31, 1)
+  Iniciar(jefe, 15, 1)
+fin
