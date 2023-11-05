@@ -1,0 +1,131 @@
+programa pr3ej3
+procesos
+  proceso avisarRobots(E continuar: boolean)
+  comenzar
+    EnviarMensaje(continuar, trab1)
+    EnviarMensaje(continuar, trab2)
+    EnviarMensaje(continuar, trab3)
+    EnviarMensaje(continuar, trab4)
+  fin
+  proceso gestionarResp(ES continuar: boolean)
+  comenzar
+    repetir 4
+      si (continuar = V)
+        RecibirMensaje(continuar, *)
+        Informar(continuar)
+  fin
+  proceso enviarEsquinas(E posAv: numero; E posCa: numero)
+  comenzar
+    EnviarMensaje(posAv, trab1)
+    EnviarMensaje(posAv, trab2)
+    EnviarMensaje(posAv, trab3)
+    EnviarMensaje(posAv, trab4)
+    EnviarMensaje(posCa, trab1)
+    EnviarMensaje(posCa, trab2)
+    EnviarMensaje(posCa, trab3)
+    EnviarMensaje(posCa, trab4)
+  fin
+  proceso realizarTrabajo(ES continuar: boolean; ES floresJuntadas: numero; E posAv: numero; E posCa: numero)
+  variables
+    avOrig, caOrig: numero
+  comenzar
+    avOrig:= PosAv
+    caOrig:= PosCa
+    BloquearEsquina(posAv, posCa)
+    Pos(posAv, posCa)
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+      floresJuntadas:= floresJuntadas + 1
+    sino
+      continuar:= F
+    Pos(avOrig, caOrig)
+    LiberarEsquina(posAv, posCa)
+  fin
+  proceso actualizarMax(E idAct: numero; E cantAct: numero; ES idMax: numero; ES cantMax: numero)
+  comenzar
+    si (cantAct > cantMax)
+      cantMax:= cantAct
+      idMax:= idAct
+  fin
+areas
+  cuadrante: AreaPC(2,2,10,10)
+  inicio: AreaC(1,1,5,1)
+robots
+  robot robotJefe
+  variables
+    continuar: boolean
+    avNue, caNue: numero
+    idAct, idMax, cantAct, cantMax: numero
+  comenzar
+    continuar:= V
+    idMax:= -1
+    cantMax:= 0
+    EnviarMensaje(1, trab1)
+    EnviarMensaje(2, trab1)
+    EnviarMensaje(3, trab1)
+    EnviarMensaje(4, trab1)
+    mientras (continuar)
+      Random(avNue, 2, 10)
+      Random(caNue, 2, 10)
+      enviarEsquinas(avNue,caNue)
+      avisarRobots(continuar)
+      gestionarResp(continuar)
+    repetir 4
+      RecibirMensaje(idAct, *)
+      si (idAct = 1)
+        RecibirMensaje(cantAct, trab1)
+        actualizarMax(idAct, cantAct, idMax, cantMax)
+      sino
+        si (idAct = 2)
+          RecibirMensaje(cantAct, trab2)
+          actualizarMax(idAct, cantAct, idMax, cantMax)
+        sino
+          si (idAct = 3)
+            RecibirMensaje(cantAct, trab3)
+            actualizarMax(idAct, cantAct, idMax, cantMax)
+          sino
+            RecibirMensaje(cantAct, trab4)
+            actualizarMax(idAct, cantAct, idMax, cantMax)
+    Informar("ide ", idMax)
+  fin
+  robot robotTrabajador
+  variables
+    floresJuntadas, id: numero
+    continuar: boolean
+    avAct, caAct: numero
+  comenzar
+    floresJuntadas:= 0
+    continuar:= V
+    RecibirMensaje(id, jefe)
+    mientras (continuar)
+      RecibirMensaje(avAct, jefe)
+      RecibirMensaje(caAct, jefe)
+      RecibirMensaje(continuar, jefe)
+      si (continuar)
+        realizarTrabajo(continuar, floresJuntadas)
+        EnviarMensaje(continuar, jefe)
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(floresJuntadas, jefe)
+  fin
+variables
+  jefe: robotJefe
+  trab1: robotTrabajador
+  trab2: robotTrabajador
+  trab3: robotTrabajador
+  trab4: robotTrabajador
+comenzar
+  AsignarArea(trab1, cuadrante)
+  AsignarArea(trab2, cuadrante)
+  AsignarArea(trab3, cuadrante)
+  AsignarArea(trab4, cuadrante)
+  AsignarArea(jefe, inicio)
+  AsignarArea(trab1, inicio)
+  AsignarArea(trab2, inicio)
+  AsignarArea(trab3, inicio)
+  AsignarArea(trab4, inicio)
+  Iniciar(jefe,1,1)
+  Iniciar(trab1,2,1)
+  Iniciar(trab2,3,1)
+  Iniciar(trab3,4,1)
+  Iniciar(trab4,5,1)
+fin
