@@ -7,13 +7,14 @@
 {de la esquina (11,11).}
 programa pr3ej4
 procesos
-  proceso realizarTarea(E id: numero; ES cantidadJuntada: numero) {Tarea principal}
+  proceso realizarTarea(E id: numero) {Tarea principal}
   variables
-    avOrig, caOrig: numero
+    avOrig, caOrig, cantidadJuntada: numero
     florRecogida: boolean
   comenzar
     avOrig:= PosAv
     caOrig:= PosCa
+    RecibirMensaje(cantidadJuntada, coordinador)
     primeraParte(florRecogida, cantidadJuntada) {Si la esquina aún no está vacía...}
     si (florRecogida) {Proseguir con la segunda parte de la tarea}
       segundaParte(florRecogida)
@@ -98,20 +99,20 @@ robots
       RecibirMensaje(cantidadJuntada, *)
     terminarChamba
     {Recolectar todas las flores que sobraron}
+    Informar("ultimo ", ultimoId)
+    Informar("cantidad ", cantidadJuntada)
   fin
   robot tipoObrero
   variables
     seguirChambeando: boolean
-    cantidadJuntada: numero
     id: numero
   comenzar
-    cantidadJuntada:= 0
     {Recibir identificación}
     RecibirMensaje(id, coordinador)
     {Programa principal}
     RecibirMensaje(seguirChambeando, coordinador)
     mientras (seguirChambeando)
-      realizarTarea(id, cantidadJuntada)
+      realizarTarea(id)
       RecibirMensaje(seguirChambeando, coordinador)
     {Todos reciben un F para cortar el proceso anterior}
     {Los robots no deben hacer nada mas}
