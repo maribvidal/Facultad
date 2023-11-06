@@ -1,0 +1,138 @@
+programa pr3ej4
+procesos
+  proceso realizarTarea(E id: numero) {Tarea principal}
+  variables
+    avOrig, caOrig, cantidadJuntada: numero
+    florRecogida: boolean
+  comenzar
+    avOrig:= PosAv
+    caOrig:= PosCa
+    RecibirMensaje(cantidadJuntada, coordinador)
+    primeraParte(florRecogida, cantidadJuntada) {Si la esquina aún no está vacía...}
+    Pos(avOrig, caOrig)
+    si (florRecogida) {Proseguir con la segunda parte de la tarea}
+      segundaParte(florRecogida)
+      Pos(avOrig, caOrig)
+      LiberarEsquina(11, 11)
+    sino {Regreso prematuro a la esquina inicial}
+      Pos(avOrig, caOrig)
+      LiberarEsquina(10, 10)
+    EnviarMensaje(florRecogida, coordinador) {Avisarle al coordinador que se ha terminado la tarea}
+    EnviarMensaje(id, coordinador)
+    EnviarMensaje(cantidadJuntada, coordinador)
+  fin
+  proceso primeraParte(ES florRecogida: boolean; ES cantidadJuntada: numero) {De la tarea - ir a la esquina 10, 10}
+  comenzar
+    BloquearEsquina(10, 10)
+    Pos(10, 10)
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+      cantidadJuntada:= cantidadJuntada + 1
+      florRecogida:= V
+    sino
+      florRecogida:= F
+  fin
+  proceso segundaParte(E florRecogida: boolean) {Donde se deposita la flor si es que hay}
+  comenzar
+    BloquearEsquina(11, 11)
+    Pos(11, 11)
+    LiberarEsquina(10, 10)
+    si (florRecogida)
+      depositarFlor
+  fin
+  proceso concederPermiso(E cantidadJuntada: numero)
+  variables
+    idRandom: numero
+  comenzar
+    Random(idRandom, 1, 4)
+    si (idRandom = 1)
+      EnviarMensaje(V, obrero1)
+      EnviarMensaje(cantidadJuntada, obrero1)
+    sino
+      si (idRandom = 2)
+        EnviarMensaje(V, obrero2)
+        EnviarMensaje(cantidadJuntada, obrero2)
+      sino
+        si (idRandom = 3)
+          EnviarMensaje(V, obrero3)
+          EnviarMensaje(cantidadJuntada, obrero3)
+        sino
+          EnviarMensaje(V, obrero4)
+          EnviarMensaje(cantidadJuntada, obrero4)
+  fin
+  proceso terminarChamba
+  comenzar
+    EnviarMensaje(F, obrero1)
+    EnviarMensaje(F, obrero2)
+    EnviarMensaje(F, obrero3)
+    EnviarMensaje(F, obrero4)
+  fin
+areas
+  perimetro: AreaPC(10, 10, 11, 11)
+  inicio: AreaC(9, 9, 9, 12)
+  coordInicio: AreaP(1, 1, 1, 1)
+robots
+  robot tipoCoordinador
+  variables
+    cantidadJuntada: numero
+    seguirLaburo: boolean
+    ultimoId: numero
+  comenzar
+    {Inicializar variables}
+    cantidadJuntada:= 0
+    seguirLaburo:= V
+    {Enviar identificaciones}
+    EnviarMensaje(1, obrero1)
+    EnviarMensaje(2, obrero2)
+    EnviarMensaje(3, obrero3)
+    EnviarMensaje(4, obrero4)
+    {Programa principal}
+    mientras (seguirLaburo)
+      concederPermiso(cantidadJuntada)
+      RecibirMensaje(seguirLaburo, *) {Ver si seguir laburando}
+      RecibirMensaje(ultimoId, *)
+      RecibirMensaje(cantidadJuntada, *)
+    terminarChamba
+    {Recolectar todas las flores que sobraron}
+    Informar("ultimo ", ultimoId)
+    Informar("cantidad ", cantidadJuntada)
+  fin
+  robot tipoObrero
+  variables
+    seguirChambeando: boolean
+    id: numero
+  comenzar
+    {Recibir identificación}
+    RecibirMensaje(id, coordinador)
+    {Programa principal}
+    RecibirMensaje(seguirChambeando, coordinador)
+    mientras (seguirChambeando)
+      realizarTarea(id)
+      RecibirMensaje(seguirChambeando, coordinador)
+    {Todos reciben un F para cortar el proceso anterior}
+    {Los robots no deben hacer nada mas}
+  fin
+variables
+  obrero1: tipoObrero
+  obrero2: tipoObrero
+  obrero3: tipoObrero
+  obrero4: tipoObrero
+  coordinador: tipoCoordinador
+comenzar
+  {Asignación de áreas}
+  AsignarArea(obrero1, inicio)
+  AsignarArea(obrero2, inicio)
+  AsignarArea(obrero3, inicio)
+  AsignarArea(obrero4, inicio)
+  AsignarArea(coordinador, coordInicio)
+  AsignarArea(obrero1, perimetro)
+  AsignarArea(obrero2, perimetro)
+  AsignarArea(obrero3, perimetro)
+  AsignarArea(obrero4, perimetro)
+  {Inicialización}
+  Iniciar(obrero1, 9, 9)
+  Iniciar(obrero2, 9, 10)
+  Iniciar(obrero3, 9, 11)
+  Iniciar(obrero4, 9, 12)
+  Iniciar(coordinador, 1, 1)
+fin
