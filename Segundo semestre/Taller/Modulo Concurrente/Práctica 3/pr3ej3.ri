@@ -8,11 +8,15 @@ procesos
     EnviarMensaje(continuar, trab4)
   fin
   proceso gestionarResp(ES continuar: boolean)
+  variables
+    resp: boolean
   comenzar
+    resp:= V
     repetir 4
-      si (continuar = V)
-        RecibirMensaje(continuar, *)
-        Informar(continuar)
+      RecibirMensaje(resp, *)
+      si (resp = F)
+        continuar:= resp
+      Informar(resp)
   fin
   proceso enviarEsquinas(E posAv: numero; E posCa: numero)
   comenzar
@@ -61,15 +65,16 @@ robots
     idMax:= -1
     cantMax:= 0
     EnviarMensaje(1, trab1)
-    EnviarMensaje(2, trab1)
-    EnviarMensaje(3, trab1)
-    EnviarMensaje(4, trab1)
+    EnviarMensaje(2, trab2)
+    EnviarMensaje(3, trab3)
+    EnviarMensaje(4, trab4)
     mientras (continuar)
       Random(avNue, 2, 10)
       Random(caNue, 2, 10)
       enviarEsquinas(avNue,caNue)
       avisarRobots(continuar)
       gestionarResp(continuar)
+    avisarRobots(continuar)
     repetir 4
       RecibirMensaje(idAct, *)
       si (idAct = 1)
@@ -86,24 +91,27 @@ robots
           sino
             RecibirMensaje(cantAct, trab4)
             actualizarMax(idAct, cantAct, idMax, cantMax)
-    Informar("ide ", idMax)
+    Informar('ide', idMax)
   fin
   robot robotTrabajador
   variables
     floresJuntadas, id: numero
     continuar: boolean
     avAct, caAct: numero
+    resp: boolean
   comenzar
     floresJuntadas:= 0
     continuar:= V
+    resp:= V
     RecibirMensaje(id, jefe)
     mientras (continuar)
       RecibirMensaje(avAct, jefe)
       RecibirMensaje(caAct, jefe)
       RecibirMensaje(continuar, jefe)
       si (continuar)
-        realizarTrabajo(continuar, floresJuntadas)
+        realizarTrabajo(continuar, floresJuntadas, avAct, caAct)
         EnviarMensaje(continuar, jefe)
+    RecibirMensaje(resp, jefe)
     EnviarMensaje(id, jefe)
     EnviarMensaje(floresJuntadas, jefe)
   fin
