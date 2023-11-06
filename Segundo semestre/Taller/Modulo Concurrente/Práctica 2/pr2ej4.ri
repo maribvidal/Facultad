@@ -94,7 +94,7 @@ robots
   comenzar
     {Inicializar variables}
     cantMax:= 0
-    idMax:= 0
+    idMax:= -1
     {En total hay 10 accesos que se concederán al azar}
     repetir 10
       avisarRecolector(idActual)
@@ -113,14 +113,11 @@ robots
     sigueConcediendo: boolean
     soyGanador: boolean
   comenzar
-    sigueConcediendo:= V
+    RecibirMensaje(sigueConcediendo, fiscalizador)
     mientras (sigueConcediendo)
+      realizarTarea
       RecibirMensaje(sigueConcediendo, fiscalizador)
-      Informar(sigueConcediendo)
-      si (sigueConcediendo)
-        realizarTarea
-      sino
-        RecibirMensaje(soyGanador, fiscalizador)
+    RecibirMensaje(soyGanador, fiscalizador)
     si (soyGanador)
       Pos(50,50)
   fin
