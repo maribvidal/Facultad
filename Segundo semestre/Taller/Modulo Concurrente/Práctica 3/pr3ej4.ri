@@ -1,0 +1,142 @@
+{Realice un programa en el que 4 robots mueven de a una todas las flores de la esquina}
+{(10,10) a la esquina (11,11). Para ello, cada robot que toma una flor de la esquina (10,10) la}
+{deposita en la esquina (11,11) y luego retorna a su esquina inicial. Cada robot que finaliza}
+{(o, sea, que detecta que la esquina (10,10) se ha vaciado) deberá avisar al robot}
+{coordinador que ha finalizado. Cuando todos los robots finalizaron, el robot coordinador}
+{deberá informar qué robot finalizó último y a continuación deberá recolectar todas las flores}
+{de la esquina (11,11).}
+programa pr3ej4
+procesos
+  proceso realizarTarea(E id: numero; ES cantidadJuntada: numero) {Tarea principal}
+  variables
+    avOrig, caOrig: numero
+    florRecogida: boolean
+  comenzar
+    avOrig:= PosAv
+    caOrig:= PosCa
+    primeraParte(florRecogida, cantidadJuntada) {Si la esquina aún no está vacía...}
+    si (florRecogida) {Proseguir con la segunda parte de la tarea}
+      segundaParte(florRecogida)
+      Pos(avOrig, caOrig)
+      LiberarEsquina(11, 11)
+    sino {Regreso prematuro a la esquina inicial}
+      Pos(avOrig, caOrig)
+      LiberarEsquina(10, 10)
+    EnviarMensaje(florRecogida, coordinador) {Avisarle al coordinador que se ha terminado la tarea}
+    EnviarMensaje(id, coordinador)
+    EnviarMensaje(cantidadJuntada, coordinador)
+  fin
+  proceso primeraParte(ES florRecogida: boolean; ES cantidadJuntada: numero) {De la tarea - ir a la esquina 10, 10}
+  comenzar
+    BloquearEsquina(10, 10)
+    Pos(10, 10)
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+      cantidadJuntada:= cantidadJuntada + 1
+      florRecogida:= V
+    sino
+      florRecogida:= F
+  fin
+  proceso segundaParte(E florRecogida: boolean) {Donde se deposita la flor si es que hay}
+  comenzar
+    BloquearEsquina(11, 11)
+    Pos(11, 11)
+    LiberarEsquina(10, 10)
+    si (florRecogida)
+      depositarFlor
+  fin
+  proceso concederPermiso(E cantidadJuntada: numero)
+  variables
+    idRandom: numero
+  comenzar
+    Random(idRandom, 1, 4)
+    si (idRandom = 1)
+      EnviarMensaje(V, obrero1)
+      EnviarMensaje(cantidadJuntada, obrero1)
+    sino
+      si (idRandom = 2)
+        EnviarMensaje(V, obrero2)
+        EnviarMensaje(cantidadJuntada, obrero2)
+      sino
+        si (idRandom = 3)
+          EnviarMensaje(V, obrero3)
+          EnviarMensaje(cantidadJuntada, obrero3)
+        sino
+          EnviarMensaje(V, obrero4)
+          EnviarMensaje(cantidadJuntada, obrero4)
+  fin
+  proceso terminarChamba
+  comenzar
+    EnviarMensaje(F, obrero1)
+    EnviarMensaje(F, obrero2)
+    EnviarMensaje(F, obrero3)
+    EnviarMensaje(F, obrero4)
+  fin
+areas
+  perimetro: AreaPC(10, 10, 11, 11)
+  inicio: AreaC(1, 1, 5, 1)
+robots
+  robot tipoCoordinador
+  variables
+    cantidadJuntada: numero
+    seguirLaburo: boolean
+    ultimoId: numero
+  comenzar
+    {Inicializar variables}
+    cantidadJuntada:= 0
+    seguirLaburo:= V
+    {Enviar identificaciones}
+    EnviarMensaje(1, obrero1)
+    EnviarMensaje(2, obrero2)
+    EnviarMensaje(3, obrero3)
+    EnviarMensaje(4, obrero4)
+    {Programa principal}
+    mientras (seguirLaburo)
+      concederPermiso(cantidadJuntada)
+      RecibirMensaje(seguirLaburo, *) {Ver si seguir laburando}
+      RecibirMensaje(ultimoId, *)
+      RecibirMensaje(cantidadJuntada, *)
+    terminarChamba
+    {Recolectar todas las flores que sobraron}
+  fin
+  robot tipoObrero
+  variables
+    seguirChambeando: boolean
+    cantidadJuntada: numero
+    id: numero
+  comenzar
+    cantidadJuntada:= 0
+    {Recibir identificación}
+    RecibirMensaje(id, coordinador)
+    {Programa principal}
+    RecibirMensaje(seguirChambeando, coordinador)
+    mientras (seguirChambeando)
+      realizarTarea(id, cantidadJuntada)
+      RecibirMensaje(seguirChambeando, coordinador)
+    {Todos reciben un F para cortar el proceso anterior}
+    {Los robots no deben hacer nada mas}
+  fin
+variables
+  obrero1: tipoObrero
+  obrero2: tipoObrero
+  obrero3: tipoObrero
+  obrero4: tipoObrero
+  coordinador: tipoCoordinador
+comenzar
+  {Asignación de áreas}
+  AsignarArea(obrero1, inicio)
+  AsignarArea(obrero2, inicio)
+  AsignarArea(obrero3, inicio)
+  AsignarArea(obrero4, inicio)
+  AsignarArea(coordinador, inicio)
+  AsignarArea(obrero1, perimetro)
+  AsignarArea(obrero2, perimetro)
+  AsignarArea(obrero3, perimetro)
+  AsignarArea(obrero4, perimetro)
+  {Inicialización}
+  Iniciar(obrero1, 1, 1)
+  Iniciar(obrero2, 2, 1)
+  Iniciar(obrero3, 3, 1)
+  Iniciar(obrero4, 4, 1)
+  Iniciar(coordinador, 5, 1)
+fin
