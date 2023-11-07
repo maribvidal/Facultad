@@ -1,0 +1,47 @@
+programa pr3ej6
+areas
+  calle1: AreaP(1, 20, 100, 20)
+  calle2: AreaP(1, 21, 100, 21)
+  calle3: AreaP(1, 22, 100, 22)
+  esqInicioCoord: AreaP(1, 1, 1, 1)
+  esqInicio1: AreaP(2, 2, 2, 2)
+  esqInicio2: AreaP(5, 5, 5, 5)
+  esqInicio3: AreaP(9, 9, 9, 9)
+  perimetro1: AreaP(1, 6, 6, 11)
+  perimetro2: AreaP(7, 10, 16, 19)
+  perimetro3: AreaP(16, 2, 22, 8)
+robots
+  robot tipoCorredor
+  comenzar
+    Pos(PosAv, PosCa)
+  fin
+  robot tipoCoordinador
+  comenzar
+    Pos(PosAv, PosCa)
+  fin
+variables
+  corredor1: tipoCorredor
+  corredor2: tipoCorredor
+  corredor3: tipoCorredor
+  coordinador: tipoCoordinador
+comenzar
+  {Asignación de Areas}
+  {PERÍMETROS}
+  AsignarArea(corredor1, perimetro1)
+  AsignarArea(corredor2, perimetro2)
+  AsignarArea(corredor3, perimetro3)
+  {CALLES}
+  AsignarArea(corredor1, calle1)
+  AsignarArea(corredor2, calle2)
+  AsignarArea(corredor3, calle3)
+  {ESQUINAS}
+  AsignarArea(corredor1, esqInicio1)
+  AsignarArea(corredor2, esqInicio2)
+  AsignarArea(corredor3, esqInicio3)
+  AsignarArea(coordinador, esqInicioCoord)
+  {Inicialización}
+  Iniciar(corredor1, 2, 2)
+  Iniciar(corredor2, 5, 5)
+  Iniciar(corredor3, 9, 9)
+  Iniciar(coordinador, 1, 1)
+fin
