@@ -1,0 +1,148 @@
+programa pr3ej5
+procesos
+  proceso juntarPapel(ES puedeAvanzar: boolean)
+  variables
+    avOrig, caOrig: numero
+  comenzar
+    avOrig:= PosAv
+    caOrig:= PosCa
+    BloquearEsquina(11, 11)
+    Pos(11, 11)
+    si (HayPapelEnLaEsquina)
+      tomarPapel
+      puedeAvanzar:= V
+    Pos(avOrig, caOrig)
+    LiberarEsquina(11, 11)
+    si (puedeAvanzar)
+      depositarPapel
+  fin
+  proceso enviarOrdenes(E orden: boolean)
+  comenzar
+    EnviarMensaje(orden, corredor1)
+    EnviarMensaje(orden, corredor2)
+    EnviarMensaje(orden, corredor3)
+    EnviarMensaje(orden, corredor4)
+  fin
+  proceso actualizarMax(E pasosAct: numero; E idAct: numero; ES pasosMax: numero; ES idMax: numero)
+  comenzar
+    si (pasosAct > pasosMax)
+      pasosMax:= pasosAct
+      idMax:= idAct
+  fin
+areas
+  pistaA: AreaP(4, 1, 4, 100)
+  pistaB: AreaP(6, 1, 6, 100)
+  pistaC: AreaP(8, 1, 8, 100)
+  pistaD: AreaP(10, 1, 10, 100)
+  esqCompartida: AreaPC(11, 11, 11, 11)
+  esqCoordinador: AreaP(1, 1, 1, 1)
+robots
+  robot tipoCorredor
+  variables
+    id, pasosDados: numero
+    avenidaIncompleta, noMasPapeles, ordenCoordinador: boolean
+    puedeAvanzar: boolean
+  comenzar
+    {Inicializar variables}
+    avenidaIncompleta:= F
+    puedeAvanzar:= F
+    noMasPapeles:= F
+    pasosDados:= 0
+    RecibirMensaje(id, coordinador)
+    {Programa principal}
+    RecibirMensaje(ordenCoordinador, coordinador)
+    mientras (ordenCoordinador)
+      juntarPapel(puedeAvanzar)
+      si (puedeAvanzar)
+        avenidaIncompleta:= PosCa < 100
+        si (avenidaIncompleta)
+          mover
+          pasosDados:= pasosDados + 1
+      EnviarMensaje(id, coordinador)
+      EnviarMensaje(puedeAvanzar, coordinador)
+      EnviarMensaje(avenidaIncompleta, coordinador)
+      puedeAvanzar:= F
+      avenidaIncompleta:= F
+      RecibirMensaje(ordenCoordinador, coordinador)
+    EnviarMensaje(id, coordinador)
+    EnviarMensaje(pasosDados, coordinador)
+  fin
+  robot tipoCoordinador
+  variables
+    idActual, pasosActual, idMax, pasosMax: numero
+    orden, noMasPapeles, avenidaIncompleta: boolean
+  comenzar
+    {Inicializar variables}
+    idMax:= -1
+    pasosMax:= 0
+    orden:= V
+    {Recibir identificadores}
+    EnviarMensaje(1, corredor1)
+    EnviarMensaje(2, corredor2)
+    EnviarMensaje(3, corredor3)
+    EnviarMensaje(4, corredor4)
+    {Controlar la carrera}
+    enviarOrdenes(orden)
+    mientras (orden)
+      repetir 4
+        RecibirMensaje(idActual, *)
+        {Recibir mensajes}
+        si (idActual = 1)
+          RecibirMensaje(noMasPapeles, corredor1)
+          RecibirMensaje(avenidaIncompleta, corredor1)
+        sino
+          si (idActual = 2)
+            RecibirMensaje(noMasPapeles, corredor2)
+            RecibirMensaje(avenidaIncompleta, corredor2)
+          sino
+            si (idActual = 3)
+              RecibirMensaje(noMasPapeles, corredor3)
+              RecibirMensaje(avenidaIncompleta, corredor3)
+            sino
+              RecibirMensaje(noMasPapeles, corredor4)
+              RecibirMensaje(avenidaIncompleta, corredor4)
+        si (noMasPapeles = V | avenidaIncompleta = F)
+          orden:= F
+      enviarOrdenes(orden)
+    {Esperar respuesta de los corredores}
+    repetir 4
+      RecibirMensaje(idActual, *)
+      si (idActual = 1)
+        RecibirMensaje(pasosActual, corredor1)
+      sino
+        si (idActual = 2)
+          RecibirMensaje(pasosActual, corredor2)
+        sino
+          si (idActual = 3)
+            RecibirMensaje(pasosActual, corredor3)
+          sino
+            RecibirMensaje(pasosActual, corredor4)
+      actualizarMax(pasosActual, idActual, pasosMax, idMax)
+    Informar("ganador ", idMax)
+  fin
+variables
+  corredor1: tipoCorredor
+  corredor2: tipoCorredor
+  corredor3: tipoCorredor
+  corredor4: tipoCorredor
+  coordinador: tipoCoordinador
+comenzar
+  {AsignaciÃƒÂ³n de ÃƒÂ¡reas}
+  {PISTAS}
+  AsignarArea(corredor1, pistaA)
+  AsignarArea(corredor2, pistaB)
+  AsignarArea(corredor3, pistaC)
+  AsignarArea(corredor4, pistaD)
+  {ESQUINAS}
+  AsignarArea(corredor1, esqCompartida)
+  AsignarArea(corredor2, esqCompartida)
+  AsignarArea(corredor3, esqCompartida)
+  AsignarArea(corredor4, esqCompartida)
+  AsignarArea(coordinador, esqCoordinador)
+  {InicializaciÃƒÂ³n}
+  Iniciar(corredor1, 4, 1)
+  Iniciar(corredor2, 6, 1)
+  Iniciar(corredor3, 8, 1)
+  Iniciar(corredor4, 10, 1)
+  Iniciar(coordinador, 1, 1)
+fin
