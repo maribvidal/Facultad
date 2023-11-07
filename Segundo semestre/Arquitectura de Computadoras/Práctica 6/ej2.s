@@ -40,44 +40,44 @@ ciclo:		daddi $t0, $0, 0;  Para hacer slti
 muestra:	ld $s0, 8($sp)
 		ld $s1, 0($sp)
 		daddi $t1, $0, 0
-		daddi $t0, $0, 4; CÓDIGO DE LECTURA DE STRING
-		sd $t0, 0($s0)
-		slti $t1, $a0, 0x31
+		slti $t1, $a0, 1
 		beqz $t1, num_1
 		daddi $t0, $0, str_cero
 		j terminar
-num_1:		slti $t1, $a0, 0x32
+num_1:		slti $t1, $a0, 2
 		beqz $t1, num_2
 		daddi $t0, $0, str_uno
 		j terminar
-num_2:	slti $t1, $a0, 0x33
+num_2:	slti $t1, $a0, 3
 	beqz $t1, num_3
 	daddi $t0, $0, str_dos
 	j terminar
-num_3:		slti $t1, $a0, 0x34
+num_3:		slti $t1, $a0, 4
 		beqz $t1, num_4
 		daddi $t0, $0, str_tres
 		j terminar
-num_4:	slti $t1, $a0, 0x35
+num_4:	slti $t1, $a0, 5
 	beqz $t1, num_5
 	daddi $t0, $0, str_cuatro
 	j terminar
-num_5:		slti $t1, $a0, 0x36
+num_5:		slti $t1, $a0, 6
 		beqz $t1, num_6
 		daddi $t0, $0, str_cinco
 		j terminar
-num_6:	slti $t1, $a0, 0x37
+num_6:	slti $t1, $a0, 7
 	beqz $t1, num_7
 	daddi $t0, $0, str_seis
 	j terminar
-num_7:		slti $t1, $a0, 0x38
+num_7:		slti $t1, $a0, 8
 		beqz $t1, num_8
 		daddi $t0, $0, str_siete
 		j terminar
-num_8:	slti $t1, $a0, 0x39
+num_8:	slti $t1, $a0, 9
 	beqz $t1, num_9
-	ld $t0, str_ocho($0)
+	daddi $t0, $0, str_ocho
 	j terminar
-num_9:	ld $t0, str_nueve($0)
+num_9:	daddi $t0, $0, str_nueve
 terminar: sd $t0, 0($s1)
+	daddi $t0, $0, 4; CÓDIGO DE LECTURA DE STRING
+	sd $t0, 0($s0)
 	jr $ra	
