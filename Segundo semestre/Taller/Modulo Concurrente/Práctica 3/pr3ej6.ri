@@ -1,8 +1,79 @@
 programa pr3ej6
+procesos
+  proceso juntarFlores(ES floresJuntadas: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      floresJuntadas:= floresJuntadas + 1
+  fin
+  proceso juntarPapeles(ES papelesJuntados: numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papelesJuntados:= papelesJuntados + 1
+  fin
+  proceso juntarEsquina(ES floresJuntadas: numero; ES papelesJuntados: numero; E id: numero)
+  comenzar
+    si (id = 1)
+      juntarFlores(floresJuntadas)
+    sino
+      si (id = 2)
+        juntarFlores(floresJuntadas)
+      juntarPapeles(papelesJuntados) {Para el id 3}
+  fin
+  proceso depositarEsquina(ES floresJuntadas: numero; ES papelesJuntados: numero; E id: numero)
+  comenzar
+    si (id = 1)
+      si (floresJuntadas > 0)
+        depositarFlor
+        floresJuntadas:= floresJuntadas - 1
+    sino
+      si (id = 2)
+        si (floresJuntadas > 0)
+          depositarFlor
+          floresJuntadas:= floresJuntadas - 1
+      si (papelesJuntados > 0)
+        depositarPapel
+        papelesJuntados:= papelesJuntados - 1
+  fin
+  proceso recorrerCuadrante(E dimH: numero; E dimV: numero; ES floresJuntadas: numero; ES papelesJuntados: numero; E id: numero)
+  variables
+    posCaIni, posAvT, posCaT: numero
+  comenzar
+    posCaIni:= PosCa
+    posAvT:= PosAv + dimH
+    posCaT:= posCaIni + dimV
+    {Recorrer cuadrante menos la Ãºltima avenida}
+    mientras (PosAv <> posAvT) {Mientras no se haya llegado a la Ãºltima avenida}
+      mientras (PosCa <> posCaT) {Mientras no se haya llegado a la Ãºltima calle}
+        juntarEsquina(floresJuntadas, papelesJuntados, id)
+        mover
+      juntarEsquina(floresJuntadas, papelesJuntados, id)
+      Pos(PosAv + 1, posCaIni) {Avanzar a la prÃ³xima avenida}
+   {Recorrer la Ãºltima avenida del cuadrante}
+    mientras (PosCa <> posCaT)
+      juntarEsquina(floresJuntadas, papelesJuntados, id)
+      mover
+    juntarEsquina(floresJuntadas, papelesJuntados, id)
+  fin
+  proceso primeraParte(ES floresJuntadas: numero; ES papelesJuntados: numero; E id: numero)
+  comenzar
+    {Recorrer cuadrante dependiendo del ID}
+    si (id = 1)
+      Pos(1, 6)
+      recorrerCuadrante(5, 5, floresJuntadas, papelesJuntados, id)
+    sino
+      si (id = 2)
+        Pos(7, 10)
+        recorrerCuadrante(9, 9, floresJuntadas, papelesJuntados, id)
+      sino
+        Pos(16, 2)
+        recorrerCuadrante(6, 6, floresJuntadas, papelesJuntados, id)
+  fin
 areas
-  calle1: AreaP(1, 20, 100, 20)
-  calle2: AreaP(1, 21, 100, 21)
-  calle3: AreaP(1, 22, 100, 22)
+  calle1: AreaPC(1, 20, 100, 20)
+  calle2: AreaPC(1, 21, 100, 21)
+  calle3: AreaPC(1, 22, 100, 22)
   esqInicioCoord: AreaP(1, 1, 1, 1)
   esqInicio1: AreaP(2, 2, 2, 2)
   esqInicio2: AreaP(5, 5, 5, 5)
@@ -12,12 +83,55 @@ areas
   perimetro3: AreaP(16, 2, 22, 8)
 robots
   robot tipoCorredor
+  variables
+    id, floresJuntadas, papelesJuntados, calle: numero
+    cuadranteTerminado, calleCompletada, bolsaVaciada: boolean
   comenzar
-    Pos(PosAv, PosCa)
+    {Inicializar variables}
+    floresJuntadas:= 0
+    papelesJuntados:= 0
+    cuadranteTerminado:= F
+    RecibirMensaje(id, coordinador)
+    {Programa principal}
+    primeraParte(floresJuntadas, papelesJuntados, id)
+    cuadranteTerminado:= V
+    EnviarMensaje(id, coordinador)
+    {Segunda parte del trabajo}
+    RecibirMensaje(calle, coordinador)
+    Informar(1, calle)
+    Pos(1, calle) {Situarse}
+    derecha
+    calleCompletada:= (PosAv = 100)
+    bolsaVaciada:= (floresJuntadas = 0) & (papelesJuntados = 0)
+    mientras (~calleCompletada & ~bolsaVaciada)
+      depositarEsquina(floresJuntadas, papelesJuntados, id)
+      mover
+      calleCompletada:= (PosAv = 100)
+      bolsaVaciada:= (floresJuntadas = 0) & (papelesJuntados = 0)
+    Informar('termino', V)
   fin
   robot tipoCoordinador
+  variables
+    leTocaCalle, idRecibida: numero
   comenzar
-    Pos(PosAv, PosCa)
+    {Inicializar variables}
+    leTocaCalle:= 20
+    {Enviar identificadores}
+    EnviarMensaje(1, corredor1)
+    EnviarMensaje(2, corredor2)
+    EnviarMensaje(3, corredor3)
+    {Esperar a que los robots terminen de recorrer el cuadrante}
+    repetir 3
+      RecibirMensaje(idRecibida, *)
+      {Enviarles cierta calle dependiendo de en cuanto tiempo lleguen}
+      si (idRecibida = 1)
+        EnviarMensaje(leTocaCalle, corredor1)
+      sino
+        si (idRecibida = 2)
+          EnviarMensaje(leTocaCalle, corredor2)
+        sino
+          EnviarMensaje(leTocaCalle, corredor3)
+      leTocaCalle:= leTocaCalle + 1
   fin
 variables
   corredor1: tipoCorredor
@@ -30,9 +144,14 @@ comenzar
   AsignarArea(corredor1, perimetro1)
   AsignarArea(corredor2, perimetro2)
   AsignarArea(corredor3, perimetro3)
-  {CALLES}
   AsignarArea(corredor1, calle1)
+  AsignarArea(corredor2, calle1)
+  AsignarArea(corredor3, calle1)
+  AsignarArea(corredor1, calle2)
   AsignarArea(corredor2, calle2)
+  AsignarArea(corredor3, calle2)
+  AsignarArea(corredor1, calle3)
+  AsignarArea(corredor2, calle3)
   AsignarArea(corredor3, calle3)
   {ESQUINAS}
   AsignarArea(corredor1, esqInicio1)
