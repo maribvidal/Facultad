@@ -1,0 +1,115 @@
+programa pr4ej1
+procesos
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+areas
+  perimetro: AreaC(1, 1, 100, 100)
+robots
+  robot tipoServidor
+  variables
+    flores, idRecibida, cantFlores, cantSolicitada: numero
+    avenida, calle, terminaron: numero
+    ejecucion: boolean
+  comenzar
+    {Asumir que el servidor tiene suficientes flores}
+    cantFlores:= 20
+    terminaron:= 0
+    ejecucion:= V
+    EnviarMensaje(1, cliente1)
+    EnviarMensaje(2, cliente2)
+    EnviarMensaje(3, cliente3)
+    {Resto del programa}
+    mientras (ejecucion)
+      RecibirMensaje(idRecibida, *)
+      si (idRecibida = 1)
+        RecibirMensaje(cantSolicitada, cliente1)
+        si (cantSolicitada <> 0)
+          RecibirMensaje(avenida, cliente1)
+          RecibirMensaje(calle, cliente1)
+          Pos(avenida, calle)
+          repetir cantSolicitada
+            depositarFlor
+          Pos(100, 100)
+          EnviarMensaje(V, cliente1)
+        sino
+          terminaron:= terminaron + 1
+          si (terminaron > 2)
+            ejecucion:= F
+      sino
+        si (idRecibida = 2)
+          RecibirMensaje(cantSolicitada, cliente2)
+          si (cantSolicitada <> 0)
+            RecibirMensaje(avenida, cliente2)
+            RecibirMensaje(calle, cliente2)
+            Pos(avenida, calle)
+            repetir cantSolicitada
+              depositarFlor
+            Pos(100, 100)
+            EnviarMensaje(V, cliente2)
+          sino
+            terminaron:= terminaron + 1
+            si (terminaron > 2)
+              ejecucion:= F
+        sino
+          RecibirMensaje(cantSolicitada, cliente3)
+          si (cantSolicitada <> 0)
+            RecibirMensaje(avenida, cliente3)
+            RecibirMensaje(calle, cliente3)
+            Pos(avenida, calle)
+            repetir cantSolicitada
+              depositarFlor
+            Pos(100, 100)
+            EnviarMensaje(V, cliente3)
+          sino
+            terminaron:= terminaron + 1
+            si (terminaron > 2)
+              ejecucion:= F
+  fin
+  robot tipoCliente
+  variables
+    confirmacion, ejecutando: boolean
+    id, cantSolicitada, cantFlores: numero
+  comenzar
+    ejecutando:= V
+    cantFlores:= 0
+    RecibirMensaje(id, servidor)
+    mientras (ejecutando)
+      Random(cantSolicitada, 1, 4)
+      Informar(cantSolicitada)
+      EnviarMensaje(id, servidor)
+      EnviarMensaje(cantSolicitada, servidor)
+      EnviarMensaje(PosAv, servidor)
+      EnviarMensaje(PosCa + 1, servidor)
+      RecibirMensaje(confirmacion, servidor)
+      Pos(PosAv, PosCa + 1)
+      juntarFlores(cantFlores)
+      Pos(PosAv, PosCa - 1)
+      mientras (cantFlores > 0 & PosAv <> 100)
+        depositarFlor
+        mover
+        cantFlores:= cantFlores - 1
+      si (PosAv = 100)
+        EnviarMensaje(0, servidor)
+        ejecutando:= F
+  fin
+variables
+  servidor: tipoServidor
+  cliente1: tipoCliente
+  cliente2: tipoCliente
+  cliente3: tipoCliente
+comenzar
+  {AsignaciÃƒÂ³n de ÃƒÂ¡reas}
+  AsignarArea(servidor, perimetro)
+  AsignarArea(cliente1, perimetro)
+  AsignarArea(cliente2, perimetro)
+  AsignarArea(cliente3, perimetro)
+  {Inicio de cada robot}
+  Iniciar(servidor, 100, 100)
+  Iniciar(cliente1, 1, 1)
+  Iniciar(cliente2, 2, 1)
+  Iniciar(cliente3, 3, 1)
+fin
