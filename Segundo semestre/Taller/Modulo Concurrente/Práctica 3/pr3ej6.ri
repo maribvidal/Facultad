@@ -38,20 +38,18 @@ procesos
   fin
   proceso recorrerCuadrante(E dimH: numero; E dimV: numero; ES floresJuntadas: numero; ES papelesJuntados: numero; E id: numero)
   variables
-    posCaIni, posAvT, posCaT: numero
+    posCaIni: numero
   comenzar
     posCaIni:= PosCa
-    posAvT:= PosAv + dimH
-    posCaT:= posCaIni + dimV
     {Recorrer cuadrante menos la Ãºltima avenida}
-    mientras (PosAv <> posAvT) {Mientras no se haya llegado a la Ãºltima avenida}
-      mientras (PosCa <> posCaT) {Mientras no se haya llegado a la Ãºltima calle}
+    repetir dimH {Mientras no se haya llegado a la última avenida}
+      repetir dimV {Mientras no se haya llegado a la última calle}
         juntarEsquina(floresJuntadas, papelesJuntados, id)
         mover
       juntarEsquina(floresJuntadas, papelesJuntados, id)
-      Pos(PosAv + 1, posCaIni) {Avanzar a la prÃ³xima avenida}
-   {Recorrer la Ãºltima avenida del cuadrante}
-    mientras (PosCa <> posCaT)
+      Pos(PosAv + 1, posCaIni) {Avanzar a la próxima avenida}
+   {Recorrer la última avenida del cuadrante}
+    repetir dimV
       juntarEsquina(floresJuntadas, papelesJuntados, id)
       mover
     juntarEsquina(floresJuntadas, papelesJuntados, id)
