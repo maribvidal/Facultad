@@ -1,0 +1,133 @@
+programa pr4ej2
+procesos
+  proceso juntarPapeles(ES cantPapeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles + 1
+  fin
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso vaciarBolsa(ES cantFlores: numero; ES cantPapeles: numero)
+  comenzar
+    {Primero las flores}
+    repetir cantFlores
+      depositarFlor
+    cantFlores:= 0
+    {Luego los papeles}
+    repetir cantPapeles
+      depositarPapel
+    cantPapeles:= 0
+  fin
+  proceso generarEsquina(E id: numero)
+  variables
+    avNue, caNue: numero
+  comenzar
+    Random(avNue, 2, 100)
+    Random(caNue, 2, 100)
+    si (id = 1)
+      EnviarMensaje(avNue, trabajador1)
+      EnviarMensaje(caNue, trabajador1)
+    sino
+      EnviarMensaje(avNue, trabajador2)
+      EnviarMensaje(caNue, trabajador2)
+  fin
+  proceso finalizarTarea
+  variables
+    idRecibida: numero
+  comenzar
+    repetir 2 {Esperar a que los dos envien su ID}
+      RecibirMensaje(idRecibida, *)
+    EnviarMensaje(4, trabajador1)
+    EnviarMensaje(4, trabajador2)
+  fin
+areas
+  cuadrante: AreaPC(2, 2, 100, 100)
+  esqTrab1: AreaP(2, 1, 2, 1)
+  esqTrab2: AreaP(3, 1, 3, 1)
+  esqJefe: AreaP(1, 1, 1, 1)
+robots
+  robot tipoTrabajador
+  variables
+    avNue, avVie, caNue, caVie: numero
+    cantFlores, cantPapeles, id, tipoTarea: numero
+    esquinaBloqueada, seguirChambeando: boolean
+  comenzar
+    {Inicializar variables}
+    cantFlores:= 0
+    cantPapeles:= 0
+    seguirChambeando:= V
+    esquinaBloqueada:= F
+    RecibirMensaje(id, jefe)
+    {Programa principal}
+    mientras (seguirChambeando)
+      EnviarMensaje(id, jefe)
+      RecibirMensaje(tipoTarea, jefe)
+      si (tipoTarea <> 4)
+        RecibirMensaje(avNue, jefe)
+        RecibirMensaje(caNue, jefe)
+        BloquearEsquina(avNue, caNue) {Asegurarse de que no pueda haber otro robot}
+        si (esquinaBloqueada = V) {Liberar la esquina vieja si es que habia una}
+          LiberarEsquina(avVie, caVie)
+          esquinaBloqueada:= F
+        esquinaBloqueada:= V
+        Pos(avNue, caNue)
+        si (tipoTarea = 1) {TAREA 1 - RECOGER FLORES}
+          juntarFlores(cantFlores)
+        sino
+          si (tipoTarea = 2) {TAREA 2 - RECOGER PAPELES}
+            juntarPapeles(cantPapeles)
+          sino             {TAREA 3 - VACIAR BOLSA}
+            vaciarBolsa(cantFlores, cantPapeles)
+        avVie:= avNue {Guardar la direccion de la esquina vieja}
+        caVie:= caNue
+        EnviarMensaje(V, jefe) {Enviarle aviso al jefe}
+      sino {TAREA 4 - FINALIZAR}
+        seguirChambeando:= F 
+  fin
+  robot tipoJefe
+  variables
+    avRand, caRand, idRecibida, tareaRand: numero
+    confirmacion: boolean
+  comenzar
+    {Inicializar variables}
+    EnviarMensaje(1, trabajador1)
+    EnviarMensaje(2, trabajador2)
+    {Programa principal}
+    repetir 10
+      Random(tareaRand, 1, 3)
+      {Recibir ID de cualquiera de los robots}
+      RecibirMensaje(idRecibida, *)
+      si (idRecibida = 1)
+        EnviarMensaje(tareaRand, trabajador1)
+      sino {Si no, solo queda la posibilidad de que se trate del trabajador2}
+        EnviarMensaje(tareaRand, trabajador2)
+      generarEsquina(idRecibida)
+      {Aviso de que han terminado el trabajo}
+      si (idRecibida = 1)
+        RecibirMensaje(confirmacion, trabajador1)
+      sino
+        RecibirMensaje(confirmacion, trabajador2)
+    {Enviarles a los dos robots la tarea 4 - FINALIZAR}
+    finalizarTarea
+  fin
+variables
+  trabajador1: tipoTrabajador
+  trabajador2: tipoTrabajador
+  jefe: tipoJefe
+comenzar
+  {Asignacion de areas}
+  AsignarArea(trabajador1, esqTrab1)
+  AsignarArea(trabajador2, esqTrab2)
+  AsignarArea(jefe, esqJefe)
+  AsignarArea(trabajador1, cuadrante)
+  AsignarArea(trabajador2, cuadrante)
+  {Inicializacion de los robots}
+  Iniciar(trabajador1, 2, 1)
+  Iniciar(trabajador2, 3, 1)
+  Iniciar(jefe, 1, 1)
+fin
