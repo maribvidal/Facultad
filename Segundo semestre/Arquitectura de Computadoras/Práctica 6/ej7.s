@@ -18,20 +18,18 @@
 	lb $s3, coordX($0); Cargar coordenadas en este momento para
 	lb $s4, coordY($0); Evitar atasco por WAW (anti-dependencia)
 	sd $t0, 0($s0);   Enviárselo a CONTROL
-	lw $s2, color_negro($0); Cargar color negro
+	lwu $s2, color_negro($0); Cargar color negro
 
 	;PEDIR INPUT
 lazo:	daddi $t1, $0, 9; Código para pedir que se ingrese un carácter
 	sd $t1, 0($s0);   Enviárselo a CONTROL
 	lb $t0, 0($s1);   Obtener carácter
-	slti $t2, $t1, 0x40; COMPROBAR QUE EL DATO ES MENOR QUE '9'
+	slti $t2, $t0, 0x40; COMPROBAR QUE EL DATO ES MENOR QUE '9'
 	beqz $t2, lazo
-	slti $t2, $t1, 0x30; COMPROBAR QUE EL DATO ES MAYOR QUE '0'
+	slti $t2, $t0, 0x30; COMPROBAR QUE EL DATO ES MAYOR QUE '0'
 	bnez $t2, lazo
 	sb $t0, numero($0); Guardarlo en memoria
-	
-	;REPRESENTARLO
-	$daddi $t1, $0, 5; Comando para dibujar
+	daddi $t1, $0, 5; Comando para dibujar
 	slti $t2, $t0, 0x31
 	bnez $t2, dibujar_cero
 	slti $t2, $t0, 0x32
@@ -128,15 +126,15 @@ dibujar_ocho: jal dibujar_trozo0
 	jal dibujar_trozo4
 	jal dibujar_trozo5
 	jal dibujar_trozo6
-	j terminar_programa
+terminar_programa: halt
 
-dibujar_pixel: $daddi $t1, $0, 5; Comando para dibujar
-	lwu $s0, 0($sp)
-	lwu $s1, 8($sp)
+dibujar_pixel: daddi $t1, $0, 5; Comando para dibujar
+	lwu $s0, 8($sp)
+	lwu $s1, 0($sp)
 	sw $s2, 0($s1);    COLOR
 	sb $a0, 4($s1);    X
 	sb $a1, 5($s1);    Y
-	sd $t1, $0, 0($s0); CÓDIGO
+	sd $t1, 0($s0); CÓDIGO
 	jr $ra
 
 dibujar_trozo0: daddi $sp, $sp, -8;                 (2, 1) (3, 1) (4, 1)
