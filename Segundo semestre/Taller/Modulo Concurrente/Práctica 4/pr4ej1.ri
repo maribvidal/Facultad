@@ -16,9 +16,9 @@ robots
     ejecucion: boolean
   comenzar
     {Asumir que el servidor tiene suficientes flores}
-    cantFlores:= 20
     terminaron:= 0
     ejecucion:= V
+    juntarFlores(cantFlores)
     EnviarMensaje(1, cliente1)
     EnviarMensaje(2, cliente2)
     EnviarMensaje(3, cliente3)
@@ -68,33 +68,39 @@ robots
             terminaron:= terminaron + 1
             si (terminaron > 2)
               ejecucion:= F
+      {Informar(terminaron)}
   fin
   robot tipoCliente
   variables
-    confirmacion, ejecutando: boolean
-    id, cantSolicitada, cantFlores: numero
+    confirmacion, ejecutando, condicion: boolean
+    id, cantSolicitada, cantFlores, posAv, posCa: numero
   comenzar
     ejecutando:= V
     cantFlores:= 0
     RecibirMensaje(id, servidor)
     mientras (ejecutando)
       Random(cantSolicitada, 1, 4)
-      Informar(cantSolicitada)
       EnviarMensaje(id, servidor)
       EnviarMensaje(cantSolicitada, servidor)
-      EnviarMensaje(PosAv, servidor)
-      EnviarMensaje(PosCa + 1, servidor)
+      posAv:= PosAv
+      posCa:= PosCa
+      EnviarMensaje(posAv, servidor)
+      EnviarMensaje(posCa + 1, servidor)
       RecibirMensaje(confirmacion, servidor)
       Pos(PosAv, PosCa + 1)
       juntarFlores(cantFlores)
       Pos(PosAv, PosCa - 1)
-      mientras (cantFlores > 0 & PosAv <> 100)
+      condicion:= (cantFlores > 0) & (PosCa < 99)
+      mientras (condicion)
         depositarFlor
         mover
         cantFlores:= cantFlores - 1
-      si (PosAv = 100)
-        EnviarMensaje(0, servidor)
+        condicion:= (cantFlores > 0) & (PosCa < 99)
+        {Informar(cantFlores, cantFlores > 0, PosAv <> 100, condicion)}
+      si (PosCa = 99)
         ejecutando:= F
+    EnviarMensaje(id, servidor)
+    EnviarMensaje(0, servidor) {Solicitar 0}
   fin
 variables
   servidor: tipoServidor
@@ -102,7 +108,7 @@ variables
   cliente2: tipoCliente
   cliente3: tipoCliente
 comenzar
-  {AsignaciÃƒÂ³n de ÃƒÂ¡reas}
+  {Asignación de Áreas}
   AsignarArea(servidor, perimetro)
   AsignarArea(cliente1, perimetro)
   AsignarArea(cliente2, perimetro)
