@@ -1,0 +1,120 @@
+programa pr4ej2
+procesos
+  {Los siguientes dos procesos asumen que el robot cuenta con la cantidad}
+  {suficiente de papeles o que la esquina los tiene para ejecutar la función}
+  proceso juntarPapeles(E cantidad: numero; ES papelesJuntados: numero)
+  comenzar
+    repetir cantidad
+      tomarPapel
+    papelesJuntados:= papelesJuntados + cantidad
+  fin
+  proceso depositarPapeles(E cantidad: numero; ES papelesJuntados: numero)
+  comenzar
+    repetir cantidad
+      depositarPapel
+    papelesJuntados:= papelesJuntados - cantidad
+  fin
+  proceso juntarPapelesTodos(ES papelesJuntados: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papelesJuntados:= papelesJuntados + 1
+  fin
+  proceso contarPapeles(ES cantPapeles: numero)
+  comenzar
+    cantPapeles:= 0
+    juntarPapelesTodos(cantPapeles)
+    repetir cantPapeles
+      depositarPapel
+  fin
+  proceso depositarEsquina(ES cantPapeles: numero)
+  variables
+    avOrig, caOrig: numero
+  comenzar
+    avOrig:= PosAv
+    caOrig:= PosCa
+    BloquearEsquina(50, 50)
+    Pos(50, 50)
+    depositarPapeles(5, cantPapeles)
+    Pos(avOrig, caOrig)
+    LiberarEsquina(50, 50)
+  fin
+  proceso buscarProducto(E numRandom: numero; ES cantPapeles: numero; ES intentos: numero)
+  variables
+    avOrig, caOrig, conteo: numero
+  comenzar
+    conteo:= 0
+    avOrig:= PosAv
+    caOrig:= PosCa
+    BloquearEsquina(50, 50)
+    Pos(50, 50)
+    contarPapeles(conteo)
+    si (conteo > numRandom)
+      juntarPapeles(numRandom, cantPapeles)
+      intentos:= 0 {Si hubo éxito, entonces resetear el contador}
+    sino
+      intentos:= intentos + 1
+    Informar("intentos", intentos)
+    Pos(avOrig, caOrig)
+    LiberarEsquina(50, 50)
+  fin
+areas 
+  areaProd1: AreaP(5, 1, 5, 100)
+  areaProd2: AreaP(10, 1, 10, 100)
+  esqCons1: AreaP(11, 1, 11, 1)
+  esqCons2: AreaP(12, 1, 12, 1)
+  esqComun: AreaC(50, 50, 50, 50)
+robots
+  robot tipoProductor
+  variables
+    cantPapeles: numero
+    condicion: boolean
+  comenzar
+    {Inicializar variables}
+    cantPapeles:= 0
+    condicion:= (PosCa < 100)
+    {Programa principal}
+    mientras (condicion)
+      mover
+      juntarPapelesTodos(cantPapeles)
+      si (cantPapeles > 4)
+        depositarEsquina(cantPapeles)
+      condicion:= (PosCa < 100) {Actualizar condicion}
+    {La tarea del robot terminó}
+    Informar("Tarea terminada", V)
+  fin
+  robot tipoConsumidor
+  variables
+    intentos, cantPapeles, numRandom: numero
+  comenzar
+    {Inicializar variables}
+    intentos:= 0
+    cantPapeles:= 0
+    {Programa principal}
+    mientras (intentos < 8)
+      Random(numRandom, 2, 5)
+      buscarProducto(numRandom, cantPapeles, intentos)
+    {La tarea del robot terminó}
+    Informar("Tarea terminada", V)
+  fin
+variables
+  productor1: tipoProductor
+  productor2: tipoProductor
+  consumidor1: tipoConsumidor
+  consumidor2: tipoConsumidor
+comenzar
+  {Asignación de Áreas}
+  AsignarArea(productor1, areaProd1)
+  AsignarArea(productor2, areaProd2)
+  AsignarArea(consumidor1, esqCons1)
+  AsignarArea(consumidor2, esqCons2)
+  AsignarArea(productor1, esqComun)
+  AsignarArea(productor2, esqComun)
+  AsignarArea(consumidor1, esqComun)
+  AsignarArea(consumidor2, esqComun)
+  {Inicio de cada robot}
+  Iniciar(productor1, 5, 1)
+  Iniciar(productor2, 10, 1)
+  Iniciar(consumidor1, 11, 1)
+  Iniciar(consumidor2, 12, 1)
+fin
