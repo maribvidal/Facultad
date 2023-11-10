@@ -14,9 +14,9 @@
 	sd $s1, 8($sp)
 	
 	;LIMPIAR PANTALLA GRÁFICA
-	daddi $t0, $0, 6; Código para limpiar pantalla alfanumérica
-	lb $s3, coordX($0); Cargar coordenadas en este momento para
-	lb $s4, coordY($0); Evitar atasco por WAW (anti-dependencia)
+	daddi $t0, $0, 7; Código para limpiar pantalla alfanumérica
+	lb $a0, coordX($0); Cargar coordenadas en este momento para
+	lb $a1, coordY($0); Evitar atasco por WAW (anti-dependencia)
 	sd $t0, 0($s0);   Enviárselo a CONTROL
 	lwu $s2, color_negro($0); Cargar color negro
 
@@ -91,7 +91,6 @@ dibujar_cuatro: jal dibujar_trozo2
 	jal dibujar_trozo3
 	jal dibujar_trozo4
 	jal dibujar_trozo5
-	jal dibujar_trozo6
 	j terminar_programa
 
 	;DIBUJAR CINCO
@@ -129,11 +128,9 @@ dibujar_ocho: jal dibujar_trozo0
 terminar_programa: halt
 
 dibujar_pixel: daddi $t1, $0, 5; Comando para dibujar
-	lwu $s0, 8($sp)
-	lwu $s1, 0($sp)
 	sw $s2, 0($s1);    COLOR
-	sb $a0, 4($s1);    X
-	sb $a1, 5($s1);    Y
+	sb $a1, 4($s1);    X
+	sb $a0, 5($s1);    Y
 	sd $t1, 0($s0); CÓDIGO
 	jr $ra
 
