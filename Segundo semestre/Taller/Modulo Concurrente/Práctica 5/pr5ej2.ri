@@ -1,0 +1,120 @@
+programa pr5ej2
+procesos
+  proceso juntarPapeles(ES cantPapeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles + 1
+  fin
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso sincronizacion(E id: numero)
+  variables
+    confirmacion: boolean
+  comenzar
+    si (id = 1)
+      EnviarMensaje(V, r2)
+      EnviarMensaje(V, r3)
+    sino
+      si (id = 2)
+        EnviarMensaje(V, r1)
+        EnviarMensaje(V, r3)
+      sino
+        EnviarMensaje(V, r1)
+        EnviarMensaje(V, r2)
+    repetir 2
+      RecibirMensaje(confirmacion, *)
+  fin
+  proceso dejarFlores(ES cantFlores: numero)
+  variables
+    oldAv, oldCa: numero
+  comenzar
+    oldAv:= PosAv
+    oldCa:= PosCa
+    BloquearEsquina(50, 50)
+    Pos(50, 50)
+    repetir cantFlores
+      depositarFlor
+    cantFlores:= 0
+    Pos(oldAv, oldCa)
+    LiberarEsquina(50, 50)
+  fin
+areas
+  calleR1: AreaP(1, 1, 100, 1)
+  calleR2: AreaP(1, 2, 100, 2)
+  calleR3: AreaP(1, 3, 100, 3)
+  esqComun: AreaC(50, 50, 50, 50)
+  esqFiscalizador: AreaP(1, 4, 1, 4)
+robots
+  robot tipoRobot
+  variables
+    cantPapeles, cantFlores, miId: numero
+  comenzar
+    {Inicializar variables}
+    cantPapeles:= 0
+    cantFlores:= 0
+    derecha
+    RecibirMensaje(miId, fiscalizador)
+    {Realizar tarea}
+    repetir 9 {Recorrer calle}
+      repetir 10 {Etapas}
+        {"Vaciar la esquina"}
+        juntarFlores(cantFlores)
+        juntarPapeles(cantPapeles)
+        mover
+      {Sincronización barrera}
+      si (cantFlores > 0) {Si ni tiene flores en la bolsa, entonces es al dope}
+        dejarFlores(cantFlores)
+      sincronizacion(miId)
+    repetir 9 {Las últimas 9 esquinas}
+      juntarFlores(cantFlores)
+      juntarPapeles(cantPapeles)
+      mover
+    dejarFlores(cantFlores)
+    sincronizacion(miId)
+    EnviarMensaje(V, fiscalizador)
+  fin
+  robot tipoFiscalizador
+  variables
+    cantFlores: numero
+    confirmacion: boolean
+  comenzar
+    {Inicializar variables}
+    cantFlores:= 0
+    {Enviar identificadores}
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    {Esperar confirmación de parte de los robots}
+    repetir 3
+      RecibirMensaje(confirmacion, *)
+    {Ir a la esquina 50, 50 a juntar}
+    Pos(50, 50)
+    juntarFlores(cantFlores)
+    Informar("cantidad flores", cantFlores)
+  fin
+variables
+  fiscalizador: tipoFiscalizador
+  r1: tipoRobot
+  r2: tipoRobot
+  r3: tipoRobot
+comenzar
+  AsignarArea(r1, calleR1)
+  AsignarArea(r2, calleR2)
+  AsignarArea(r3, calleR3)
+  AsignarArea(fiscalizador, esqFiscalizador)
+  {Area que comparten los robots}
+  AsignarArea(r1, esqComun)
+  AsignarArea(r2, esqComun)
+  AsignarArea(r3, esqComun)
+  AsignarArea(fiscalizador, esqComun)
+  {Inicializar robots}
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 1, 2)
+  Iniciar(r3, 1, 3)
+  Iniciar(fiscalizador, 1, 4)
+fin
