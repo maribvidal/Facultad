@@ -1,0 +1,66 @@
+programa pr5ej5
+procesos
+  proceso recolectarPapeles(E cantPedida: numero; E tipoAccion: numero)
+  variables
+    avOld, caOld: numero
+  comenzar
+    avOld:= PosAv
+    caOld:= PosCa
+    BloquearEsquina(100, 1)
+    Pos(100, 1)
+    repetir cantPedida
+      si (tipoAccion = 0)
+        tomarPapel
+      sino
+        depositarPapel
+    Pos(avOld, caOld)
+    LiberarEsquina(100, 1)
+  fin
+areas
+  esqC1: AreaP(10, 1, 10, 1)
+  esqC2: AreaP(11, 1, 11, 1)
+  esqC3: AreaP(12, 1, 12, 1)
+  esqSV: AreaP(13, 1, 13, 1)
+  esqCompartida: AreaC(100, 1, 100, 1)
+robots
+  robot tipoServidor
+  variables
+    idRecibida, randCant: numero
+  comenzar
+    EnviarMensaje(1, c1)
+    EnviarMensaje(2, c2)
+    EnviarMensaje(3, c3)
+    repetir 12
+      Random(randCant, 1, 5)
+      RecibirMensaje(idRecibida, *)
+      recolectarPapeles(randCant, 1)
+      si (idRecibida = 1)
+        EnviarMensaje(randCant, c1)
+      sino
+        si (idRecibida = 2)
+          EnviarMensaje(randCant, c2)
+        sino
+          EnviarMensaje(randCant, c3)
+  fin
+  robot tipoCliente
+  variables
+    cantDepositada, miId: numero
+  comenzar
+    RecibirMensaje(miId, sv)
+    repetir 4
+      EnviarMensaje(miId, sv)
+      RecibirMensaje(cantDepositada, sv)
+      recolectarPapeles(cantDepositada, 0)
+      repetir cantDepositada
+        depositarPapel
+  fin
+variables
+  c1: tipoCliente
+  c2: tipoCliente
+  c3: tipoCliente
+  sv: tipoServidor
+comenzar
+  {Asignar areas}
+  AsignarArea(c1, esqCompartida) 
+  AsignarArea(c1, esqC1)
+  Asignar
