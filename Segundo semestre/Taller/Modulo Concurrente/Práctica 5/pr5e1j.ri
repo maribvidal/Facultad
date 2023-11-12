@@ -1,0 +1,104 @@
+programa pr5ej1
+procesos 
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso juntarPapeles(ES cantPapeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles + 1
+  fin
+areas
+  areaEquipoRojo: AreaPC(2, 1, 3, 100)
+  areaEquipoAzul: AreaPC(1, 98, 100, 99)
+  esqFiscalizador: AreaP(1, 1, 1, 1)
+robots
+  robot tipoAzul
+  variables
+    cont, cantPapeles: numero
+  comenzar
+    cantPapeles:= 0
+    derecha
+    juntarPapeles(cantPapeles)
+    {Bloquear las dos siguientes esquinas antes de avanzar}
+    BloquearEsquina(2, PosCa)
+    mover
+    juntarPapeles(cantPapeles)
+    BloquearEsquina(3, PosCa)
+    mover
+    LiberarEsquina(2, PosCa)
+    juntarPapeles(cantPapeles)
+    mover
+    LiberarEsquina(3, PosCa)
+    repetir 96
+      juntarPapeles(cantPapeles)
+      mover
+    EnviarMensaje(cantPapeles, fiscalizador)
+  fin
+  robot tipoRojo
+  variables
+    cantFlores: numero
+  comenzar
+    cantFlores:= 0
+    repetir 96
+      juntarFlores(cantFlores)
+      mover
+    BloquearEsquina(PosAv, 98)
+    mover
+    juntarFlores(cantFlores)
+    BloquearEsquina(PosAv, 99)
+    mover
+    LiberarEsquina(PosAv, 98)
+    juntarFlores(cantFlores)
+    mover
+    LiberarEsquina(PosAv, 99)
+    juntarFlores(cantFlores)
+    EnviarMensaje(cantFlores, fiscalizador)
+  fin
+  robot tipoFiscalizador
+  variables
+    color, cantRecibida, cantAzul, cantRojo: numero
+  comenzar
+    {Inicializar variables}
+    cantAzul:= 0
+    cantRojo:= 0
+    {Esperar mensajes}
+    RecibirMensaje(cantRecibida, R1)
+    cantRojo:= cantRojo + cantRecibida
+    RecibirMensaje(cantRecibida, R2)
+    cantRojo:= cantRojo + cantRecibida
+    RecibirMensaje(cantRecibida, A1)
+    cantAzul:= cantAzul + cantRecibida
+    RecibirMensaje(cantRecibida, A2)
+    cantAzul:= cantAzul + cantRecibida
+    {Realizar comparación}
+    si (cantRojo > cantAzul)
+      Informar("equipo rojo gano", V)
+    sino
+      si (cantAzul > cantRojo)
+        Informar("equipo azul gano", V)
+      sino
+        Informar("empate", V)
+  fin
+variables
+  fiscalizador: tipoFiscalizador
+  R1: tipoRojo
+  R2: tipoRojo
+  A1: tipoAzul
+  A2: tipoAzul
+comenzar
+  AsignarArea(R1, areaEquipoRojo)
+  AsignarArea(R2, areaEquipoRojo)
+  AsignarArea(A1, areaEquipoAzul)
+  AsignarArea(A2, areaEquipoAzul)
+  AsignarArea(fiscalizador, esqFiscalizador)
+  Iniciar(R1, 2, 1)
+  Iniciar(R2, 3, 1)
+  Iniciar(A1, 1, 98)
+  Iniciar(A2, 1, 99)
+  Iniciar(fiscalizador, 1, 1)
+fin
