@@ -1,0 +1,115 @@
+programa pr5ej4
+procesos
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso enLaEsquina(E avNue: numero; E caNue: numero; ES cantFlores: numero; E tipoAccion: numero)
+  variables
+    avOld, caOld: numero
+  comenzar
+    avOld:= PosAv
+    caOld:= PosCa
+    BloquearEsquina(avNue, caNue)
+    Pos(avNue, caNue)
+    si (tipoAccion = 0)
+      juntarFlores(cantFlores)
+    sino
+      repetir cantFlores
+        depositarFlor
+      cantFlores:= 0
+    Pos(avOld, caOld)
+    LiberarEsquina(avNue, caNue)
+  fin
+areas
+  cuadrante: AreaPC(40, 40, 60, 60)
+  esqCompartida: AreaC(10, 10, 10, 10)
+  esqFlorero1: AreaP(1, 1, 1, 1)
+  esqFlorero2: AreaP(2, 1, 2, 1)
+  esqFlorero3: AreaP(3, 1, 3, 1)
+  esqFiscalizador: AreaP(4, 1, 4, 1)
+robots
+  robot tipoFlorero
+  variables
+    avNue, cantFlores, caNue, miId: numero
+    seguirChambeando: boolean
+  comenzar
+    cantFlores:= 0
+    seguirChambeando:= V
+    RecibirMensaje(miId, fs)
+    mientras (seguirChambeando)
+      EnviarMensaje(miId, fs)
+      RecibirMensaje(seguirChambeando, fs)
+      si (seguirChambeando)
+        RecibirMensaje(avNue, fs)
+        RecibirMensaje(caNue, fs)
+        enLaEsquina(avNue, caNue, cantFlores, 0)
+    enLaEsquina(10, 10, cantFlores, 1)
+    EnviarMensaje(V, fs)
+  fin
+  robot tipoFiscalizador
+  variables
+    cantFlores, randAv, randCa, randId: numero
+    confirmacion: boolean
+  comenzar
+    cantFlores:= 0
+    EnviarMensaje(1, f1)
+    EnviarMensaje(2, f2)
+    EnviarMensaje(3, f3)
+    repetir 8
+      Random(randAv, 40, 60)
+      Random(randCa, 40, 60)
+      Random(randId, 1, 3)
+      Informar(randId)
+      RecibirMensaje(randId, *)
+      si (randId = 1)
+        EnviarMensaje(V, f1)
+        EnviarMensaje(randAv, f1)
+        EnviarMensaje(randCa, f1)
+      sino
+        si (randId = 2)
+          EnviarMensaje(V, f2)
+          EnviarMensaje(randAv, f2)
+          EnviarMensaje(randCa, f2)
+        sino
+          EnviarMensaje(V, f3)
+          EnviarMensaje(randAv, f3)
+          EnviarMensaje(randCa, f3)
+    repetir 3
+      RecibirMensaje(randId, *)
+    EnviarMensaje(F, f1)
+    EnviarMensaje(F, f2)
+    EnviarMensaje(F, f3)
+    {Esperar confirmación de que los 3 robots ya depositaron todas sus flores}
+    repetir 3
+      RecibirMensaje(confirmacion, *)
+    Pos(10, 10)
+    juntarFlores(cantFlores)
+    Informar("cantidad", cantFlores)
+  fin
+variables
+  f1: tipoFlorero
+  f2: tipoFlorero
+  f3: tipoFlorero
+  fs: tipoFiscalizador
+comenzar
+  {Asignar areas}
+  AsignarArea(f1, cuadrante)
+  AsignarArea(f1, esqCompartida)
+  AsignarArea(f1, esqFlorero1)
+  AsignarArea(f2, cuadrante)
+  AsignarArea(f2, esqCompartida)
+  AsignarArea(f2, esqFlorero2)
+  AsignarArea(f3, cuadrante)
+  AsignarArea(f3, esqCompartida)
+  AsignarArea(f3, esqFlorero3)
+  AsignarArea(fs, esqCompartida)
+  AsignarArea(fs, esqFiscalizador)
+  {Inicializar robots}
+  Iniciar(f1, 1, 1)
+  Iniciar(f2, 2, 1)
+  Iniciar(f3, 3, 1)
+  Iniciar(fs, 4, 1)
+fin
