@@ -1,0 +1,110 @@
+programa parcialTurnoG
+procesos
+  proceso juntarPapeles(ES cantPapeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles + 1
+  fin
+  proceso irAlDeposito(ES cantPapeles: numero)
+  variables
+    avVie, caVie: numero
+  comenzar
+    avVie:= PosAv
+    caVie:= PosCa
+    BloquearEsquina(99, 99)
+    Pos(99, 99)
+    repetir cantPapeles
+      depositarPapel
+    cantPapeles:= 0
+    Pos(avVie, caVie)
+    LiberarEsquina(99, 99)
+  fin
+  proceso recorrerTramo(E tmn: numero; ES cantPapeles: numero; ES esqNoVacias: numero)
+  comenzar
+    repetir tmn
+      mover
+      si (HayPapelEnLaEsquina)
+        juntarPapeles(cantPapeles)
+      sino
+        esqNoVacias:= esqNoVacias + 1
+  fin
+areas
+  zonaR1: AreaP(2, 1, 18, 13)
+  zonaR2: AreaP(32, 1, 48, 13)
+  zonaR3: AreaP(62, 1, 78, 13)
+  esqFiscalizador: AreaP(1, 1, 1, 1)
+  esqComun: AreaC(99, 99, 99, 99)
+robots
+  robot tipoRobot
+  variables
+    cantPapeles, esqNoVacias, randAlto, randAncho: numero
+    respuesta: boolean
+  comenzar
+    {Inicialización de variables}
+    esqNoVacias:= 0
+    cantPapeles:= 0
+    {Recorrido}
+    repetir 4
+      Random(randAlto, 1, 3)
+      Random(randAncho, 2, 4)
+      Informar(randAlto, randAncho)
+      recorrerTramo(randAlto, cantPapeles, esqNoVacias)
+      irAlDeposito(cantPapeles)
+      derecha
+      recorrerTramo(randAncho, cantPapeles, esqNoVacias)
+      irAlDeposito(cantPapeles)
+      repetir 3
+        derecha
+      {Sincronización barrera}
+      EnviarMensaje(V, FS)
+      RecibirMensaje(respuesta, FS)
+    {Enviar cantidad de esquinas no vacias}
+    EnviarMensaje(esqNoVacias, FS)
+  fin
+  robot tipoFiscalizador
+  variables
+    cantPapeles, cantActual, cantTotal: numero
+    respuesta: boolean
+  comenzar
+    {Inicialización de variables}
+    cantPapeles:= 0
+    cantTotal:= 0
+    {Programa principal}
+    repetir 4
+      {Sincronización barrera}
+      repetir 3
+        RecibirMensaje(respuesta, *)
+      EnviarMensaje(V, R1)
+      EnviarMensaje(V, R2)
+      EnviarMensaje(V, R3)
+    {Juntar papeles}
+    Pos(99, 99)
+    juntarPapeles(cantPapeles)
+    {Recibir esquinas vacias}
+    repetir 3
+      RecibirMensaje(cantActual, *)
+      cantTotal:= cantTotal + cantActual
+    Informar("cantidad_de_esquinas_vacias", cantTotal)
+  fin
+variables
+  R1: tipoRobot
+  R2: tipoRobot
+  R3: tipoRobot
+  FS: tipoFiscalizador
+comenzar
+  {Asignacion de areas}
+  AsignarArea(R1, zonaR1)
+  AsignarArea(R2, zonaR2)
+  AsignarArea(R3, zonaR3)
+  AsignarArea(R1, esqComun)
+  AsignarArea(R2, esqComun)
+  AsignarArea(R3, esqComun)
+  AsignarArea(FS, esqComun)
+  AsignarArea(FS, esqFiscalizador)
+  {Iniciar}
+  Iniciar(R1, 2, 1)
+  Iniciar(R2, 32, 1)
+  Iniciar(R3, 62, 1)
+  Iniciar(FS, 1, 1)
+fin
