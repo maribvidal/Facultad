@@ -1,0 +1,166 @@
+programa parcial28112018
+procesos
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso accion(ES cantFlores: numero; E tipoAccion: numero)
+  comenzar
+    si (tipoAccion = 0)
+      juntarFlores(cantFlores)
+    sino {"Asuma que junta tantas flores como esquinas deba recorrer"}
+      depositarFlor
+      cantFlores:= cantFlores - 1
+  fin
+  proceso accionEsquina(ES cantFlores: numero; E nroEquipo: numero; E tipoAccion: numero)
+  variables
+    avVie, caVie, caNue: numero
+  comenzar
+    avVie:= PosAv
+    caVie:= PosCa
+    caNue:= 15
+    si (nroEquipo = 2)
+      caNue:= 40
+    BloquearEsquina(5, caNue)
+    Pos(5, caNue)
+    si (tipoAccion = 0)
+      repetir cantFlores
+        depositarFlor
+      cantFlores:= 0
+    sino
+      juntarFlores(cantFlores)
+    Pos(avVie, caVie)
+    LiberarEsquina(5, caNue)
+  fin
+  proceso rectangulo(ES cantFlores: numero; E ancho: numero; E tipoAccion: numero)
+  comenzar
+    repetir 2 {Recorrer rectángulo}
+      repetir 10 {Alto}
+        accion(cantFlores, tipoAccion)
+        mover
+      derecha
+      repetir ancho {Determinado por el fiscalizador}
+        accion(cantFlores, tipoAccion)
+        mover
+      derecha
+  fin
+areas
+  campoE1: AreaPC(1, 10, 100, 25)
+  campoE2: AreaPC(1, 30, 100, 45)
+  zonaInicio: AreaC(1, 1, 5, 5)
+robots
+  robot tipoFiscalizador
+  variables
+    equipoRecibido, equipoGanador, randAncho, randAvenida: numero
+  comenzar
+    equipoGanador:= 0
+    {Enviar identificadores}
+    EnviarMensaje(1, R1E1)
+    EnviarMensaje(3, R2E1)
+    EnviarMensaje(2, R1E2)
+    EnviarMensaje(4, R2E2)
+    {Calcular ancho y avenida al azar, y enviarla}
+    Random(randAncho, 1, 5)
+    Random(randAvenida, 1, 95)
+    EnviarMensaje(randAncho, R1E1)
+    EnviarMensaje(randAvenida, R1E1)
+    EnviarMensaje(randAncho, R1E2) 
+    EnviarMensaje(randAvenida, R1E2)
+    EnviarMensaje(randAncho, R2E1) 
+    EnviarMensaje(randAvenida, R2E1)
+    EnviarMensaje(randAncho, R2E2) 
+    EnviarMensaje(randAvenida, R2E2)
+    {Enviar aviso}
+    EnviarMensaje(V, R1E1)
+    EnviarMensaje(V, R1E2)
+    {Decidir equipo ganador}
+    repetir 2
+      RecibirMensaje(equipoRecibido, *)
+      si (equipoGanador = 0)
+        si (equipoRecibido = 1) | (equipoRecibido = 3)
+          equipoGanador:= 1
+        sino
+          equipoGanador:= 2
+    Informar("gano_el_equipo", equipoGanador)
+  fin
+  robot tipoPrimero
+  variables
+    anchoRecibido, avRecibida, cantFlores, miId: numero
+    aviso: boolean
+  comenzar
+    cantFlores:= 0
+    RecibirMensaje(miId, fiscalizador)
+    RecibirMensaje(anchoRecibido, fiscalizador)
+    RecibirMensaje(avRecibida, fiscalizador)
+    RecibirMensaje(aviso, fiscalizador)
+    si (miId = 1)
+      Pos(avRecibida, 10)
+    sino
+      Pos(avRecibida, 30)
+    rectangulo(cantFlores, anchoRecibido, 0)
+    {Al finalizar el recorrido}
+    si (miId = 1)
+      accionEsquina(cantFlores, 1, 0)
+    sino
+      accionEsquina(cantFlores, 2, 0)
+    {Passing the baton}
+    si (miId = 1)
+      Pos(1, 1)
+      EnviarMensaje(V, R2E1)
+    sino
+      Pos(3, 3)
+      EnviarMensaje(V, R2E2)
+  fin
+  robot tipoSegundo
+  variables
+    anchoRecibido, avRecibida, cantFlores, miId: numero
+    aviso: boolean
+  comenzar
+    cantFlores:= 0
+    RecibirMensaje(miId, fiscalizador)
+    RecibirMensaje(anchoRecibido, fiscalizador)
+    RecibirMensaje(avRecibida, fiscalizador)
+    si (miId = 3)
+      RecibirMensaje(aviso, R1E1)
+      Pos(avRecibida, 10)
+    sino
+      RecibirMensaje(aviso, R1E2)
+      Pos(avRecibida, 30)
+    si (miId = 3)
+      accionEsquina(cantFlores, 1, 1)
+    sino
+      accionEsquina(cantFlores, 2, 1)
+    rectangulo(cantFlores, anchoRecibido, 1)
+    {Avisarle al fiscalizador que terminaron}
+    si (miId = 3)
+      Pos(2, 2)
+    sino
+      Pos(4, 4)
+    EnviarMensaje(miId, fiscalizador)
+  fin
+variables
+  R1E1: tipoPrimero
+  R1E2: tipoPrimero
+  R2E1: tipoSegundo
+  R2E2: tipoSegundo
+  fiscalizador: tipoFiscalizador
+comenzar
+  {Asignacion de areas}
+  AsignarArea(R1E1, zonaInicio)
+  AsignarArea(R2E1, zonaInicio)
+  AsignarArea(R1E2, zonaInicio)
+  AsignarArea(R2E2, zonaInicio)
+  AsignarArea(R1E1, campoE1)
+  AsignarArea(R2E1, campoE1)
+  AsignarArea(R1E2, campoE2)
+  AsignarArea(R2E2, campoE2)
+  AsignarArea(fiscalizador, zonaInicio)
+  {Iniciar}
+  Iniciar(R1E1, 1, 1)
+  Iniciar(R2E1, 2, 2)
+  Iniciar(R1E2, 3, 3)
+  Iniciar(R2E2, 4, 4)
+  Iniciar(fiscalizador, 5, 5)
+fin
