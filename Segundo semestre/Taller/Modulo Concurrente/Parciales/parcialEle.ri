@@ -1,0 +1,139 @@
+programa parcialEle
+procesos
+  proceso recolectar(ES cantObjetos: numero; E tipo: numero)
+  variables
+    avVie, caVie: numero
+  comenzar
+    avVie:= PosAv
+    caVie:= PosCa
+    BloquearEsquina(15, 15)
+    Pos(15, 15)
+    si (tipo = 1) {Comprobar si es quien hace la línea vertical u horizontal}
+      si (HayPapelEnLaEsquina)
+        tomarPapel
+        cantObjetos:= cantObjetos + 1
+    sino
+      si (HayFlorEnLaEsquina)
+        tomarFlor
+        cantObjetos:= cantObjetos + 1
+    Pos(avVie, caVie)
+    LiberarEsquina(15, 15)
+  fin
+areas
+  esqFiscalizador: AreaP(1, 1, 1, 1)
+  esqRecoleccion: AreaPC(15, 15, 15, 15)
+  zonaInicio: AreaPC(50, 50, 53, 53)
+  zonaEquipo1: AreaPC(5, 4, 9, 16)
+  zonaEquipo2: AreaPC(11, 4, 15, 16)
+robots
+  robot tipoFiscalizador
+  variables
+    equipoGanador, equipoRecibido: numero
+  comenzar
+    {Inicializar variables}
+    equipoGanador:= 0
+    {Enviarle a cada robot su equipo}
+    EnviarMensaje(1, R1E1)
+    EnviarMensaje(1, R2E1)
+    EnviarMensaje(2, R1E2)
+    EnviarMensaje(2, R2E2)
+    EnviarMensaje(1, R1E1)
+    EnviarMensaje(1, R1E2)
+    EnviarMensaje(2, R2E1)
+    EnviarMensaje(2, R2E2)
+    {Esperar a que terminen}
+    repetir 2
+      RecibirMensaje(equipoRecibido, *)
+      si (equipoGanador = 0)
+        equipoGanador:= equipoRecibido
+    {Avisar ganador}
+    Informar(equipoGanador)
+  fin
+  robot tipoPrimero {En salir}
+  variables
+    desviacion, respuesta, miTipo, miEquipo, cantPapeles: numero
+  comenzar
+    {Inicializar variables}
+    RecibirMensaje(miEquipo, fiscalizador)
+    RecibirMensaje(miTipo, fiscalizador) {Agarra flores o papeles?}
+    cantPapeles:= 0
+    desviacion:= 0
+    {Ir a la posición que le corresponde}
+    si (miEquipo = 2)
+      desviacion:= 6
+    Pos(5 + desviacion, 16)
+    derecha
+    derecha
+    {Suponga que existe la cantidad de flores y papeles para formar la línea}
+    repetir 11
+      recolectar(cantPapeles, miTipo)
+      si (cantPapeles > 0) {Por las dudas asegurarse de que tiene algo}
+        depositarPapel
+        cantPapeles:= cantPapeles - 1
+      mover
+    si (cantPapeles > 0)
+      depositarPapel
+      cantPapeles:= cantPapeles - 1
+    {Avisarle al compañero que terminaste tu parte}
+    si (miEquipo = 1)
+      EnviarMensaje(V, R2E1)
+    sino
+      EnviarMensaje(V, R2E2)
+  fin
+  robot tipoSegundo {Espera al primero}
+  variables
+    desviacion, miTipo, miEquipo, cantFlores: numero
+    respuesta: boolean
+  comenzar
+    {Inicializar variables}
+    RecibirMensaje(miEquipo, fiscalizador)
+    RecibirMensaje(miTipo, fiscalizador) {Agarra flores o papeles?}
+    cantFlores:= 0
+    {Ir a la posición que le corresponde}
+    si (miEquipo = 2)
+      desviacion:= 6
+    Pos(5 + desviacion, 4)
+    derecha
+    {Esperar respuesta del compañero}
+    RecibirMensaje(respuesta, *)
+    {Suponga que existe la cantidad de flores y papeles para formar la línea}
+    repetir 4
+      recolectar(cantFlores, miTipo)
+      si (cantFlores > 0) {Por las dudas asegurarse de que tiene algo}
+        depositarFlor
+        cantFlores:= cantFlores - 1
+      mover
+    si (cantFlores > 0)
+      depositarFlor
+      cantFlores:= cantFlores - 1
+    {Avisarle al robot que terminaron}
+    EnviarMensaje(miEquipo, fiscalizador)
+  fin
+variables
+  R1E1: tipoPrimero
+  R1E2: tipoPrimero
+  R2E1: tipoSegundo
+  R2E2: tipoSegundo
+  fiscalizador: tipoFiscalizador
+comenzar
+  {Asignacion de areas}
+  AsignarArea(R1E1, zonaInicio)
+  AsignarArea(R2E1, zonaInicio)
+  AsignarArea(R1E2, zonaInicio)
+  AsignarArea(R2E2, zonaInicio)
+  AsignarArea(R1E1, zonaEquipo1)
+  AsignarArea(R2E1, zonaEquipo1)
+  AsignarArea(R1E2, zonaEquipo2)
+  AsignarArea(R2E2, zonaEquipo2)
+  AsignarArea(R1E1, esqRecoleccion)
+  AsignarArea(R2E1, esqRecoleccion)
+  AsignarArea(R1E2, esqRecoleccion)
+  AsignarArea(R2E2, esqRecoleccion)
+  AsignarArea(fiscalizador, esqFiscalizador)
+  {Iniciar}
+  Iniciar(R1E1, 50, 50)
+  Iniciar(R2E1, 51, 51)
+  Iniciar(R1E2, 52, 52)
+  Iniciar(R2E2, 53, 53)
+  Iniciar(fiscalizador, 1, 1)
+fin
