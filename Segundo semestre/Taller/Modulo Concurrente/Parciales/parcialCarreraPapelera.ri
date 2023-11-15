@@ -1,0 +1,125 @@
+{ENUNCIADO}
+{Tres robots corren una carrera, en la cual tienen 5 intentos para avanzar una determinada cantidad de pasos.}
+{En cada intento los robots podrÃ¡n dar entre 1 y 10 pasos, y deberÃ¡n juntar todos los papeles}
+{que encuentren en cada esquina de su camino. Un robot fiscalizador es el encargado de}
+{indicarle a cada robot la esquina al azar desde donde deberÃ¡n comenzar la carrera, dentro}
+{del cuadrante comprendido entre las esquinas (1, 1) y (21, 40)}
+{}
+{ - El robot jugador 1 puede tener que empezar su recorrido en una avenida entre 1 y 7}
+{ - El robot jugador 2 puede tener que empezar su recorrido en una avenida entre 8 y 14}
+{ - El robot jugador 3 puede tener que empezar su recorrido en una avenida entre 15 y 21}
+{}
+{Al finalizar la carrera, los robots jugadores deben depositar en la esquina (1, 30)}
+{todos los papeles que juntaron, y el robot fiscalizador debe informar quÃ© robot diÃ³ mas pasos.}
+{Los robots jugadores inician en las esquinas (1, 1), (8, 1), y (15, 1)}
+{y el robot fiscalizador en la esquina (25, 1)}
+programa parcialCarreraPapelera
+procesos
+  proceso juntarPapeles(ES cantPapeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles + 1
+  fin
+  proceso depositarEsquina(ES cantPapeles: numero)
+  variables
+    avVie, caVie: numero
+  comenzar
+    {Guardar coordenada actual}
+    avVie:= PosAv
+    caVie:= PosCa
+    {Ir a la esquina (1, 30)}
+    BloquearEsquina(1, 30)
+    Pos(1, 30)
+    {Depositar los papeles}
+    repetir cantPapeles
+      depositarPapel
+    cantPapeles:= 0
+    {Regresar y liberar esquina bloqueada}
+    Pos(avVie, caVie)
+    LiberarEsquina(1, 30)
+  fin
+areas
+  cuadrante: AreaPC(1, 1, 21, 40)
+  esqFiscalizador: AreaP(25, 1, 25, 1)
+robots
+  robot tipoJugador
+  variables
+    pasosTotal, pasosRand, miId, cantPapeles, avenidaRecibida: numero
+  comenzar
+    {Iniciar/recibir variables}
+    cantPapeles:= 0
+    pasosTotal:= 0
+    RecibirMensaje(miId, fiscalizador)
+    RecibirMensaje(avenidaRecibida, fiscalizador)
+    {Posicionarse en la avenida recibida}
+    Pos(avenidaRecibida, PosCa)
+    {Cada jugador tiene 5 intentos}
+    repetir 5
+      {En cada intento los robots podrÃ¡n dar entre 1 y 10 pasos}
+      Random(pasosRand, 1, 10)
+      pasosTotal:= pasosTotal + pasosRand
+      {Deberan juntar todos los papeles que encuentren}
+      repetir pasosRand
+        juntarPapeles(cantPapeles)
+        mover
+    {Los robots deben depositar todos los papeles que juntaron}
+    si (cantPapeles > 0)
+      depositarEsquina(cantPapeles)
+    {Enviar la cantidad de pasos totales al fiscalizador}
+    EnviarMensaje(miId, fiscalizador)
+    EnviarMensaje(pasosTotal, fiscalizador)
+  fin
+  robot tipoFiscalizador
+  variables
+    randAvenida, pasosRecibidos, pasosMax, idRecibida, idMax: numero
+  comenzar
+    {Inicializar variables}
+    idMax:= -1
+    pasosMax:= 0
+    {Enviar identificadores}
+    EnviarMensaje(1, jugador1)
+    EnviarMensaje(2, jugador2)
+    EnviarMensaje(3, jugador3)
+    {Enviar esquinas de inicio}
+    Random(randAvenida, 1, 7)
+    EnviarMensaje(randAvenida, jugador1)
+    Random(randAvenida, 8, 14)
+    EnviarMensaje(randAvenida, jugador2)
+    Random(randAvenida, 15, 21)
+    EnviarMensaje(randAvenida, jugador3)
+    {El fiscalizador debe informar que robot dio mÃ¡s pasos}
+    repetir 3
+      RecibirMensaje(idRecibida, *)
+      {Recibir la cantidad de pasos por ID del robot}
+      si (idRecibida = 1)
+        RecibirMensaje(pasosRecibidos, jugador1)
+      sino
+        si (idRecibida = 2)
+          RecibirMensaje(pasosRecibidos, jugador2)
+        sino
+          RecibirMensaje(pasosRecibidos, jugador3)
+      {Actualizar maximo}
+      si (pasosRecibidos > pasosMax)
+        pasosMax:= pasosRecibidos
+        idMax:= idRecibida
+    {Anunciar ganador}
+    Informar("el_robot_que_dio_mas_pasos_fue_el_nro_", idMax)
+  fin
+variables
+  jugador1: tipoJugador
+  jugador2: tipoJugador
+  jugador3: tipoJugador
+  fiscalizador: tipoFiscalizador
+comenzar
+  {Asignacion de areas}
+  AsignarArea(jugador1, cuadrante)
+  AsignarArea(jugador2, cuadrante)
+  AsignarArea(jugador3, cuadrante)
+  AsignarArea(fiscalizador, esqFiscalizador)
+  {Asignar coordenadas de inicio}
+  Iniciar(jugador1, 1, 1)
+  Iniciar(jugador2, 8, 1)
+  Iniciar(jugador3, 15, 1)
+  Iniciar(fiscalizador, 25, 1)
+fin
