@@ -1,0 +1,114 @@
+programa parcialTurnoB
+procesos
+  proceso juntarFlores(ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+areas
+  areaComun: AreaPC(1, 1, 99, 99)
+  esqFiscalizador: AreaP(100, 100, 100, 100)
+robots
+  robot tipoRobot1
+  variables
+    miId, cantFlores, calleEsp, proxCa: numero
+    respuesta: boolean
+  comenzar
+    {Inicialización de variables}
+    cantFlores:= 0
+    RecibirMensaje(miId, FS)
+    RecibirMensaje(calleEsp, FS)
+    {Programa principal}
+    repetir 60 {Tiene que dar 60 pasos}
+      proxCa:= PosCa + 1
+      juntarFlores(cantFlores)
+      {Liberar la esquina}
+      si (proxCa = (calleEsp + 1))
+        LiberarEsquina(PosAv, calleEsp)
+      {Prevenir choque}
+      si (proxCa = calleEsp)
+        BloquearEsquina(PosAv, calleEsp)
+        EnviarMensaje(miId, FS) {Enviar ID para que sepa que llegó}
+      mover
+    EnviarMensaje(miId, FS)
+    EnviarMensaje(cantFlores, FS)
+  fin
+  robot tipoRobot2
+  variables
+    miId, cantFlores, calleEsp, proxAv: numero
+    respuesta: boolean
+  comenzar
+    {Inicialización de variables}
+    cantFlores:= 0
+    RecibirMensaje(miId, FS)
+    RecibirMensaje(calleEsp, FS)
+    {Programa principal}
+    derecha
+    Pos(1, calleEsp)
+    repetir 60
+      proxAv:= PosAv + 1
+      juntarFlores(cantFlores)
+      {Liberar la esquina}
+      si (proxAv = 7)
+        LiberarEsquina(6, PosCa)
+      {Prevenir choque}
+      si (proxAv = 6)
+        BloquearEsquina(6, PosCa)
+        EnviarMensaje(miId, FS) {Enviar ID para que sepa que llegó}
+      mover
+    EnviarMensaje(miId, FS)
+    EnviarMensaje(cantFlores, FS)
+  fin
+  robot tipoFiscalizador
+  variables
+    idRecibida, cantFlores, cantFloresGanador, idGanador, randCalle: numero
+    respuesta: boolean
+  comenzar
+    {Inicialización de variables}
+    idGanador:= 0
+    Random(randCalle, 2, 50)
+    {Comunicación con los floreros}
+    EnviarMensaje(1, F1)
+    EnviarMensaje(2, F2)
+    EnviarMensaje(randCalle, F2)
+    EnviarMensaje(randCalle, F1)
+    {Esperar respuesta}
+    repetir 2
+      RecibirMensaje(idRecibida, *)
+      si (idRecibida = 1)
+        si (idGanador = 0)
+          idGanador:= 1
+      sino
+        si (idGanador = 0)
+          idGanador:= 2
+    {Recibir cantidades}
+    repetir 2
+      RecibirMensaje(idRecibida, *)
+      si (idRecibida = 1)
+        si (idRecibida = idGanador)
+          RecibirMensaje(cantFloresGanador, F1)
+        sino
+          RecibirMensaje(cantFlores, F1)
+      sino
+        si (idRecibida = idGanador)
+          RecibirMensaje(cantFloresGanador, F2)
+        sino
+          RecibirMensaje(cantFlores, F2)
+    Informar("el_ganador_es", idGanador)
+    Informar("el_ganador_junto", cantFloresGanador)
+  fin
+variables
+  F1: tipoRobot1
+  F2: tipoRobot2
+  FS: tipoFiscalizador
+comenzar
+  {Asignacion de areas}
+  AsignarArea(F1, areaComun)
+  AsignarArea(F2, areaComun)
+  AsignarArea(FS, esqFiscalizador)
+  {Iniciar}
+  Iniciar(F1, 6, 1)
+  Iniciar(F2, 1, 2)
+  Iniciar(FS, 100, 100)
+fin
