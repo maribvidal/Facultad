@@ -1,0 +1,151 @@
+programa parcial03122018
+procesos
+  proceso juntarTodo(ES cantFlores: numero; ES cantPapeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles + 1
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+  proceso cubrirAreaCritica(E av: numero; E ca: numero; ES cantFlores: numero; ES cantPapeles: numero)
+  comenzar
+    BloquearEsquina(av, ca)
+    mover
+    juntarTodo(cantFlores, cantPapeles)
+    mover
+    LiberarEsquina(av, ca)
+  fin
+  proceso orientar(E id: numero)
+  comenzar
+    si (id = 2) | (id = 4)
+      derecha
+    sino
+      repetir 3
+        derecha
+  fin
+  proceso recorrido(E id: numero; ES cantFlores: numero; ES cantPapeles: numero)
+  variables
+    av, ca: numero
+  comenzar
+    repetir 4
+      si (id = 2) | (id = 4)
+        ca:= PosCa
+        cubrirAreaCritica(PosAv, ca + 1, cantFlores, cantPapeles)
+      sino
+        av:= PosAv
+        cubrirAreaCritica(av + 1, PosCa, cantFlores, cantPapeles)
+      juntarTodo(cantFlores, cantPapeles)
+    orientar(id)
+    repetir 2
+      mover
+      juntarTodo(cantFlores, cantPapeles)
+    orientar(id)
+    repetir 4
+      si (id = 2) | (id = 4)
+        ca:= PosCa
+        cubrirAreaCritica(PosAv, ca - 1, cantFlores, cantPapeles)
+      sino
+        av:= PosAv
+        cubrirAreaCritica(av - 1, PosCa, cantFlores, cantPapeles)
+      juntarTodo(cantFlores, cantPapeles)
+    orientar(id)
+    mover
+    juntarTodo(cantFlores, cantPapeles)
+    mover
+  fin
+areas
+  cuadrante: AreaPC(1, 1, 9, 9)
+  esqReco1: AreaP(20, 1, 20, 1)
+  esqReco2: AreaP(20, 2, 20, 2)
+  esqReco3: AreaP(20, 4, 20, 4)
+  esqReco4: AreaP(20, 5, 20, 5)
+  esqJefe: AreaP(20, 15, 20, 15)
+robots
+  robot tipoRecolector
+  variables
+    cantFlores, cantPapeles, miId: numero
+  comenzar
+    cantFlores:= 0
+    cantPapeles:= 0
+    RecibirMensaje(miId, jefe)
+    {Locación}
+    si (miId = 1)
+      Pos(1, 2)
+      derecha
+    sino
+      si (miId = 2)
+        Pos(2, 1)
+      sino
+        si (miId = 3)
+          Pos(1, 6)
+          derecha
+        sino
+          Pos(6, 1)
+    {Recorrido}
+    recorrido(miId, cantFlores, cantPapeles)
+    {Enviar información}
+    EnviarMensaje(miId, jefe)
+    EnviarMensaje(cantFlores, jefe)
+    EnviarMensaje(cantPapeles, jefe)
+  fin
+  robot tipoJefe
+  variables
+    cant, cantFloresT, cantPapelesT, idRecibida: numero
+  comenzar
+    cantFloresT:= 0
+    cantPapelesT:= 0
+    EnviarMensaje(1, reco1)
+    EnviarMensaje(2, reco2)
+    EnviarMensaje(3, reco3)
+    EnviarMensaje(4, reco4)
+    repetir 4
+      RecibirMensaje(idRecibida, *)
+      si (idRecibida = 1)
+        RecibirMensaje(cant, reco1)
+        cantFloresT:= cantFloresT + cant
+        RecibirMensaje(cant, reco1)
+        cantPapelesT:= cantPapelesT + cant
+      sino
+        si (idRecibida = 2)
+          RecibirMensaje(cant, reco2)
+          cantFloresT:= cantFloresT + cant
+          RecibirMensaje(cant, reco2)
+          cantPapelesT:= cantPapelesT + cant
+        sino
+          si (idRecibida = 3)
+            RecibirMensaje(cant, reco3)
+            cantFloresT:= cantFloresT + cant
+            RecibirMensaje(cant, reco3)
+            cantPapelesT:= cantPapelesT + cant
+          sino
+            RecibirMensaje(cant, reco4)
+            cantFloresT:= cantFloresT + cant
+            RecibirMensaje(cant, reco4)
+            cantPapelesT:= cantPapelesT + cant
+    Informar("cant_total_papeles", cantPapelesT)
+    Informar("cant_total_flores", cantFloresT)
+  fin
+variables
+  jefe: tipoJefe
+  reco1: tipoRecolector
+  reco2: tipoRecolector
+  reco3: tipoRecolector
+  reco4: tipoRecolector
+comenzar
+  AsignarArea(reco1, cuadrante)
+  AsignarArea(reco2, cuadrante)
+  AsignarArea(reco3, cuadrante)
+  AsignarArea(reco4, cuadrante)
+  AsignarArea(reco1, esqReco1)
+  AsignarArea(reco2, esqReco2)
+  AsignarArea(reco3, esqReco3)
+  AsignarArea(reco4, esqReco4)
+  AsignarArea(jefe, esqJefe)
+  Iniciar(reco1, 20, 1)
+  Iniciar(reco2, 20, 2)
+  Iniciar(reco3, 20, 4)
+  Iniciar(reco4, 20, 5)
+  Iniciar(jefe, 20, 15)
+fin
