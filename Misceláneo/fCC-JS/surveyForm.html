@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css"> 
+  </head>
+  <body>
+    <h1 id="title">Formulario de Inscripción a UNLP-Informática</h1>
+    <p id="description">En el siguiente formulario le vamos a pedir sus datos personales y sus preferencias.</p>
+
+    <form id="survey-form">
+      <fieldset>
+        <legend>Datos personales</legend>
+        <label id="name-label" for="name">Nombre: <input type="text" placeholder="Ingresa tu nombre" id="name" required /></label>
+        <label id="email-label" for="email">Correo electrónico: <input type="email" placeholder="Ingresa tu correo electrónico" id="email" required /></label>
+        <label id="number-label" for="number">Edad: <input type="number" placeholder="Ingresa tu edad" id="number" pattern="[0-9]" min="18" max="99" /></label>
+        <label for="sexo-hombre"><input id="sexo-hombre" type="radio" name="sexo" class="inline" checked /> Hombre</label>
+        <label for="sexo-mujer"><input id="sexo-mujer" type="radio" name="sexo" class="inline" /> Mujer</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Sobre su carrera</legend>
+        <label for="dropdown">¿A qué carrera desea anotarse?
+          <select id="dropdown">
+            <option value="">Selecciona una opción</option>
+            <option value="1">Licenciatura en Sistemas</option>
+            <option value="2">Licenciatura en Informática</option>
+            <option value="3">Ingeniería en Computación</option>
+            <option value="4">Ciencias de Datos en Organizaciones</option>
+          </select>
+        </label>
+        <label for="turno">¿Qué turno le conviene?
+          <label class="inline"><input id="turno-1"type="checkbox" required name="turno-1" />Turno 8:30 - 10:00</label>
+          <label class="inline"><input id="turno-2"type="checkbox" required name="turno-2" />Turno 10:30 - 12:00</label>
+          <label class="inline"><input id="turno-3"type="checkbox" required name="turno-3" />Turno 12:30 - 14:00</label>
+        </label>
+        <textarea id="comentarios" placeholder="comentarios">
+        </textarea>
+      </fieldset>
+      <input type="submit" value="Enviar" />
+    </form>
+  </body>
+</html>
