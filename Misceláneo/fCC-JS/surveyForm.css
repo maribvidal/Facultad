@@ -1,0 +1,32 @@
+h1, p {
+  margin: 1em auto;
+  text-align: center;
+}
+
+form {
+  margin: auto;
+}
+
+label {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+input,
+textarea,
+select {
+  margin: 10px 0 0 0;
+  width: 50%;
+  min-height: 2em;
+}
+
+.inline {
+  width: unset;
+  margin: 0 0.5em 0 0;
+  vertical-align: middle;
+}
+
+input[type="checkbox"] {
+  margin: auto;
+  
+}
