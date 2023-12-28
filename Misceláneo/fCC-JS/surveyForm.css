@@ -1,3 +1,9 @@
+body {
+  background-color: rgba(0, 0, 100, 0.5);
+  font-family: 'Tahoma';
+  color: rgb(255, 255, 255);
+}
+
 h1, p {
   margin: 1em auto;
   text-align: center;
@@ -5,10 +11,25 @@ h1, p {
 
 form {
   margin: auto;
+  min-width: 300px;
+  max-width: 500px;
+  padding: 1rem 2rem 1rem 2rem;
+  background-color: rgba(100, 100, 0, 0.2);
+}
+
+fieldset {
+  border: none;
+  padding: auto 1rem auto 1rem;
+  background-color: rgba(100, 100, 0, 0.2);
+}
+
+legend {
+  font-weight: bold;
 }
 
 label {
   display: block;
+  align-items: center;
   margin: 0.5rem 0;
 }
 
@@ -26,7 +47,10 @@ select {
   vertical-align: middle;
 }
 
-input[type="checkbox"] {
-  margin: auto;
-  
+textarea {
+  margin: 0 0 0.5rem 0;
+}
+
+.submit {
+  margin: 1rem 0 0 6rem;
 }
