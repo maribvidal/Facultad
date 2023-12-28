@@ -10,11 +10,11 @@
     <form id="survey-form">
       <fieldset>
         <legend>Datos personales</legend>
-        <label id="name-label" for="name">Nombre: <input type="text" placeholder="Ingresa tu nombre" id="name" required /></label>
-        <label id="email-label" for="email">Correo electrónico: <input type="email" placeholder="Ingresa tu correo electrónico" id="email" required /></label>
-        <label id="number-label" for="number">Edad: <input type="number" placeholder="Ingresa tu edad" id="number" pattern="[0-9]" min="18" max="99" /></label>
-        <label for="sexo-hombre"><input id="sexo-hombre" type="radio" name="sexo" class="inline" checked /> Hombre</label>
-        <label for="sexo-mujer"><input id="sexo-mujer" type="radio" name="sexo" class="inline" /> Mujer</label>
+        <label id="name-label" for="name">Nombre: <input type="text" value="Nombre" id="name" required /></label>
+        <label id="email-label" for="email">Correo electrónico: <input type="email" value="Correo electrónico" id="email" required /></label>
+        <label id="number-label" for="number">Edad: <input type="number" id="number" value="Edad" pattern="[0-9]" min="18" max="99" /></label>
+        <label for="sexo-hombre"><input id="sexo-hombre" value="hombre" type="radio" name="sexo" value="sexo-h" class="inline" checked /> Hombre</label>
+        <label for="sexo-mujer"><input id="sexo-mujer" value"=mujer" type="radio" name="sexo" value="sexo-m" class="inline" /> Mujer</label>
       </fieldset>
 
       <fieldset>
@@ -29,14 +29,14 @@
           </select>
         </label>
         <label for="turno">¿Qué turno le conviene?
-          <label class="inline"><input id="turno-1"type="checkbox" required name="turno-1" />Turno 8:30 - 10:00</label>
-          <label class="inline"><input id="turno-2"type="checkbox" required name="turno-2" />Turno 10:30 - 12:00</label>
-          <label class="inline"><input id="turno-3"type="checkbox" required name="turno-3" />Turno 12:30 - 14:00</label>
+          <label for="turno-1"><input id="turno-1"type="checkbox" required name="turno-1" class="inline" value="turno-1" />Turno 8:30 - 10:00</label>
+          <label for="turno-2"><input id="turno-2"type="checkbox" required name="turno-2" class="inline" value="turno-2" />Turno 10:30 - 12:00</label>
+          <label for="turno-3"><input id="turno-3"type="checkbox" required name="turno-3" class="inline" value="turno-3" />Turno 12:30 - 14:00</label>
         </label>
-        <textarea id="comentarios" placeholder="comentarios">
+        <textarea id="comentarios" value="comentarios" placeholder="comentarios">
         </textarea>
       </fieldset>
-      <input type="submit" value="Enviar" />
+      <input type="submit" id="submit" class="submit" value="Enviar" />
     </form>
   </body>
 </html>
