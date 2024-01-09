@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Raleway', Verdana;
+}
+
+/* title */
+#title {
+    max-width: 200px;
+    margin: 0 auto;
+    background-color: rgba(230, 252, 202);
+    border-radius: 5px;
+    margin-top: 25px;
+    margin-bottom: 50px;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* figure */
+
+figure {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: rgb(245, 255, 212);
+    padding-top: 25px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+#image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    padding: 5px;
+    background-color:#eff797;
+    border: 5px inset rgba(242, 247, 178, 0.5);
+    border-radius: 5px;
+  }
+  
+figcaption {
+    display: block;
+    text-align: center;
+    font-size: 0.85em;
+    font-style: italic;
+    background-color: #97f7b2;
+    border-radius: 5px;
+    margin-top: -2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/* tribute-info */
+
+#tribute-info {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: rgba(230, 252, 202);
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    padding-top: 20px;
+}
+
+.tribute-info-biografia {
+    background-color: #97f7b2;
+    border-radius: 5px;
+    text-indent: 15px;
+    letter-spacing: 1.1;
+    line-height: 1.25;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+}
+
+/* footer */
+
+footer {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: rgba(230, 252, 202);
+    border-radius: 5px;
+    margin-top: 50px;
+    margin-bottom: 25px;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* fonts */
+
+p, h1 {
+    text-align: center;
+}
+
+h1 {
+    font-weight: 800;
+}
+
+p {
+    font-weight: 500;
+}
