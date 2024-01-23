@@ -1,0 +1,91 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Raleway', Verdana;
+  scroll-behavior: smooth;
+}
+
+#navbar {
+    position: fixed;
+    min-width: 290px;
+    width: 290px;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    border-right: solid;
+    background-color: #c0d2f0;
+}
+
+#main-doc {
+    position: absolute;
+    left: 320px;
+    font-size: 20px;
+}
+
+/* barra de navegación */
+
+#navbar header {
+    padding-top: 20px;
+    padding-bottom: 0px;
+    margin-bottom: -10px;
+    padding-left: 15px;
+}
+
+#navbar ul {
+    list-style-type: none;
+}
+
+#navbar li {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#navbar a {
+    text-decoration: none;
+    color: rgb(5, 97, 66);
+}
+
+/* section */
+
+section {
+    padding: 10px;
+}
+
+section header {
+    font-weight: bold;
+}
+
+section p {
+    font-size: 0.8em;
+    letter-spacing: 1.5px;
+    max-width: 600px;
+}
+
+@media (max-width: 900px) {
+    section p {
+        font-size: 0.8em;
+        max-width: 80%;
+        letter-spacing: 1.5px;
+    }
+}
+
+@media (max-width: 750px) {
+    section p {
+        font-size: 0.8em;
+        max-width: 60%;
+        letter-spacing: 1.5px;
+    }
+}
+
+code {
+    display: block;
+    background-color: rgba(0, 102, 102, 0.2);
+    max-width: 300px;
+    padding: 2px;
+}
+
+.inside {
+    padding-bottom: 10px;
+}
