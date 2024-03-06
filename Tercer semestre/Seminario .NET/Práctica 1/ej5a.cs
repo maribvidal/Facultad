@@ -1,4 +1,4 @@
-// Ejercicio 2 - Práctica 1
+// Ejercicio 5a - Práctica 1
 using System;
 
 //Solicitar el nombre del usuario
