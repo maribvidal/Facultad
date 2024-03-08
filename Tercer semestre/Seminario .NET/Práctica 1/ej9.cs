@@ -1,34 +1,32 @@
-// Ejercicio 9 - Práctica 1
 using System;
 
-//Declarar variables
-string firstInput;
-string secondInput;
-int inputIndex = 0;
-Boolean simetria = true;
+//Variables
+Boolean esPalindroma = true;
 
 //Ingresar las palabras
-Console.WriteLine("Ingresar la primera palabra: ");
-firstInput = Console.ReadLine();
-Console.WriteLine("Ingresar la segunda palabra: ");
-secondInput = Console.ReadLine();
+Console.WriteLine("Ingrese una palabra: ");
+string palabra1 = Console.ReadLine();
+Console.WriteLine("Ingrese otra palabra: ");
+string palabra2 = Console.ReadLine();
 
-//Determinar si las palabras son simétricas
-if (firstInput.Length == secondInput.Length) { // Comprobar si ambas palabras tienen la misma longitud
-    while ((inputIndex < (firstInput.Length)) && simetria) {
-        Console.WriteLine(firstInput[inputIndex] + " / " + secondInput[(secondInput.Length-1) - inputIndex]);
-        if (firstInput[inputIndex] != secondInput[(secondInput.Length-1) - inputIndex]) {
-            simetria = false;
-        }
-        inputIndex++;
-    }
-} else {
-    simetria = false;
+//Comprobar si son palindromas
+if (palabra1.Length == palabra2.Length) 
+{
+  int i = 0;
+  while (esPalindroma && (i < palabra1.Length)) 
+  {
+    Console.WriteLine(palabra1[i] + " / " + palabra2[palabra2.Length - 1 - i]);
+    if (palabra1[i] != palabra2[palabra2.Length - 1 - i]) esPalindroma = false;
+    i++;
+  }
+}
+  else
+{
+  esPalindroma = false;
 }
 
-//Imprimir el resultado
-if (simetria) {
-    Console.Write("Las dos palabras son simétricas");
-} else {
-    Console.Write("Las dos palabras no son simétricas");
+//Imprimir resultado
+if (esPalindroma) {
+  Console.WriteLine("Ambas palabras son simétricas");
+} 
 }
