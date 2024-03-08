@@ -1,19 +1,13 @@
 // Ejercicio 12 - Práctica 1
 using System;
 
-//Variables
-int aux = 1;
-int numInput;
-
 //Input
 Console.WriteLine("Ingrese un número: ");
-string st = Console.ReadLine();
-numInput = int.Parse(st);
+int numInput = int.Parse(Console.ReadLine());
 
 //Output
-while (aux <= numInput) {
-    if (numInput % aux == 0) {
-        Console.WriteLine(aux + " es un divisor de " + numInput);
-    }
-    aux++;
+for (int i = 1; i < numInput; i++) {
+  if (numInput % i == 0) {
+    Console.WriteLine(i + " es un divisor de " + numInput);
+  }
 }
