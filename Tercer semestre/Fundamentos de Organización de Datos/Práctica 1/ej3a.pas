@@ -8,7 +8,6 @@ program pr1ej3a;
 
 const
 	STR_CORTE = 'fin';
-	NOMBRE_ARCHIVO = 'empleado.dat';
 
 type
 	tipoEmpleado = record
@@ -23,6 +22,7 @@ type
 var
 	archivo: archEmpleado;
 	input: tipoEmpleado;
+	nomArch: string;
 
 procedure leerEmpleado(var emp: tipoEmpleado);
 	begin
@@ -36,7 +36,8 @@ procedure leerEmpleado(var emp: tipoEmpleado);
 	end;
 
 begin
-	Assign(archivo, NOMBRE_ARCHIVO);
+	write('INGRESE EL NOMBRE DEL ARCHIVO: '); readln(nomArch);
+	Assign(archivo, nomArch);
 	rewrite(archivo);
 	leerEmpleado(input);
 	while (input.apellido <> STR_CORTE) do begin
