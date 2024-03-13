@@ -7,30 +7,23 @@ iii. Listar en pantalla los empleados mayores de 70 años, próximos a jubilarse
 
 program pr1ej3b;
 
-const
-	NOMBRE_ARCHIVO = 'empleado.dat';
-
 type
 	tipoEmpleado = record
 		nro: integer;
 		apellido: string[15];
 		nombre: string[15];
 		edad: integer;
-		DNI: longint;
+		DNI: integer;
 	end;
 	archEmpleado = file of tipoEmpleado;
-	
-var
-	archivo: archEmpleado;
-	input: string[15];
-	input2: string[15];
 
 procedure imprimirEmpleado(emp: tipoEmpleado);
 	begin
-		write('N°', emp.nro);
+		write('N ', emp.nro);
 		write(' / DNI: ', emp.DNI);
 		write(' / NOMBRE COMPLETO DEL EMPLEADO: ', emp.nombre, ' ',emp.apellido);
 		write(' / EDAD: ', emp.edad);
+		writeln;
 	end;
 
 procedure imprimirPorNomApe(var arch: archEmpleado; nombre, apellido: string);
@@ -38,12 +31,14 @@ procedure imprimirPorNomApe(var arch: archEmpleado; nombre, apellido: string);
 		emp_aux: tipoEmpleado;
 	begin
 		{Colocar puntero de elemento en el principio}
-		seek(archivo, 0);
+		seek(arch, 0);
 		{Buscar si existe}
 		while not eof(arch) do begin
 			read(arch, emp_aux);
-			if (emp_aux.nombre = nombre) or (emp_aux.apellido = apellido) then
+			if (emp_aux.nombre = nombre) or (emp_aux.apellido = apellido) then begin
 				imprimirEmpleado(emp_aux); 
+				writeln;
+			end;
 		end;
 	end;
 
@@ -55,6 +50,7 @@ procedure imprimirContenido(var arch: archEmpleado);
 		while not eof(arch) do begin
 			read(arch, emp_aux);
 			imprimirEmpleado(emp_aux);
+			writeln;
 		end;
 	end;
 	
@@ -65,24 +61,32 @@ procedure imprimirPorEdad(var arch: archEmpleado);
 		seek(arch, 0);
 		while not eof(arch) do begin
 			read(arch, emp_aux);
-			if (emp_aux.edad > 70) then
+			if (emp_aux.edad > 70) then begin
 				imprimirEmpleado(emp_aux);
+			end;
 		end;
 	end;
+	
+var
+	archivo: archEmpleado;
+	input: string[15];
+	input2: string[15];
+	nomArch: string;
 
 begin
-	Assign(archivo, NOMBRE_ARCHIVO);
+	write('INGRESE EL NOMBRE DEL ARCHIVO: '); readln(nomArch);
+	Assign(archivo, nomArch);
 	reset(archivo);
 	{Inciso I}
 	write('INGRESE UN NOMBRE A BUSCAR: '); readln(input);
 	write('INGRESE UN APELLIDO A BUSCAR: '); readln(input2);
-	writeln();
+	writeln;
 	writeln('LOS SIGUIENTES EMPLEADOS CUMPLEN CON LAS CARACTERISTICAS');
 	imprimirPorNomApe(archivo, input, input2);
-	writeln();
+	writeln;
 	{Inciso II}
 	imprimirContenido(archivo);
-	writeln();
+	writeln;
 	{Inciso III}
 	imprimirPorEdad(archivo);
 	close(archivo);
