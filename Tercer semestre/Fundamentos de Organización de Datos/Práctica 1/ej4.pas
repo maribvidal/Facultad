@@ -62,7 +62,7 @@ procedure imprimirContenido(var arch: archEmpleado);
 			imprimirEmpleado(emp_aux);
 		end;
 	end;
-	
+
 procedure imprimirPorEdad(var arch: archEmpleado);
 	var
 		emp_aux: tipoEmpleado;
@@ -75,7 +75,7 @@ procedure imprimirPorEdad(var arch: archEmpleado);
 			end;
 		end;
 	end;
-	
+
 procedure controlUnicidad(var arch: archEmpleado; emp: tipoEmpleado);
 	var
 		posVieja: integer;
@@ -98,7 +98,7 @@ procedure controlUnicidad(var arch: archEmpleado; emp: tipoEmpleado);
 		else
 			writeln('ESE NUMERO DE USUARIO YA SE ENCUENTRA USADO, PRUEBE CON OTRO');
 	end;
-	
+
 procedure buscarEmpPorNum(var arch: archEmpleado; nro: integer; var emp_pos: integer);
 	var
 		emp_aux: tipoEmpleado;
@@ -144,7 +144,7 @@ procedure consignaB(var arch: archEmpleado);
 		{Inciso III}
 		imprimirPorEdad(arch);
 	end;
-	
+
 procedure consignaC(var arch: archEmpleado);
 	var
 		input: tipoEmpleado;
@@ -158,7 +158,7 @@ procedure consignaC(var arch: archEmpleado);
 			leerEmpleado(input);
 		end;
 	end;
-	
+
 procedure consignaD(var arch: archEmpleado);
 	var
 		emp_pos, input1, input2: integer;
@@ -180,18 +180,35 @@ procedure consignaD(var arch: archEmpleado);
 			writeln('NO SE ENCUENTRA UN USUARIO CON ESE NUMERO');
 		end;
 	end;
-	
+
 procedure consignaE(var arch: archEmpleado);
 	var
 		txt: text;
 		emp_aux: tipoEmpleado;
 	begin
+		reset(arch);
 		Assign(txt, 'todos_empleados.txt');
 		rewrite(txt);
 		while not eof(arch) do begin
 			read(arch, emp_aux);
-			writeln('log');
 			writeln(txt, 'Numero ', emp_aux.nro,' / DNI: ', emp_aux.DNI, ' / ',emp_aux.nombre, ' ', emp_aux.apellido, ' / Edad: ',emp_aux.edad);
+		end;
+		close(txt);
+	end;
+	
+procedure consignaF(var arch: archEmpleado);
+	var
+		txt: text;
+		emp_aux: tipoEmpleado;
+	begin
+		reset(arch);
+		Assign(txt, 'faltaDNIEmpleado.txt');
+		rewrite(txt);
+		while not eof(arch) do begin
+			read(arch, emp_aux);
+			if (emp_aux.DNI = 00) then begin
+				writeln(txt, 'Numero ', emp_aux.nro,' / DNI: ', emp_aux.DNI, ' / ',emp_aux.nombre, ' ', emp_aux.apellido, ' / Edad: ',emp_aux.edad);
+			end;
 		end;
 		close(txt);
 	end;
@@ -205,13 +222,14 @@ var
 begin
 	write('INGRESE EL NOMBRE DEL ARCHIVO: '); readln(nomArch);
 	Assign(archivo, nomArch);
-	write('QUE DESEA HACER (CREAR 0/LEER 1/AGREGAR 2/MODIFICAR_EDAD 3/EXPORTAR_TEXTO 4): '); readln(menuInput);
+	write('QUE DESEA HACER (CREAR 0/LEER 1/AGREGAR 2/MODIFICAR_EDAD 3/EXPORTAR_TEXTO 4/EXPORTAR_SIN_DNI 5): '); readln(menuInput);
 	case menuInput of
 		0: consignaA(archivo);
 	    1: consignaB(archivo);
 	    2: consignaC(archivo);
 	    3: consignaD(archivo);
 	    4: consignaE(archivo);
+	    5: consignaF(archivo);
 	end;
 	close(archivo);
 end.
