@@ -2,7 +2,7 @@ package tp1.ejercicio8;
 import java.util.*;
 
 public class Queue<T> extends Sequence {
-	private List<T> data;
+	List<T> data;
 	
 	//Métodos específicos de la clase
 	public Queue() {
