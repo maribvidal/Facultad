@@ -1,0 +1,6 @@
+10) Para modelar una cola del banco evidentemente nos serviría mucho utilizar el TDA Queue, 
+pero como además se nos pide poder priorizar el lugar de un grupo de personas, podríamos pensar en usar una DoubleEndedQueue, 
+así insertamos facilmente las personas en el frente de la cola.
+
+11) La mas ideal sería una lista, ya que los colectivos van a estar constantemente yendo y viniendo a cada una de estas paradas, 
+o si el conjunto es el mismo en todo el año (y por lo tanto es fijo) entonces convendría utilizar un ArrayList.
