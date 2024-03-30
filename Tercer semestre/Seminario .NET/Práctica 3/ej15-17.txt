@@ -1,0 +1,22 @@
+15) Cuando la división de 0 se hace con un double, el compilador arroja que vale infinito.
+Esto ocurre porque el tipo doble define un valor para infinito mientras que el tipo entero no.
+
+17) PRIMER TRY/CATCH:
+El finally se lee obligatoriamente.
+No se lee la excepcion causada por intentar castear un String como Int
+
+"Bloque finally en Metodo1"
+"Método 1 propagó una excepción no tratada"
+
+SEGUNDO TRY/CATCH:
+No tira nada en el try/catch del método ya que la excepción que resulta
+de castear un String como Int no es una de Overflow. Esto sería cierto si
+se hiciera una operacion cuyo resultado fuera un valor que se saliera del intevalo
+de tipo de valor, o se intentara hacer una conversión de datos a un tipo de valor
+cuyo limite es inferior (o superior MinValue) al del valor que se le intenta pasar.
+
+"Método 2 propagó una excepción no tratada"
+
+TERCER TRY/CATCH:
+"Excepción InvalidCast en Metodo3"
+"Método 3 propagó una excepción"
