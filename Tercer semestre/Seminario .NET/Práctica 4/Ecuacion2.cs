@@ -1,3 +1,5 @@
+namespace teoria1;
+
 public class Ecuacion2
 {
     private double cofA;
@@ -22,10 +24,10 @@ public class Ecuacion2
     public int GetCantidadDeRaices()
     {
         int cantidadRaices = 0;
-        if (this.GetDiscriminante() >= 0)
+        switch (this.GetDiscriminante())
         {
-            cantidadRaices++;
-            if (this.GetDiscriminante() > 0) { cantidadRaices++; }
+            case 0: cantidadRaices = 1; break;
+            case > 0: cantidadRaices = 2; break;
         }
         return cantidadRaices;
     }
@@ -34,9 +36,13 @@ public class Ecuacion2
     {
         if (this.GetCantidadDeRaices() > 0)
         {
-            double raiz = Math.Sqrt(this.GetDiscriminante());
+            double raiz = ((-1) * this.cofB + Math.Sqrt(this.GetDiscriminante())) / (2 * this.cofA);
             Console.WriteLine("Raíz 1: " + raiz);
-            Console.WriteLine("Raíz 2: " + (-raiz));
+            if (this.GetCantidadDeRaices() > 1)
+            {
+                double raiz2 = ((-1) * this.cofB - Math.Sqrt(this.GetDiscriminante())) / (2 * this.cofA);
+                Console.WriteLine("Raíz 2: " + raiz2);
+            }
         }
         else
         {
