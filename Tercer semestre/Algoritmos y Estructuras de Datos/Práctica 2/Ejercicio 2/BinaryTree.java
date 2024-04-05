@@ -133,7 +133,43 @@ public class BinaryTree <T> {
 
 	// 0<=n<=m
 	public void entreNiveles(int n, int m){
+		BinaryTree<T> arbolAuxiliar = null;
+		Queue<BinaryTree<T>> cola = new Queue<BinaryTree<T>>();
+		int nivel = 0; //Nivel inicial
+		//Caso en el que se quiere empezar desde el nivel 0
+		if (n == 0 && !this.isEmpty()) {System.out.println("NIVEL 0");}
+		//Encolar la raíz y un null para distinguir entre los niveles
+		cola.enqueue(this);
+		cola.enqueue(null);
 		
+		while (!cola.isEmpty() && (nivel <= m)) {
+			arbolAuxiliar = cola.dequeue();
+			
+			//Si arbAux existe
+			if (arbolAuxiliar != null) {
+				//Imprimir nodo si (nivel >= n) y (nivel <= m)
+				if (nivel >= n && nivel <= m) {
+					System.out.print(arbolAuxiliar.getData());
+					if (cola.head() != null) {
+						System.out.print(" - ");
+					} else {
+						System.out.println();
+					}
+				}
+				//Encolar hijos (si existen)
+				if (arbolAuxiliar.hasLeftChild()) {
+					cola.enqueue(arbolAuxiliar.getLeftChild());
+				}
+				if (arbolAuxiliar.hasRightChild()) {
+					cola.enqueue(arbolAuxiliar.getRightChild());
+				}
+			} else if (!cola.isEmpty()) {
+				nivel++;
+				if (nivel >= n && nivel <= m) {System.out.println("NIVEL " + nivel);}
+				cola.enqueue(null);
+			}
+		}
    }
+	
 		
 }
