@@ -21,7 +21,7 @@ public class RedBinariaLlena {
 		int retIzq = 0;
 		int retDer = 0;
 		if (arb.hasLeftChild()) {retIzq = retardar(arb.getLeftChild());}
-		if (arb.hasRightChild()) {retIzq = retardar(arb.getRightChild());}
+		if (arb.hasRightChild()) {retDer = retardar(arb.getRightChild());}
 		return Math.max(retIzq, retDer) + arb.getData();
 	}
 }
