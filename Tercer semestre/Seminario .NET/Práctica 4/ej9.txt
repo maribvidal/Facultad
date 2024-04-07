@@ -1,0 +1,4 @@
+¿Qué se puede decir en relación a la sobrecarga de métodos en este ejemplo?
+
+Se puede decir que el compilador no permite que hayan dos métodos con el mismo nombre y
+la misma cantidad y tipo de parámetros.
