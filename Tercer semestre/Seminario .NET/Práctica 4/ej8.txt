@@ -1,0 +1,6 @@
+¿Qué se puede decir acerca de la inicialización de los objetos? ¿En qué casos son inicializados
+automáticamente y con qué valor?
+
+En el primer caso el objeto es inicializado en null, esto se nota por la excepción que tira la consola
+durante la ejecución (NullReferenceException). En el segundo caso, el programa ni siquiera pudo compilar,
+ya que al objeto no se le asignó ningún tipo de valor (ni de manera automática).
