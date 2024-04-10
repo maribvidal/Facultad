@@ -15,11 +15,8 @@ public class ParcialArboles {
 		
 		//Si el nodo ha sido encontrado
 		if (nodoRaiz != null) {
-			if (!nodoRaiz.isLeaf()) { //Si el nodo es una hoja entonces (-1 > -1)
-				//Hijo izquierdo
-				if (nodoRaiz.hasLeftChild()) {arbolesIzq = CantidadSubarboles(nodoRaiz.getLeftChild());}
-				if (nodoRaiz.hasRightChild()) {arbolesDer = CantidadSubarboles(nodoRaiz.getRightChild());}
-			}
+			if (nodoRaiz.hasLeftChild()) {arbolesIzq = CantidadSubarboles(nodoRaiz.getLeftChild());}
+			if (nodoRaiz.hasRightChild()) {arbolesDer = CantidadSubarboles(nodoRaiz.getRightChild());}
 		}
 		
 		return (arbolesIzq > arbolesDer);
