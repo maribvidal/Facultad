@@ -14,7 +14,7 @@ public class Cuenta
     private static int s_totalDepositado = 0;
     private static int s_totalExtraido = 0;
     private static int s_totalSaldo = 0;
-    private static List<Cuenta> s_listaCuentas = new List<Cuenta>();
+    private readonly static List<Cuenta> s_listaCuentas = new List<Cuenta>();
 
     //Método constructor
     public Cuenta()
