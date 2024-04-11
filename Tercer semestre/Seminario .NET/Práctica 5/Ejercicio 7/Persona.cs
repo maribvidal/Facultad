@@ -20,12 +20,12 @@ public class Persona
     {
         get
         {
-            if (i == 0) return _Nombre;
-            else if (i == 1) return _Sexo;
-            else if (i == 2) return _DNI;
-            else if (i == 3) return _FechaNacimiento;
-            else if (i == 4) return _Edad;
-            else return null;
+            return i switch
+            {
+                1 => _Nombre, 2 => _Sexo,
+                3 => _DNI, 4 => _FechaNacimiento,
+                5 => _Edad, _ =>null
+            };
         }
         set
         {
