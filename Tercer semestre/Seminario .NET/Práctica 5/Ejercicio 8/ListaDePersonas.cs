@@ -1,4 +1,3 @@
-using System.Security.Principal;
 using teoria5;
 
 class ListaDePersonas
@@ -35,13 +34,9 @@ class ListaDePersonas
             foreach (Persona elem in s_Lista)
             {
                 string elemNombre = (string)elem[0];
-                char elemLetra = elemNombre[0];
-                if (elemLetra == primeraLetra)
+                if (elemNombre[0] == primeraLetra)
                 {
-                    //Si la lista no estaba creada previamente, ahora crearla
-                    if (listaNombres == null)
-                        listaNombres = new List<string>();
-                    //Agregar nombre
+                    listaNombres ??= new List<string>();
                     listaNombres.Add(elemNombre);
                 }
             }
