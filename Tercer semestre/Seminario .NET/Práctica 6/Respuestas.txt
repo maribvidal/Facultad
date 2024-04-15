@@ -1,0 +1,2 @@
+Ejercicio 3) No funciona porque la clase Taxi está tratando de acceder a la variable "velocidad" de la clase base, pero esto no es posible debido al nivel de accesibilidad de esta variable
+            (implícitamente es privada). Para solucionarlo, basta simplemente con ponerle un modificador de acceso público o protegido a la variable.
