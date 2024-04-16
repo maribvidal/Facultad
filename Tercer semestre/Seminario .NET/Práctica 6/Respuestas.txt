@@ -1,2 +1,12 @@
 Ejercicio 3) No funciona porque la clase Taxi está tratando de acceder a la variable "velocidad" de la clase base, pero esto no es posible debido al nivel de accesibilidad de esta variable
             (implícitamente es privada). Para solucionarlo, basta simplemente con ponerle un modificador de acceso público o protegido a la variable.
+
+Ejercicio 4) No es necesario ya que la clase Auto tiene un constructor vacío, por lo que la instancia de Taxi no requiere rellenar el campo Marca, campo que por defecto vale "Ford".
+
+Ejercicio 5) La línea 8 y 9, debido a la incoherencia de accesibilidad presentada por estar tratando de acceder a la clase implícitamente privada Persona.
+
+Ejercicio 6) 6.1 => No existe un método invalidable (keyword virtual)
+             6.2 => Una clase no-abstracta no puede tener un método abstracto
+             6.3 => Los métodos abstractos son vacíos, no pueden tener un cuerpo.
+             6.4 => El método sobreescribible de la clase A debe ser sobreescrito con algún método.
+             6.6 => Un miembro estático no puede ser también virtual o sobreescribible.
