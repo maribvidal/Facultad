@@ -4,7 +4,7 @@ abstract public class Empleado
     public string Nombre {get;}
     public int DNI {get;}
     public DateTime FechaDeIngreso {get;}
-    public double SalarioBase {get;set;} //No puede ser solo de lectura
+    public double SalarioBase {get; protected set;} //No puede ser solo de lectura
     public abstract double Salario {get;} //Sobreescribirla desde clases derivadas
 
     //Constructor
