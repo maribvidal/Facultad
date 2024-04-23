@@ -28,14 +28,21 @@ procedure Leer(var arch: archivo; var reg: asistente);
 			reg.nro:= CORTE;
 	end;
 
-procedure LeerAsistente(var as: asistente);
+procedure LeerAsistente(var asi: asistente);
 	begin
 		writeln(' ---------- ');
-		write('NUMERO: '); readln(as.nro);
-		write('NOMBRE COMPLETO: '); readln(as.apellidoNombre);
-		write('EMAIL: '); readln(as.email);
-		write('TELEFONO: '); readln(as.telefono);
-		write('DNI '); readln(as.DNI);
+		write('NUMERO: '); readln(asi.nro);
+		write('NOMBRE COMPLETO: '); readln(asi.apellidoNombre);
+		write('EMAIL: '); readln(asi.email);
+		write('TELEFONO: '); readln(asi.telefono);
+		write('DNI: '); readln(asi.DNI);
+	end;
+
+procedure ImprimirAsistente(asi: asistente);
+	begin
+		writeln(' ---------- ');
+		writeln('NUMERO: ', asi.nro, ' / Nombre: ', asi.apellidoNombre, ' / Email: ', asi.email);
+		writeln('Telefono: ', asi.telefono, ' / DNI: ', asi.DNI);
 	end;
 	
 procedure GenerarArchivo(var arch: archivo);
@@ -67,10 +74,23 @@ procedure MarcarRegistros(var arch: archivo);
 		while (registro.nro <> CORTE) do begin
 			//Eliminar de forma lógica los asistentes con número de asistente menor a 1000
 			if (registro.nro < 1000) then begin
-				registro.apellidoNombre:= '*'; //Colocar marca
+				registro.apellidoNombre:= '*' + registro.apellidoNombre; //Colocar marca
 				seek(arch, filepos(arch)-1);
 				write(arch, registro);
 			end;
+			Leer(arch, registro);
+		end;
+		close(arch);
+	end;
+procedure ImprimirArchivo(var arch: archivo);
+	var
+		registro: asistente;
+	begin
+		Reset(arch);
+		Leer(arch, registro);
+		while (registro.nro <> CORTE) do begin
+			ImprimirAsistente(registro);
+			writeln(' ---------- ');
 			Leer(arch, registro);
 		end;
 		close(arch);
@@ -84,10 +104,11 @@ begin
 	write('Nombre del archivo: '); readln(userInput);
 	Assign(arch, PREFIJO + userInput);
 	while (opcion <> 0) do begin
-		write(' 1: Generar Archivo - 2: Baja lógica ___'); readln(opcion);
-		case opcion of begin
+		write(' 1: Generar Archivo - 2: Baja Logica - 3: Imprimir Archivo - 0: Cerrar Programa ___'); readln(opcion);
+		case opcion of
 			1: GenerarArchivo(arch);
 			2: MarcarRegistros(arch);
+			3: ImprimirArchivo(arch);
 		end;
 	end;
 	writeln(' Programa finalizado ');
