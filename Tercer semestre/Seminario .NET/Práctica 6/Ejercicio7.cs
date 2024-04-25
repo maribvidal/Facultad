@@ -1,4 +1,4 @@
-Imprimidor.Imprimir(new A(), new B(), new C(), new D());
+Impresor.Imprimir(new A(), new B(), new C(), new D());
 
 class A : Letra {
     public override void Imprimir() {
@@ -28,7 +28,7 @@ abstract class Letra { //Declarar clase abstracta para todas las clases de letra
     public abstract void Imprimir();
 }
 
-static class Imprimidor
+static class Impresor
 {
     public static void Imprimir(params object[] vector) {
         foreach (Letra l in vector)
