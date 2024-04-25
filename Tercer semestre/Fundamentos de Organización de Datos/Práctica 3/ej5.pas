@@ -27,12 +27,6 @@ procedure imprimirFlor(reg: reg_flor);
 		writeln(' NOMBRE: ', reg.nombre, ' / Codigo: ', reg.codigo);
 	end;
 	
-procedure ubicarRegistro(var a: tArchFlores; var reg: reg_flor);
-	begin
-		seek(a, (reg.codigo * -1));
-		leer(a, reg);
-	end;
-	
 function florEquals(reg1, reg2: reg_flor):boolean;
 	begin
 		florEquals:= (reg1.codigo = reg2.codigo) and (reg1.nombre = reg2.nombre);
@@ -50,27 +44,18 @@ procedure agregarFlor(var a: tArchFlores; nombre: string; codigo: integer);
 		ultCodigo: integer;
 		reg, insertar: reg_flor;
 	begin
-		//Inicializar variable que guarda la posición del último registro libre
-		ultCodigo:= 0;
 		insertar.nombre:= nombre;
 		insertar.codigo:= codigo;
 	
 		//Abrir archivo y leer registro cabecera
 		Reset(a);
 		read(a, reg);
-		writeln('log ', reg.codigo);
 		
 		//Si el registro cabecera apunta hacia alguna posición, ir allí
 		if (reg.codigo <> 0) then begin
-			ubicarRegistro(a, reg);
-			
-			//Comprobar si hay más registros reutilizables, y almacenar el código del espacio que se va a reemplazar
-			while (reg.codigo <> 0) do begin
-				ultCodigo:= reg.codigo;
-				writeln('log ', ultCodigo, ' ', filepos(a));
-				ubicarRegistro(a, reg);
-			end;
-			
+			seek(a, (reg.codigo * -1));
+			leer(a, reg); //Leer dicho registro
+			ultCodigo:= reg.codigo;
 			
 			//Insertar nuevo código
 			seek(a, filepos(a) - 1);
