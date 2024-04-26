@@ -140,7 +140,7 @@ begin
 	writeln;
 
 	//Cargar archivo maestro
-	write('Ingrese el nombre del archivo maestro: '); readln(entradaUsuario);
+	writeln('Ingrese el nombre del archivo maestro: '); readln(entradaUsuario);
 	Assign(mae, PREFIJO + entradaUsuario);
 	writeln;
 	
