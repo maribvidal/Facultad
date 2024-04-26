@@ -79,13 +79,22 @@ procedure BorrarRegistro(var arch: archivo);
 		ultReg: especie;
 	begin
 		posIni:= filepos(arch);
-		seek(arch, filesize(arch) - 1);
-		read(arch, ultReg); //Copiar ultimo registro
-		writeln('log');
-		seek(arch, filesize(arch) - 1);
-		Truncate(arch); //Eliminarlo del archivo
-		seek(arch, posIni - 1);
-		write(arch, ultReg); //Pasarlo a la posición libre
+		//La lógica para borrar el último registro es diferente del de las demás, ya que se saltea un paso
+		if (posIni <> filesize(arch)) then begin
+			seek(arch, filesize(arch) - 1);
+			read(arch, ultReg); //Copiar ultimo registro
+			seek(arch, filesize(arch) - 1);
+			Truncate(arch); //Eliminarlo del archivo
+			seek(arch, posIni - 1);
+			write(arch, ultReg); //Pasarlo a la posición libre
+		end else begin
+			seek(arch, posIni - 1);
+			Truncate(arch);
+		end;
+		
+		//Actualizar el archivo, enviando el buffer a memoria
+		Close(arch);
+		Reset(arch);
 	end;
 procedure BorrarRegistros(var arch: archivo);
 	var
