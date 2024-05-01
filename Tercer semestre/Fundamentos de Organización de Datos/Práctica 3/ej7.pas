@@ -72,6 +72,24 @@ procedure MarcarRegistros(var arch: archivo; codigoEsp: integer);
 		
 		Close(arch);
 	end;
+procedure ExisteCodigo(var arch: archivo; codigoEsp: integer; var existe: boolean);
+	var
+		reg: especie;
+	begin
+		Reset(arch);
+		Leer(arch, reg);
+		existe:= false;
+		
+		//Por la pre-condición, no tenemos un criterio de busqueda para los registros
+		while (reg.codigo <> CORTE) and not (existe) do begin
+			if (reg.codigo = codigoEsp) then
+				BajaLogica(arch, reg);
+				existe:= true;
+			Leer(arch, reg);
+		end;
+		
+		Close(arch);
+	end;
 	
 procedure BorrarRegistro(var arch: archivo);
 	var
@@ -117,6 +135,7 @@ var
 	arch: archivo;
 	entradaCodigo: longint;
 	entradaUsuario: string;
+	existe: boolean;
 begin
 	//Cargar archivo
 	writeln('Ingrese el nombre del archivo: '); readln(entradaUsuario);
@@ -127,7 +146,11 @@ begin
 	//Bucle para eliminar especies
 	writeln(' > Ingrese el codigo de la especie que desea eliminar: '); readln(entradaCodigo);
 	while (entradaCodigo <> CORTE_BAJAS) do begin
-		MarcarRegistros(arch, entradaCodigo);
+		ExisteCodigo(arch, entradaCodigo, existe);
+		if (existe) then
+			MarcarRegistros(arch, entradaCodigo)
+		else
+			writeln(' * El codigo', entradaCodigo, ' no se encuentra en el archivo');
 		writeln;
 		writeln(' > Ingrese el codigo de la especie que desea eliminar: '); readln(entradaCodigo);
 	end;
