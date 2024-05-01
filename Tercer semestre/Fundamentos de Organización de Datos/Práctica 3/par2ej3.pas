@@ -65,19 +65,6 @@ procedure ImprimirArchivo(var arch: archivo);
 		end;
 		Close(arch);
 	end;
-
-function PosicionFueProcesada(lis: lista; pos: integer):boolean;
-	var
-		procesado: boolean;
-	begin
-		procesado:= false;
-		while (lis <> nil) and not (procesado) do begin
-			if (lis^.valor = pos) then
-				procesado:= true;
-			lis:= lis^.sig;
-		end;
-		PosicionFueProcesada:= procesado;
-	end;
 	
 function CodigoFueLeido(lis: lista; codigo: integer):boolean;
 	var
@@ -91,49 +78,44 @@ function CodigoFueLeido(lis: lista; codigo: integer):boolean;
 		end;
 		CodigoFueLeido:= encontrado;
 	end;
-	
+
+procedure ResetearPuntero(var arch: archivo);
+	begin
+		if (filepos(arch) <> 0) then
+			seek(arch, 0);
+	end;
+
 procedure ResetearPunteros(var arr: arrFile);
 	var
 		i: integer;
 	begin
-		for i:= 1 to 5 do begin
-			if (filepos(arr[i]) <> 0) then
-				seek(arr[i], 0);
-		end;
+		for i:= 1 to 5 do
+			ResetearPuntero(arr[i]);
 	end;
 
 //	PROGRAMA PRINCIPAL
 var
 	arrArchivos: arrFile;
-	arrPosiciones: arrLis;
 	arrRegistros: arrLog;
 	listaCodigos: lista;
 	
 	arch: archivo;
 	entradaUsuario: string;
-	cantRegistros: integer;
-	
-	registrosProcesados: integer;
 	tiempoTotal: integer;
 	codigoUsuario: integer;
 	
-	nuevoLog: log;
-	indice: integer;
 	i: integer;
+	faltePorRecorrer: boolean;
+	nuevoLog: log;
 begin
 	listaCodigos:= nil;
-	cantRegistros:= 0;
-	tiempoTotal:= 0;
-	registrosProcesados:= 0;
+	faltePorRecorrer:= true;
 	
 	for i:=1 to 5 do begin
 		write('Nombre del archivo detalle: '); readln(entradaUsuario);
 		Assign(arrArchivos[i], PREFIJO + entradaUsuario);
 		ImprimirArchivo(arrArchivos[i]);
 		Reset(arrArchivos[i]);
-		arrPosiciones[i]:= nil;
-		Leer(arrArchivos[i], arrRegistros[i]);
-		cantRegistros:= cantRegistros + filesize(arrArchivos[i]);
 		writeln;
 	end;
 
@@ -142,50 +124,53 @@ begin
 	Rewrite(arch);
 	writeln;
 	
-	//Recorrer la matriz de archivos
-	while (registrosProcesados <> cantRegistros) do begin
-		codigoUsuario:= 0;
-		tiempoTotal:= 0;
-		indice:= 0;
-		
-		//Buscar un código de localidad para comenzar a preguntar
-		while (CodigoFueLeido(listaCodigos, arrRegistros[indice].cod_usuario)) and (indice < 5) do begin
-			while (CodigoFueLeido(listaCodigos, arrRegistros[indice].cod_usuario)) and (arrRegistros[indice].cod_usuario <> CORTE) do
-				Leer(arrArchivos[indice], arrRegistros[indice]);
-			if not (CodigoFueLeido(listaCodigos, arrRegistros[indice].cod_usuario)) then
-				indice:= indice + 1;
-		end;
-		
-		//Si el código no fue leido
-		if not (CodigoFueLeido(listaCodigos, arrRegistros[indice].cod_usuario)) then begin
-			codigoUsuario:= arrRegistros[indice].cod_usuario;
-			AgregarAdelante(listaCodigos, arrRegistros[indice].cod_usuario);
-		end else begin
-			writeln(' * No quedan mas codigos sin procesar');
-		end;
-		
-		nuevoLog.cod_usuario:= codigoUsuario;
-		
-		while (registrosProcesados <> cantRegistros) and (arrRegistros[indice].cod_usuario <> CORTE) and (indice < 5) do begin
-			if (arrRegistros[indice].cod_usuario = codigoUsuario) then begin
-				if not (PosicionFueProcesada(arrPosiciones[indice], filepos(arrArchivos[indice]))) then begin
-					tiempoTotal:= tiempoTotal + arrRegistros[indice].tiempo_usuario;
-					AgregarAdelante(arrPosiciones[indice], filepos(arrArchivos[indice]));
-					registrosProcesados:= registrosProcesados + 1;
-				end else begin
-					writeln(' * Este registro ya fue procesado');
-				end;
+	while (faltePorRecorrer) do begin
+		//Encontrar primer código sin procesar
+		codigoUsuario:= -1;
+		i:= 1;
+		while (i < 6) and (codigoUsuario = -1) do begin
+			ResetearPuntero(arrArchivos[i]);
+			Leer(arrArchivos[i], arrRegistros[i]);
+			while (i < 6) and (codigoUsuario = -1) and (arrRegistros[i].cod_usuario <> CORTE) do begin
+				if not (CodigoFueLeido(listaCodigos, arrRegistros[i].cod_usuario)) then
+					codigoUsuario:= arrRegistros[i].cod_usuario;
+				writeln(codigoUsuario);
+				Leer(arrArchivos[i], arrRegistros[i]);
 			end;
-			if (arrRegistros[indice].cod_usuario = CORTE) then
-				indice:= indice + 1;
-			Leer(arrArchivos[indice], arrRegistros[indice]);
+			i:= i + 1;
 		end;
 		
-		nuevoLog.tiempo_usuario:= tiempoTotal;
-		write(arch, nuevoLog);
-		writeln('log');
+		//Revisar si el código no es -1
+		if (codigoUsuario <> -1) then begin
+			AgregarAdelante(listaCodigos, codigoUsuario);
+			writeln('Recorriendo archivo con el codigo ', codigoUsuario);
+			nuevoLog.cod_usuario:= codigoUsuario; 
+		end else begin
+			faltePorRecorrer:= false;
+			writeln('Se recorrio todo el archivo');
+		end;
 		
-		ResetearPunteros(arrArchivos);
+		//Si sigue faltando por recorrer
+		if (faltePorRecorrer) then begin
+			tiempoTotal:= 0;
+			
+			//Recorrer los 5 archivos
+			i:= 1;
+			while (i < 6) do begin
+				ResetearPuntero(arrArchivos[i]);
+				Leer(arrArchivos[i], arrRegistros[i]);
+				while (arrRegistros[i].cod_usuario <> CORTE) do begin
+					if (arrRegistros[i].cod_usuario = codigoUsuario) then
+						tiempoTotal:= tiempoTotal + arrRegistros[i].tiempo_usuario;
+					Leer(arrArchivos[i], arrRegistros[i]);
+				end;
+				i:= i + 1;
+			end;
+			
+			//Agregar registro al archivo que estamos creando
+			nuevoLog.tiempo_usuario:= tiempoTotal;
+			write(arch, nuevoLog);
+		end;
 	end;
 	
 	//Cerrar los archivos
