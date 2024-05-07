@@ -51,5 +51,25 @@ public class ParcialArboles {
 				caminoActual.remove(caminoActual.size()-1);
 			}
 		}
+	private static int resolverloV2(GeneralTree<Integer> arbol, List<Integer> camFM, List<Integer> camAct, int nivel, int costoFM, int costoAct)
+	{
+		if (arbol.getData() == 1) {
+			camAct.add(1);
+			costoAct += nivel;
+		}
+		if (arbol.isLeaf()) {
+			if (costoAct > costoFM) {
+				costoFM = costoAct;
+				camFM.clear();
+				camFM.addAll(camAct);
+			}
+		}
+		else {
+			for (GeneralTree<Integer> h : arbol.getChildren()) {
+				costoFM = resolverloV2(h, camFM, camAct, nivel + 1, costoFM, costoAct);
+			}
+		}
+		return costoFM;
+	}
 	}
 }
