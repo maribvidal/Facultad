@@ -1,0 +1,1 @@
+5) La salida de dicho código cambia con el valor de i, por lo que se deduce que la variable guarda la referencia al método
