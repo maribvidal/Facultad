@@ -31,18 +31,19 @@ public class Temporizador
     {
         int ticks = 0;
 
-        double oldTime = DateTime.Now.Millisecond;
-        double newTime = oldTime;
+        double oldTicks = DateTime.Now.Ticks;
+        double newTicks = oldTicks;
 
         while (_habilitado)
         {
-            newTime = DateTime.Now.Millisecond;
-            if (newTime - oldTime > _intervalo)
+            newTicks = DateTime.Now.Ticks;
+            if (newTicks - oldTicks > _intervalo)
             {
                 ticks++;
                 var argumentos = new TemporizadorEventArgs() { Tics = ticks };
                 _tic(this, argumentos); //Llamar a la función delegada
-                oldTime = newTime;
+                Thread.Sleep(_intervalo); //Simular tiempo
+                oldTicks = newTicks;
             }
         }
     }
