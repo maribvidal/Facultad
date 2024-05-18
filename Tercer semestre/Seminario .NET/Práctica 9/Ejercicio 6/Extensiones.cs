@@ -17,7 +17,7 @@ public static class Extensiones
                 yield return dato;
         }
     }
-    public static IEnumerable<TResult> Seleccionar<T, TResult>(this IEnumerable<T> secuencia, Action<T, TResult> action)
+    public static IEnumerable<TResult> Seleccionar<T, TResult>(this IEnumerable<T> secuencia, Func<T, TResult> action)
     {
         foreach (T dato in secuencia)
         {
