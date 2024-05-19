@@ -4,7 +4,12 @@ class Validador<T>
 {
     List<ReglaValidacion<T>> _listaReglas = new List<ReglaValidacion<T>>();
 
-    public void AgregarRegla(ReglaValidacion<T> regla) => _listaReglas.Add(regla);
+    public Validador<T> AgregarRegla(ReglaValidacion<T> regla)
+    {
+        _listaReglas.Add(regla);
+        return this;
+    }
+
     public bool Validar(T objeto, out List<string> errores)
     {
         errores = new List<string>();
