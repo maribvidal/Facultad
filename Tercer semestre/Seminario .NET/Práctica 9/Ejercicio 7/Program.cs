@@ -5,10 +5,7 @@ var regla1 = new ReglaValidacion<Persona>(p => p.Nombre != "", "Falta el nombre"
 var regla2 = new ReglaValidacion<Persona>(p => p.Edad <= 35, "Edad excedida");
 var regla3 = new ReglaValidacion<Persona>(p => p.Edad >= 18, "Menor de edad");
 
-var validadorPersona = new Validador<Persona>();
-validadorPersona.AgregarRegla(regla1);
-validadorPersona.AgregarRegla(regla2);
-validadorPersona.AgregarRegla(regla3);
+var validadorPersona = new Validador<Persona>().AgregarRegla(regla1).AgregarRegla(regla2).AgregarRegla(regla3);
 
 var pedro = new Persona { Nombre = "Pedro", Edad = 17 };
 var ana = new Persona { Nombre = "", Edad = 16 };
