@@ -61,4 +61,44 @@ var query3dos = db.Cursos.Join(query3,
                               });
 query3dos.OrderBy(obj => obj.Alumno).ToList().ForEach(obj => Console.WriteLine(obj));
 
+Console.WriteLine();
+
+//      INCISO D
+
+var query3filtrado = query3dos.Where(obj => obj.Nota >= 6);
+query3filtrado.OrderBy(obj => obj.Alumno).ToList().ForEach(obj => Console.WriteLine(obj));
+
+Console.WriteLine();
+
+//      INCISO E
+
+var query4 = db.Alumnos.Where(a => a.Examenes.Count == 0);
+query4.ToList().ForEach(a => Console.WriteLine(a.Nombre));
+
+Console.WriteLine();
+
+//    INCISO F
+
+double promedio;
+List<object> listaIncisoF = new List<object>();
+var query5 = db.Alumnos.Include(a => a.Examenes).Where(a => a.Examenes.Count > 0);
+foreach (Alumno a in query5)
+{
+    promedio = obtenerNota(a.Examenes);
+    var obj = new { Alumno = a.Nombre, Promedio = promedio };
+    listaIncisoF.Add(obj);
+}
+listaIncisoF.ForEach(obj => Console.WriteLine(obj));
+
+double obtenerNota(List<Examen>? listaExamenes)
+{
+    double promedio = 0;
+    foreach (Examen ex in listaExamenes)
+    {
+        promedio += ex.Nota;
+    }
+    promedio = promedio / listaExamenes.Count;
+    return promedio;
+}
+
 // USING
