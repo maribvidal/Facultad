@@ -1,9 +1,7 @@
-package tp5.ejercicio2;
+package tp5.ejercicio6;
 
 import java.util.*;
 
-import tp5.ejercicio1.Edge;
-import tp5.ejercicio1.Graph;
 import tp5.ejercicio1.Vertex;
 
 import tp5.ejercicio1.adjList.*;
