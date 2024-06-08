@@ -39,10 +39,12 @@ public class Prueba {
 		miMapaCiudad.connect(CiudadF, CiudadG, 7);
 		miMapaCiudad.connect(CiudadE, CiudadG, 5);
 		
-		//Probar código
-		Mapa mapa = new Mapa(miMapaCiudad);
-		List<String> caminoBaG = mapa.devolverCamino("Ciudad B", "Ciudad G");
+		//PROBAR CÓDIGO
 		
+		//Incisos 1 y 2
+		Mapa mapa = new Mapa(miMapaCiudad);
+		
+		List<String> caminoBaG = mapa.devolverCamino("Ciudad B", "Ciudad G");
 		for (String nombreCiudad : caminoBaG) {
 			System.out.print(nombreCiudad + " ");
 		}
@@ -50,16 +52,29 @@ public class Prueba {
 		
 		List<String> ciudadesNoPermitidas = new LinkedList<String>();
 		ciudadesNoPermitidas.add("Ciudad B");
-		List<String> caminoAaG = mapa.devolverCaminoExceptuando("Ciudad A", "Ciudad G", ciudadesNoPermitidas);
 		
+		List<String> caminoAaG = mapa.devolverCaminoExceptuando("Ciudad A", "Ciudad G", ciudadesNoPermitidas);
 		for (String nombreCiudad : caminoAaG) {
 			System.out.print(nombreCiudad + " ");
 		}
 		System.out.println();
 		
 		List<String> caminoDaC = mapa.devolverCamino("Ciudad D", "Ciudad C");
-		
 		for (String nombreCiudad : caminoDaC) {
+			System.out.print(nombreCiudad + " ");
+		}
+		System.out.println();
+		
+		//Inciso 3
+		List<String> caminoMasCortoAG = mapa.caminoMasCorto("Ciudad A", "Ciudad G");
+		for (String nombreCiudad : caminoMasCortoAG) {
+			System.out.print(nombreCiudad + " ");
+		}
+		System.out.println();
+		
+		//Inciso 4
+		List<String> camCombustibleAG = mapa.caminoSinCargarCombustible("Ciudad A", "Ciudad G", 25);
+		for (String nombreCiudad : camCombustibleAG) {
 			System.out.print(nombreCiudad + " ");
 		}
 		System.out.println();
