@@ -107,4 +107,132 @@ public class Mapa {
 		
 		return destinoEncontrado;
 	}
+	
+	//INCISO 3
+	
+	public List<String> caminoMasCorto(String ciudad1, String ciudad2) {
+		List<String> devolver = new LinkedList<String>();
+		
+		if (!mapaCiudades.isEmpty()) {
+			Vertex<String> verticeInicial = mapaCiudades.search(ciudad1);
+			Vertex<String> verticeFinal = mapaCiudades.search(ciudad2);
+
+			if (verticeInicial != null && verticeFinal != null)
+				caminoMasCorto(new boolean[mapaCiudades.getSize()], verticeInicial, verticeFinal, new LinkedList<String>(), devolver, 0, 9999);
+		}
+		
+		return devolver;
+	}
+	
+	private int caminoMasCorto(boolean[] marca, Vertex<String> vA, Vertex<String> vF, List<String> camAct, List<String> camMin, int dist, int distMin) {
+		marca[vA.getPosition()] = true;
+		camAct.add(vA.getData());
+		
+		if (vA == vF && dist < distMin) {
+			camMin.removeAll(camMin);
+			camMin.addAll(camAct);
+			distMin = dist;
+			System.out.println(distMin);
+		} else {
+			List<Edge<String>> adyacentes = mapaCiudades.getEdges(vA);
+			for (Edge<String> ady : adyacentes) {
+				Vertex<String> verticeDestino = ady.getTarget();
+				if (!marca[verticeDestino.getPosition()])
+					distMin = caminoMasCorto(marca, verticeDestino, vF, camAct, camMin, dist + ady.getWeight(), distMin);
+			}
+		}
+		
+		camAct.remove(camAct.size() - 1);
+		marca[vA.getPosition()] = false;
+		return distMin;
+	}
+	
+	// INCISO 4
+	
+	public List<String> caminoSinCargarCombustible(String ciudad1, String ciudad2, int tanqueAuto) {
+		List<String> devolver = new LinkedList<String>();
+		
+		if (!mapaCiudades.isEmpty()) {
+			Vertex<String> verticeInicial = mapaCiudades.search(ciudad1);
+			Vertex<String> verticeFinal = mapaCiudades.search(ciudad2);
+
+			if (verticeInicial != null && verticeFinal != null)
+				caminoSinCargarCombustible(new boolean[mapaCiudades.getSize()], verticeInicial, verticeFinal, devolver, tanqueAuto);
+		}
+		
+		return devolver;
+	}
+	
+	private boolean caminoSinCargarCombustible(boolean[] marca, Vertex<String> vA, Vertex<String> vF, List<String> camAct, int combustible) {
+		boolean sePudo = false;
+		
+		marca[vA.getPosition()] = true;
+		camAct.add(vA.getData());
+		
+		if (vA == vF) {
+			return true;
+		} else {
+			List<Edge<String>> adyacentes = mapaCiudades.getEdges(vA);
+			for (Edge<String> ady : adyacentes) {
+				Vertex<String> verticeDestino = ady.getTarget();
+				if (!marca[verticeDestino.getPosition()] && combustible - ady.getWeight() > 0 && !sePudo)
+					sePudo = caminoSinCargarCombustible(marca, verticeDestino, vF, camAct, combustible - ady.getWeight());
+			}
+		}
+		
+		if (sePudo == false) {
+			camAct.remove(camAct.size() - 1);
+		}
+		
+		marca[vA.getPosition()] = false;
+		return sePudo;
+	}
+	
+	//INCISO 5 - gracias mati
+	
+	public List<String> caminoConMenorCargaDeCombustible(String ciudad1, String ciudad2, int tanqueAuto) {
+		List<String> devolver = new LinkedList<String>();
+		
+		if (!mapaCiudades.isEmpty()) {
+			Vertex<String> verticeInicial = mapaCiudades.search(ciudad1);
+			Vertex<String> verticeFinal = mapaCiudades.search(ciudad2);
+
+			if (verticeInicial != null && verticeFinal != null)
+				caminoConMenorCargaDeCombustible(new boolean[mapaCiudades.getSize()], verticeInicial, verticeFinal, new LinkedList<String>(), devolver, tanqueAuto, tanqueAuto, 0, 9999);
+		}
+		
+		return devolver;
+	}
+	
+	private int caminoConMenorCargaDeCombustible(boolean[] marca, Vertex<String> vA, Vertex<String> vF, List<String> camAct, List<String> camMin, int combustible, int combustibleMin, int recargas, int recargasMin) {
+		marca[vA.getPosition()] = true;
+		camAct.add(vA.getData());
+		
+		//Cuando se llega a destino, comprobar si se realizaron menos recargas que la vez pasada
+		if (vA == vF && recargas < recargasMin) {
+			camMin.removeAll(camMin);
+			camMin.addAll(camAct);
+			recargasMin = recargas;
+		} else {
+			List<Edge<String>> adyacentes = mapaCiudades.getEdges(vA);
+			Iterator<Edge<String>> iterador = adyacentes.iterator();
+			while (iterador.hasNext() && recargas < recargasMin) {
+				Edge<String> arista = iterador.next();
+				Vertex<String> vertice = arista.getTarget();
+				int distancia = arista.getWeight();
+				
+				if (!marca[vertice.getPosition()]) {
+					if (combustible >= distancia) {
+						recargasMin = caminoConMenorCargaDeCombustible(marca, vertice, vF, camAct, camMin, combustible - distancia, combustibleMin, recargas, recargasMin);
+					} else if (combustibleMin >= distancia) {
+						recargasMin = caminoConMenorCargaDeCombustible(marca, vertice, vF, camAct, camMin, combustibleMin - distancia, combustibleMin, recargas + 1, recargasMin);
+					}
+				}
+			}
+		}
+		
+		marca[vA.getPosition()] = false;
+		camAct.remove(camAct.size() - 1);
+		return recargasMin;
+	}
 }
