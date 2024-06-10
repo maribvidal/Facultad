@@ -29,7 +29,9 @@
 				}
 			}
 			
+			//Si distMin sigue siendo 9999 al salir del for, es porque todas las posiciones están procesadas
 			if (distMin == 9999) {matrizProcesada = true;}
+			
 			if (!matrizProcesada) {
 				verticeActual = mapaCiudades.getVertex(posMin);
 				matrizDijkstra[verticeActual.getPosition()][2] = 1;
