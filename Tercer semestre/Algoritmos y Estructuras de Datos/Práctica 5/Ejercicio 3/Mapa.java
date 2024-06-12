@@ -94,7 +94,7 @@ public class Mapa {
 				
 				//Si el nombre de la ciudad del vértice al cual apunta la arista no figura en la lista pasada por parámetro, entonces ir
 				if (ciudades.indexOf(adyacenteActual.getTarget().getData()) == -1) {
-					destinoEncontrado = devolverCamino(adyacentes.get(i).getTarget().getPosition(), pos2, camino);
+					destinoEncontrado = devolverCaminoExceptuando(adyacentes.get(i).getTarget().getPosition(), pos2, caminos, camino);
 				}
 				
 				i++;
