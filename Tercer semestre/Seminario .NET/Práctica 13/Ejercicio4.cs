@@ -8,6 +8,7 @@ class Program
         for (int i = 0; i < 1000; i++)
         {
             vectorTareas[i] = new Task(obj => Imprimir(obj), i);
+            vectorTareas[i].Start();
         }
         Task.WaitAll(vectorTareas);
     }
