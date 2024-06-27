@@ -49,8 +49,8 @@ public class Parcial {
 			for (Edge<NodoParcial> ady : adyacentes) {
 				if (tiempo - ady.getWeight() >= 0) {
 					Vertex<NodoParcial> vN = ady.getTarget();
-					if (!marca[vN.getPosition()]) {//Esta línea no la había puesto en el parcial
-						System.out.println("Vertice próximo: " + vN.getData().getNombre());
+					if (!marca[vN.getPosition()]) {
+						//System.out.println("Vertice próximo: " + vN.getData().getNombre());
 						recoMax = resolver(sitios, marca, vN, tiempo - ady.getWeight(), reco, recoMax);	
 					}
 				}
