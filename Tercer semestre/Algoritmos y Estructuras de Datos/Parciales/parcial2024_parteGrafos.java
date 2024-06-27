@@ -43,7 +43,7 @@ public class Parcial {
 			reco++;
 			if (reco > recoMax) {
 				recoMax = reco;
-				System.out.println(" Se guardan los recorridos -- " + reco + " / " + recoMax);
+				//System.out.println(" Se guardan los recorridos -- " + reco + " / " + recoMax);
 			}
 			List<Edge<NodoParcial>> adyacentes = sitios.getEdges(vertice);
 			for (Edge<NodoParcial> ady : adyacentes) {
