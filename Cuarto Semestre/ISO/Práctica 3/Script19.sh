@@ -12,10 +12,10 @@ select opcion in Ejercicio3 Ejercicio12A Ejercicio12B Ejercicio12C Ejercicio13A 
 
                 case $opcion in
                         "Ejercicio3")
-                                test -f Script3.sh && bash Script3.sh  || echo "$msjError $opcion"
+                                test -f mostrar.sh && bash mostrar.sh  || echo "$msjError $opcion"
                                 ;;
                         "Ejercicio12A")
-                                test -f script12a.sh && bash script12a.sh || echo "$msjError $opcion"
+                                test -f Script12A.sh && bash Script12.sh || echo "$msjError $opcion"
                                 ;;
                         "Ejercicio12B")
                                 echo "> NUMERO 1: "
@@ -31,7 +31,7 @@ select opcion in Ejercicio3 Ejercicio12A Ejercicio12B Ejercicio12C Ejercicio13A 
                                 read ope
                                 echo "> NUMERO 2: "
                                 read num2
-                                test -f script12c.sh && bash script12c.sh $num1 $ope $num2 || echo "$msjError $opcion"
+                                test -f Script12C.sh && bash Script12C.sh $num1 $ope $num2 || echo "$msjError $opcion"
                                 ;;
                         "Ejercicio13A")
                                 test -f Script13A.sh && bash Script13A.sh || echo "$msjError $opcion"
