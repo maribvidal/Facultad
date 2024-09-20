@@ -1,91 +1,56 @@
-package ar.edu.unlp.info.oo1.ejercicio6.archetype;
+package ar.edu.unlp.oo1.ejercicio6;
 
 import java.time.LocalDate;
 
 public class Mamifero {
-	String identificador = "";
+	String identificador;
 	String especie;
 	LocalDate fechaNacimiento;
-	Mamifero padre;
 	Mamifero madre;
-	Mamifero abueloMaterno;
-	Mamifero abuelaMaterna;
-	Mamifero abueloPaterno;
-	Mamifero abuelaPaterna;
+	Mamifero padre;
 	
-	public Mamifero() {};
-	public Mamifero(String identificador) {this.setIdentificador(identificador);}
+	// CONSTRUCTOR
+	public Mamifero() {}
+	public Mamifero(String identificador) { this.identificador = identificador; }
 	
-	// Getters & Setters
-	public void setIdentificador(String identificador) {this.identificador = identificador;}
-	public String getIdentificador() {return this.identificador;}
-
-	public String getEspecie() {
-		return especie;
-	}
-
-	public void setEspecie(String especie) {
-		this.especie = especie;
-	}
-
-	public LocalDate getFechaNacimiento() {
-		return fechaNacimiento;
-	}
-
-	public void setFechaNacimiento(LocalDate fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
-	}
-
-	public Mamifero getPadre() {
-		return padre;
-	}
-
+	// MÉTODOS
+	public void setIdentificador(String identificador) { this.identificador = identificador; } 
+	public String getIdentificador() { return this.identificador; }
+	public void setEspecie(String especie) { this.especie = especie; }
+	public String getEspecie() { return this.especie; }
+	public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+	public LocalDate getFechaNacimiento() { return this.fechaNacimiento; }
+	
+	public Mamifero getMadre() { return this.madre; }
+	public Mamifero getPadre() { return this.padre; }
+	
 	public void setPadre(Mamifero padre) {
 		this.padre = padre;
-		if (this.getPadre() != null) {
-			if (padre.getPadre() != null) {
-				this.abueloPaterno = padre.getPadre();
-			}
-			if (padre.getMadre() != null) {
-				this.abuelaPaterna = padre.getMadre();
-			}
-		}
 	}
-
-	public Mamifero getMadre() {
-		return madre;
-	}
-
+	
 	public void setMadre(Mamifero madre) {
 		this.madre = madre;
-		if (this.getMadre() != null) {
-			if (madre.getPadre() != null) {
-				this.abueloMaterno = madre.getPadre();
-			}
-			if (madre.getMadre() != null) {
-				this.abuelaMaterna = madre.getMadre();
-			}
-		}
 	}
-	public Mamifero getAbueloMaterno() {return abueloMaterno;}
-	public Mamifero getAbuelaMaterna() {return abuelaMaterna;}
-	public Mamifero getAbueloPaterno() {return abueloPaterno;}
-	public Mamifero getAbuelaPaterna() {return abuelaPaterna;}
 	
-	//@Override
-	public boolean equals(Mamifero unMamifero) {
-		return this.identificador == unMamifero.getIdentificador();
-	}
+	public Mamifero getAbueloPaterno() { return (this.getPadre() != null ? this.getPadre().getPadre() : null); }
+	public Mamifero getAbuelaPaterna() { return (this.getPadre() != null ? this.getPadre().getMadre() : null); }
+	public Mamifero getAbueloMaterno() { return (this.getMadre() != null ? this.getMadre().getPadre() : null); }
+	public Mamifero getAbuelaMaterna() { return (this.getMadre() != null ? this.getMadre().getMadre() : null); }
 	
 	public boolean tieneComoAncestroA(Mamifero unMamifero) {
-		if (((this.getPadre() != null) && (this.getPadre().equals(unMamifero))) || 
-				((this.getMadre() != null) && (this.getMadre().equals(unMamifero))) || 
-				((this.getAbueloPaterno() != null) && (this.getAbueloPaterno().equals(unMamifero))) || 
-				((this.getAbuelaPaterna() != null) && (this.getAbuelaPaterna().equals(unMamifero))) || 
-				((this.getAbueloMaterno() != null) && (this.getAbueloMaterno().equals(unMamifero))) || 
-				((this.getAbuelaMaterna() != null) && (this.getAbuelaMaterna().equals(unMamifero)))) {
-			return true;
+		return recorrerRama(this, unMamifero);
+	}
+	
+	private boolean recorrerRama(Mamifero pariente, Mamifero mamifero) {
+		boolean devolver = false;
+		if (pariente.getPadre() != null && !devolver) { 
+			if (pariente.getPadre().equals(mamifero)) { return true; }
+			devolver = devolver || recorrerRama(pariente.getPadre(), mamifero);
 		}
-		return false;
+		if (pariente.getMadre() != null && !devolver) { 
+			if (pariente.getMadre().equals(mamifero)) { return true; }
+			devolver = devolver || recorrerRama(pariente.getMadre(), mamifero);
+		}
+		return devolver;
 	}
 }
