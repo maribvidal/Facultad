@@ -10,7 +10,7 @@ function agregar_elem() {
 
 function eliminar_elem() {
 	delete=$1
-	arrayVacio=("$(arrayVacio[@]/$delete)")
+	arrayVacio=("${arrayVacio[@]/$delete}")
 }
 
 function longitud() {
