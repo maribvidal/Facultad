@@ -1,0 +1,15 @@
+@startuml
+class Farola {
+-encendido: bool
+-vecinos: Farola[*]
++<<create>> Farola()
++isOn(): bool
++isOff(): bool
++turnOn()
++turnOff()
++pairWithNeighbors()
++getNeighbors(): Farola[*]
+}
+
+Farola::vecinos -r-> Farola::vecinos : 0..N
+@enduml
