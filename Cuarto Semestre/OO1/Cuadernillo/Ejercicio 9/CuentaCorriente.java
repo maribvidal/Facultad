@@ -1,10 +1,20 @@
-package ar.unlp.tendler.ejercicio9;
+package ar.edu.unlp.oo1.ejercicio9;
 
 public class CuentaCorriente extends Cuenta {
-    @Override
-    
-    
+    double limiteDescubierto;
+	
+    public CuentaCorriente(double saldo) {
+    	super.depositar(saldo);
+    	limiteDescubierto = 0;
+    }
+	
+    public void setLimiteDescubierto (double limite) { //lo negocia cada cliente
+    	if (limite > 0)
+    		limiteDescubierto = limite;
+    }
+   
+	@Override
     public boolean puedeExtraer(double monto) {
-        return (this.getSaldo() - monto > 0);
+        return ((this.getSaldo() + limiteDescubierto) - monto > 0);
     }   
 }
