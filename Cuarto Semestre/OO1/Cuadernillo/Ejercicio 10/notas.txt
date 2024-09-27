@@ -1,5 +1,5 @@
 EJERCICIO 10 -- < Job Scheduler >
-Hay dos enfoques para resolver este ejercicio. 
+Hay dos enfoques para resolver este ejercicio (que por lo menos ahora veo). 
 
 El PRIMERO es declarar a JobScheduler una clase abstracta
 y crear 4 clases, cada una con su estrategia propia, que
