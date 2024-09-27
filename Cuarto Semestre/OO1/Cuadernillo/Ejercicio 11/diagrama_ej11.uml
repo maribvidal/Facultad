@@ -1,7 +1,7 @@
 @startuml
 
 interface IInversion {
-
++valorActual(): Real;
 }
 
 class InversionEnAcciones {
@@ -18,8 +18,11 @@ class PlazoFijo {
 
 class Inversor {
 -nombre: String;
--inversiones: Inversion[*]
 +valorActual(): Real;
 }
+
+IInversion <|-- InversionEnAcciones
+IInversion <|-- PlazoFijo
+IInversion -* Inversor : IInversion 0..N
 
 @enduml
