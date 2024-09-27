@@ -23,3 +23,14 @@ clase abstracta o a la interfaz, va a seguir
 operando igual, y el tipo de la clase abstracta
 permite hacer boxing con cualquiera de las 4
 subclases.
+
+---------------------------------------------
+EDIT:
+
+Hay un tercer enfoque que consiste en dejar a
+la clase JobScheduler como una normal, pero que
+reemplaza la estrategia que esta emplee utilizando
+las 4 clases de JobScheduler antes planteadas,
+y tendría una variable de instancia de tipo interfaz,
+que estaría implementada por estas 4 clases, que
+se podría cambiar a gusto con un método setter.
