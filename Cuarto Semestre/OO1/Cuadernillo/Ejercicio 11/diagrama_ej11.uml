@@ -21,8 +21,8 @@ class Inversor {
 +valorActual(): Real;
 }
 
-IInversion <|-- InversionEnAcciones
-IInversion <|-- PlazoFijo
+IInversion <|.. InversionEnAcciones
+IInversion <|.. PlazoFijo
 IInversion -* Inversor : IInversion 0..N
 
 @enduml
