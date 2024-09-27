@@ -27,6 +27,7 @@ public class InversionEnAcciones implements IInversion {
 		this.valorUnitario = valorUnitario;
 	}
 
+	@Override
 	public double valorActual() {
 		return cantidad * valorUnitario;
 	}
