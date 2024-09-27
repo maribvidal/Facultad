@@ -30,6 +30,7 @@ public class PlazoFijo implements IInversion {
 		this.porcentajeDeInteresDiario = porcentajeDeInteresDiario;
 	}
 
+	@Override
 	public double valorActual() {
 		long cantidadDias = ChronoUnit.DAYS.between(fechaDeConstitucion, LocalDate.now());
 		double interes = cantidadDias * (porcentajeDeInteresDiario * montoDepositado);
