@@ -1,0 +1,25 @@
+@startuml
+
+interface IInversion {
+
+}
+
+class InversionEnAcciones {
+-nombre: String;
+-cantidad: Integer;
+-valorUnitario: Real;
+}
+
+class PlazoFijo {
+-fechaDeConstitucion: Date
+-montoDepositado: Real;
+-porcentajeDeInteresDiario: Real;
+}
+
+class Inversor {
+-nombre: String;
+-inversiones: Inversion[*]
++valorActual(): Real;
+}
+
+@enduml
