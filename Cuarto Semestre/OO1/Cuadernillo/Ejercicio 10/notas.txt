@@ -1,0 +1,25 @@
+EJERCICIO 10 -- < Job Scheduler >
+Hay dos enfoques para resolver este ejercicio. 
+
+El PRIMERO es declarar a JobScheduler una clase abstracta
+y crear 4 clases, cada una con su estrategia propia, que
+sean subclases de esta superclase JobScheduler.
+
+Esto tiene sentido hacerlo porque prácticamente los schedulers
+comparten toda la funcionalidad, lo único que no comparten es
+la forma de agregar el trabajo a la colección de trabajos
+pendientes. Entonces solo habría que declarar a next() como
+un método abstracto.
+
+El SEGUNDO es crear una interfaz IJobScheduler que defina
+los atributos y métodos que tiene que implementar cualquier
+clase que implemente dicha interfaz. Esto conllevaría
+reescribir todo el comportamiento que comparten los
+JobSchedulers 4 veces. 
+
+No veo qué ventaja se sacaría de  esto tampoco 
+porque el polimorfismo, sea con respecto a la
+clase abstracta o a la interfaz, va a seguir
+operando igual, y el tipo de la clase abstracta
+permite hacer boxing con cualquiera de las 4
+subclases.
