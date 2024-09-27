@@ -1,0 +1,13 @@
+EJERCICIO 11 -- < El Inversor >
+Para este ejercicio la mejor opción es utilizar
+una interfaz.
+
+En el ejercicio se pide que el inversor pueda 
+saber cuanto valen sus inversiones consultando 
+una variable colección que posee. Dado que las 
+inversiones pueden ser de dos tipos, 
+"InversionEnAcciones" o de "PlazoFijo", y que 
+estos dos tipos no comparten comportamiento en 
+absoluto, la mejor forma de proceder es crear 
+una interfaz, que pida el método valorActual(), 
+e implementársela a ambas.
