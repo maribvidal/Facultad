@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#
 # Posible implementación de la pila
 # Declárese a la pila como un vector
 pila=()
