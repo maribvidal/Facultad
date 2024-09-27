@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#
 function encontrarArchivo() {
         ruta=$(find /home -name $1)
         if [ $? -eq 0 ]; then
