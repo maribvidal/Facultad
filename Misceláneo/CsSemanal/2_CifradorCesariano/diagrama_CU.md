@@ -1,5 +1,5 @@
 # Diagrama
-![Diagrama de Casos de Uso del programa](./2_CifradorCesariano/dibujo.png)
+![Diagrama de Casos de Uso del programa](./dibujo.png)
 
 # Casos de Uso
 
