@@ -1,3 +1,3 @@
-Segundo proyecto de la serie: **Cifrador de Contraseñas Cesariano**
+Segundo proyecto de la serie: **Cifrador Cesariano**
 
 [WIP]
