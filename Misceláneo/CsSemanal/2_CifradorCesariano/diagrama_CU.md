@@ -1,5 +1,5 @@
 # Diagrama
-![Diagrama de Casos de Uso del programa](./dibujo.png)
+![Diagrama de Casos de Uso del programa](./dibujo_nuevo.png)
 
 # Casos de Uso
 
