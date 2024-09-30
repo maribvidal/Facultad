@@ -1,0 +1,19 @@
+@startuml
+
+class Cifrador {
+-mascara: List<int>
++<<create>> Cifrador(List<int> mascara)
++cifrar(string cadena): String
++descifrar(string cadena): String
+}
+
+class Enmascarador {
++generarMascara(): List<int>
++ingresarMascara(): List<int>
+}
+
+class ObtenerInput {
++obtener(): String
+}
+
+@enduml
