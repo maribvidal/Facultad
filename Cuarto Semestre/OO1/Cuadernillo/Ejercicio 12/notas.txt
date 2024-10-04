@@ -1,0 +1,17 @@
+EJERCICIO 12 -- < Volumen y superficie de sólidos >
+La diferencia principal entre este ejercicio y el primero, 
+es que en este las clases de figura sí comparten entre ellas 
+cierto conocimiento, o mejor dicho nos sirve que compartan 
+este conocimiento, a saber, el material y el color de las 
+figuras como piezas, porque el escenario del problema nos
+pide poder obtener cuanto mide o cubre cierto color o 
+material del volumen o la superficie de un objeto compuesto
+por varias piezas. 
+    Necesitamos algo de polimorfismo para que los distintos 
+tipos de pieza puedan especificar cómo se obtiene su volumen 
+o superficie,  pero después sabemos que lo demás lo puede 
+heredar sin problemas.
+
+En el problema anterior bastaba con una interfaz porque
+de cada figura solo nos interesaba que tuviera una forma
+de calcular las medidas pedidas.
