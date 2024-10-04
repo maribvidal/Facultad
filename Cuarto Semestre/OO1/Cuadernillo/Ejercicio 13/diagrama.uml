@@ -1,0 +1,16 @@
+@startuml
+
+class Archivo {
+-nombre : String
++<<create>> Archivo (nombre : String)
++tamaño (): integer
+}
+class Carpeta {
+-nombre : String
++<<create>> Carpeta(nombre: String)
++getNombre() : String
+
+
+
+}
+@enduml
