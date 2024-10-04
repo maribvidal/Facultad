@@ -2,7 +2,7 @@ package ar.edu.unlp.oo1.ejercicio14;
 
 import java.time.LocalDate;
 
-public class DateLapse {
+public class DateLapse implements IDateLapse {
 	LocalDate from; // Fecha Desde
 	LocalDate to;   // Fecha Hasta
 	
@@ -25,8 +25,8 @@ public class DateLapse {
 	
 	//“recibe un objeto LocalDate y retorna true si la fecha está entre el from y el to del receptor y false en caso contrario”.
 	public boolean includesDate(LocalDate other) {
-		boolean siVieneLuego = from.isBefore(other);
-		boolean peroAntesDelHasta = to.isAfter(other);
+		boolean siVieneLuego = getFrom().isBefore(other);
+		boolean peroAntesDelHasta = getTo().isAfter(other);
 		
 		return (siVieneLuego && peroAntesDelHasta);
 	}
