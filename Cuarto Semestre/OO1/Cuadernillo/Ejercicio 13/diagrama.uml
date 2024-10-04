@@ -5,12 +5,39 @@ class Archivo {
 +<<create>> Archivo (nombre : String)
 +tamaño (): integer
 }
+
 class Carpeta {
 -nombre : String
 +<<create>> Carpeta(nombre: String)
 +getNombre() : String
-
-
-
++agregarEmail(email : Email)
++buscarEmail(texto: String) : Email
++mover(email: Email, destino: Carpeta)
++tamañoTotal() 
++getEmails(): emails[*]
 }
+
+class ClienteDeCorreo {
++<<create>> ClienteDeCorreo() 
++recibir(email: Email) 
++buscar(texto: String): Email
++espacioOcupado(): Integer
+}
+
+class Email {
+-titulo : String
+-cuerpo : String
++<<create>> Email (titulo: String, cuerpo: String)
++getTitulo(): String
++getCuerpo(): String
++adjuntos(): archivos[*]
++tamaño(): Integer
++tieneTexto(texto: String): boolean
+}
+
+ClienteDeCorreo -down-* Carpeta : inbox 1
+ClienteDeCorreo -down-* Carpeta : carpetas 0..*
+Carpeta -right-* Email : emails 0..*
+Email -down-* Archivo : adjuntos 0..*
+
 @enduml
