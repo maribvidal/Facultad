@@ -45,4 +45,4 @@ La forma en que los programas de usuario acceden a los servicios del SO (como la
 - Los parámetros asociados a las llamadas pueden pasarse de varias maneras: por registros, bloques o tablas de memoria a la pila   
 - Se ejecutan en modo supervisor   
 - Tienen un syscall\_handler que maneja las interrupciones   
-![image.png](files\image_1.png)    
+![image.png](./files/image_1.png)    
