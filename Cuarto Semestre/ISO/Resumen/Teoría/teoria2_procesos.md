@@ -72,7 +72,7 @@ A lo largo de lo que dure en ejecutarse un proceso, desde que se inicia hasta qu
  --- 
 Para el pasaje de estado y su ejecución, **las PCBs se enlazan en colas **siguiendo un orden determinado. Puede haber una por cada estado, e incluso mas (puede ser que hayan **colas de prioridad** de *procesos listos para ejecutarse o en espera*)   
 Los enlaces que tiene cada PCB de un proceso van cambiando con cada transición de estado, el PCB en sí se queda en memoria.   
-![image.png](files\image.png)    
+![image.png](./files/image.png)    
 - **Colas de procesos ⟶** Contiene todas las PCBs de los procesos del sistema   
 - **Cola de procesos listos ⟶** Contiene las PCBs de los procesos residentes en memoria principal esperando para ejecutarse   
 - **Cola de dispositivos ⟶** Contiene las PCBs de los procesos esperando por un dispositivo E/S   
