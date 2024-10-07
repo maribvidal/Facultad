@@ -1,4 +1,5 @@
-# Introducción a los Sistemas Operativos   
+# Introducción a los Sistemas Operativos
+este resumen no creo que le sirva a otra persona que no sea yo pero bno
 ## Teorías   
  --- 
 [Teoría 1 - Introducción](./Teoría/teoria1_introduccion.md)    
