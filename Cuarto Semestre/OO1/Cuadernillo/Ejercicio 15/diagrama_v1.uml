@@ -1,0 +1,44 @@
+@startuml
+
+class CuadroTarifario {
+-precioKwh: Real
++ajustarPrecio(nuevoPrecio: Real)
++consultarPrecio(): Real
+}
+
+class Consumo {
+-consumoEnergiaActiva: Integer
+-consumoEnergiaReactiva: Integer
++<<create>> Consumo(consumoEnergiaActiva: Integer, consumoEnergiaReactiva: Integer)
++getEnergiaActiva(): Integer
++getEnergiaReactiva(): Integer
+}
+
+class Usuario {
+-nombre: String
+-domicilio: Consumo[*]
++<<create>> Usuario(nombre: String)
++consumir(cantidadKwh: Integer, cantidadKVArh: Integer)
+}
+
+class Factura {
+-usuario: Usuario
+-fechaEmision: Date
+-bonificacion: Real
++<<create>> Factura(usuario: Usuario, bonificacion: Real)
+-calcularCostoConsumo(): Real
+-calcularFPE(): Real
++calcularMontoFinal(): Real
+}
+
+class EmisorFactura {
+-cuadroTarifario: CuadroTarifario
++emitirFactura(usuario: Usuario, precioKwh: Real)
+}
+
+EmisorFactura -right-> CuadroTarifario
+EmisorFactura -down-> Factura
+Factura -right-> Usuario
+Usuario -down-* Consumo: 0..*
+
+@enduml
