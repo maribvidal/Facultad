@@ -19,26 +19,28 @@ class Usuario {
 -domicilio: Consumo[*]
 +<<create>> Usuario(nombre: String)
 +consumir(cantidadKwh: Integer, cantidadKVArh: Integer)
++getDomicilio: Consumo[*]
++obtenerUltimoConsumo(): Consumo
 }
 
 class Factura {
 -usuario: Usuario
 -fechaEmision: Date
--bonificacion: Real
-+<<create>> Factura(usuario: Usuario, bonificacion: Real)
++<<create>> Factura(usuario: Usuario)
 -calcularCostoConsumo(): Real
 -calcularFPE(): Real
 +calcularMontoFinal(): Real
++getFechaEmision(): Date
 }
 
 class EmisorFactura {
 -cuadroTarifario: CuadroTarifario
-+emitirFactura(usuario: Usuario, precioKwh: Real)
++emitirFactura(usuario: Usuario): Factura
 }
 
 EmisorFactura -right-> CuadroTarifario
 EmisorFactura -down-> Factura
 Factura -right-> Usuario
-Usuario -down-* Consumo: 0..*
+Usuario -down-* Consumo:  consumos 0..*
 
 @enduml
