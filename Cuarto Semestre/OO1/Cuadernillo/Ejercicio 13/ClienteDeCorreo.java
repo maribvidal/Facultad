@@ -16,8 +16,10 @@ public class ClienteDeCorreo {
 		this.inbox.agregarEmail(email);
 	}
 	public Email buscar(String texto) {
+		Email emailBuscado = null;
 		Carpeta primeraCarpeta = this.carpetas.stream().filter(c -> c.buscarEmail(texto) != null).findFirst().orElse(null);
-		Email emailBuscado = primeraCarpeta.buscarEmail(texto);
+		if (primeraCarpeta != null)
+			emailBuscado = primeraCarpeta.buscarEmail(texto);
 		return (emailBuscado != null ? emailBuscado : null);
 	}
 	public int espacioOcupado() {
