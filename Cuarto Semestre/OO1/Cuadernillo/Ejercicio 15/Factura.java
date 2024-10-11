@@ -5,7 +5,6 @@ import java.time.LocalDate;
 public class Factura {
 	Usuario usuario;
 	LocalDate fechaEmision;
-	double bonificacion;
 	double precioKwh; // No sé si tiene mucho sentido esto, pero es que si no tendría que
 	//					 referenciar al CuadroTarifario desde acá, y eso tiene aún menos
 	//					 La otra es delegarle al EmisorFactura la tarea de calcular el
@@ -19,38 +18,33 @@ public class Factura {
 	}
 	
 	// MÉTODOS HELPERS
-	
-	// se tiene en cuenta solo su último consumo registrado
-	private Consumo obtenerUltimoConsumo() {
-		return this.usuario.getDomicilio().getLast();
-	}
-	
 	// El costo del consumo se calcula multiplicando el 
 	//consumo de energía activa por el precio del kWh 
 	// proporcionado por el cuadro tarifario.
 	private double calcularCostoConsumo() {
-		int consumoEnergiaActiva = this.obtenerUltimoConsumo().getEnergiaActiva();
+		int consumoEnergiaActiva = this.usuario.obtenerUltimoConsumo().getEnergiaActiva();
 		double costoConsumo = consumoEnergiaActiva * precioKwh;
 		
 		return costoConsumo;
 	}
 	
-	private void calcularFPE() {
-		int consumoEnergiaActiva = this.obtenerUltimoConsumo().getEnergiaActiva();
-		int consumoEnergiaReactiva = this.obtenerUltimoConsumo().getEnergiaReactiva();
+	private double calcularFPE() {
+		int consumoEnergiaActiva = this.usuario.obtenerUltimoConsumo().getEnergiaActiva();
+		int consumoEnergiaReactiva = this.usuario.obtenerUltimoConsumo().getEnergiaReactiva();
 		double raizCuadrada = Math.sqrt(Math.pow(consumoEnergiaActiva, 2) + Math.pow(consumoEnergiaReactiva, 2));
 		double fpe = (consumoEnergiaActiva) / raizCuadrada;
 		
-		this.bonificacion = fpe;
+		return fpe;
 	}
 	
 	
 	// MÉTODOS PÚBLICOS
 	public double calcularMontoFinal() {
-		this.calcularFPE(); // Queda raro esto
 		double montoFinal = this.calcularCostoConsumo();
+		double fpe = this.calcularFPE();
 		
-		if (this.bonificacion > 0.8)
+		// determinar si hay alguna bonificación aplicable
+		if (fpe > 0.8)
 			montoFinal -= (montoFinal * 0.1);
 		
 		return montoFinal;
