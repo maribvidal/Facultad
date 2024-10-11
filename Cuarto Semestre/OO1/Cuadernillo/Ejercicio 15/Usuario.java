@@ -17,5 +17,9 @@ public class Usuario {
 		domicilio.add(nuevoConsumo);
 	}
 	
+	public Consumo obtenerUltimoConsumo() {
+		return this.getDomicilio().getLast();
+	}
+	
 	public List<Consumo> getDomicilio() { return this.domicilio; }
 }
