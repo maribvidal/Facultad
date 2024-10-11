@@ -1,5 +1,8 @@
+# Ejercicio 15
+En etapa de revisión, estoy esperando a ir a la práctica para realizar los tests
+
 ![Modelo de dominio del poblema](./modelo_dominio_v1.png)
-# Modelo de dominio
+## Modelo de dominio
 | Categoría de Clase Conceptual | Entidades |
 | ----------- | ----------- |
 | Roles de la gente | Usuario |
@@ -7,7 +10,7 @@
 | Hechos | Consumo |
 | Registros financieros | Factura, CuadroTarifario |
 
-# Asociaciones entre conceptos
+## Asociaciones entre conceptos
 | Categoría | Asociación |
 | ----------- | ----------- |
 | A está lógicamente contenido en B | Consumo - Usuario |
