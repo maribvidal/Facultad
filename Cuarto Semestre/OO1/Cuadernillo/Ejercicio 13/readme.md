@@ -1,4 +1,4 @@
 # Ejercicio 13
-Corregido, tengo que hacer las pruebas automatizadas ahora
+Corregido y completado
 ## Diagrama UML
 ![Diagrama UML](./diagrama_uml.png)
