@@ -6,9 +6,11 @@
 - Un cambio de modo de ejecución siempre causa que se realice un cambio de contexto --> Falso (el cambio de modo puede darse dentro del mismo proceso)
 - Una llamada al sistema (system call) genera la creación de un nuevo proceso del sistema operativo para atender la llamada --> Falso (las syscalls generan una interrupcion que es atendida por el vector de interrupciones)
 - Un proceso en estado de listo en memoria principal nunca será llevado a memoria secundaria (swap out) --> Falso (podría ocurrir que se esté utilizando un algoritmo apropiativo y que el proceso a punto de entrar tenga menor prioridad que otro)
--
--
--
+- Cómo detecta el hardware que un proceso en modo usuario está intentando ejecutar una instrucción privilegiada y qué ocurre? --> Lo detecta el hardware comprobando el código de operación de la instrucción
+- La PCB es una estructura de datos unica  que utiliza el Kernel para almacenar información de todos los procesos. Contiene una lista encadenada con los atributos de los procesos creados --> Falso (cada proceso tiene su PCB propia)
+- Un proceso existe desde que el programa es cargado en el espacio de direcciones de memoria del mismo. --> Falso (el PCB existe desde el momento en el que se crea el proceso)
+- El chequeo de protección de la memoria mediante los registros base y limite es realizado por el SO ante cada acceso a memoria que intenta un proceso --> Falso
+- 
    
 # Teoría 3   
  --- 
