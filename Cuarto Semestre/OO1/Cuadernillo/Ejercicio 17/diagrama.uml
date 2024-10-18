@@ -16,6 +16,7 @@ class Usuario {
 -dir: String
 -DNI: String
 -reservas: Reserva[*]
+-propiedadesEnAlquiler: Propiedad[*]
 +crearReserva(propiedad: Propiedad, periodo: DateLapse): Boolean
 +cancelarReserva(propiedad: Propiedad, periodo: DateLapse): Boolean
 }
@@ -37,9 +38,10 @@ class Reserva {
 +calcularIngresos(): Real
 }
 
-Usuario -right-> Reserva: reservas 0..*
+Usuario -down-> Reserva: reservas 0..*
 Reserva -down-> Propiedad
 Reserva -down-> DateLapse
 Propiedad -left-> DateLapse: fechasReservadas 0..*
+Usuario -left-> Propiedad: propiedadesEnAlquilar 0..*
 
 @enduml
