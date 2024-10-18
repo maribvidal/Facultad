@@ -1,0 +1,45 @@
+@startuml
+
+class DateLapse {
+-from: LocalDate
+-to: LocalDate
++<<create>> DateLapse()
++getFrom(): LocalDate
++getTo(): LocalDate
++sizeInDays(): Integer
++includesDate(other: LocalDate): Boolean
++overlaps(otroPeriodo:LocalDate): Boolean
+}
+
+class Usuario { 
+-nombre: String
+-dir: String
+-DNI: String
+-reservas: Reserva[*]
++crearReserva(propiedad: Propiedad, periodo: DateLapse): Boolean
++cancelarReserva(propiedad: Propiedad, periodo: DateLapse): Boolean
+}
+
+class Propiedad {
+-nombre: String
+-dir: String
+-precio: String
+-fechasReservadas: DateLapse[*]
++consultarDisponibilidad(periodo: DateLapse): Boolean
++getPrecio(): Real
+}
+
+class Reserva {
+-usuario: Usuario
+-propiedad: Propiedad
+-periodo: DateLapse
++calcularPrecio(): Real
++calcularIngresos(): Real
+}
+
+Usuario -right-> Reserva: reservas 0..*
+Reserva -down-> Propiedad
+Reserva -down-> DateLapse
+Propiedad -left-> DateLapse: fechasReservadas 0..*
+
+@enduml
