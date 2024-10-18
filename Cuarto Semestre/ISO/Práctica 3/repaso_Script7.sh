@@ -34,7 +34,6 @@ if [[ $2 = "-a" || $2 = "-d" ]]; then
         agregarArchivosDirectorio $1
         dirPrimera=$1
         if [ $2 = "-a" ]; then
-                dirSegunda=$3
                 agregarArchivosDirectorio $3
         elif [ $2 = "-d" ]; then
                 eliminarArchivosPatron $3 $4
