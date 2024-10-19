@@ -1,5 +1,5 @@
 # Ejercicio 15
-En etapa de revisión, estoy esperando a ir a la práctica para realizar los tests
+Corregido y con los tests hechos
 
 ## Modelo de dominio
 ![Modelo de dominio del poblema](./modelo_dominio_v1.png)
