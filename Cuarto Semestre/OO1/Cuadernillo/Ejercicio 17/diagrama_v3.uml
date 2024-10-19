@@ -1,0 +1,46 @@
+@startuml
+
+abstract class Persona <<abstract>> {
+-nombre: String
+-direccion: String
+-DNI: String
+}
+
+class Usuario {
++<<create>> Usuario(nombre: String, direccion: String, DNI: String)
+-reservas: Reserva[*]
+-propiedadesEnAlquiler: Propiedad[*]
++crearReserva(propiedad: Propiedad, periodo: DateLapse): Reserva
++cancelarReserva(reserva: Reserva)
+}
+
+class Propietario {
+-propiedades: Propiedad[*]
++calcularIngresos(): Real
+}
+
+class Reserva {
+-propiedad: Propiedad
+-periodo: DateLapse
++calcularPrecio(): Real
++cancelarse()
+}
+
+class Propiedad {
+-nombre: String
+-dir: String
+-precio: String
+-fechasReservadas: DateLapse[*]
++consultarDisponibilidad(periodo: DateLapse): Boolean
++getPrecio(): Real
+}
+
+Persona <|-- Usuario
+Persona <|-- Propietario
+
+Usuario -right-> Reserva: reservas 0..*
+Usuario --> Propiedad: deseandoAlquilar 0..*
+Reserva --> Propiedad
+Propietario --> Propiedad: propiedades 0..*
+
+@enduml
