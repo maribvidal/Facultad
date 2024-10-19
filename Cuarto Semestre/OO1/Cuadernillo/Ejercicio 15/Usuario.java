@@ -18,7 +18,7 @@ public class Usuario {
 	}
 	
 	public Consumo obtenerUltimoConsumo() {
-		return this.getDomicilio().getLast();
+		return (this.getDomicilio().size() > 0 ? this.getDomicilio().getLast() : null);
 	}
 	
 	public List<Consumo> getDomicilio() { return this.domicilio; }
