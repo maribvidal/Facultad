@@ -10,12 +10,14 @@ class Usuario {
 +<<create>> Usuario(nombre: String, direccion: String, DNI: String)
 -reservas: Reserva[*]
 -propiedadesEnAlquiler: Propiedad[*]
-+crearReserva(propiedad: Propiedad, periodo: DateLapse): Reserva
++desearAlquilarPropiedad(propiedad: Propiedad)
++realizar(propiedad: Propiedad, periodo: DateLapse): Reserva
 +cancelarReserva(reserva: Reserva)
 }
 
 class Propietario {
 -propiedades: Propiedad[*]
++agregarPropiedad(propiedad: Propiedad)
 +calcularIngresos(): Real
 }
 
@@ -24,15 +26,31 @@ class Reserva {
 -periodo: DateLapse
 +calcularPrecio(): Real
 +cancelarse()
++getPeriodo()
 }
 
 class Propiedad {
 -nombre: String
 -dir: String
 -precio: String
--fechasReservadas: DateLapse[*]
+-ocupaciones: DateLapse[*]
++agregarPeriodo(periodo: DateLapse)
++quitarPeriodo(periodo: DateLapse)
 +consultarDisponibilidad(periodo: DateLapse): Boolean
 +getPrecio(): Real
++getOcupaciones(): List<DateLapse>
++fechasDentroPeriodo(periodo: DateLapse): List<DateLapse>
+}
+
+class DateLapse {
+-from: LocalDate
+-to: LocalDate
++getFrom(): LocalDate
++getTo(): LocalDate
++sizeInDays(): Integer
++includesDate(periodo: DateLapse): Boolean
++overlaps(periodo: DateLapse): Boolean
++inside(periodo: DateLapse): Boolean
 }
 
 Persona <|-- Usuario
@@ -42,5 +60,8 @@ Usuario -right-> Reserva: reservas 0..*
 Usuario --> Propiedad: deseandoAlquilar 0..*
 Reserva --> Propiedad
 Propietario --> Propiedad: propiedades 0..*
+
+DateLapse *-- Propiedad
+DateLapse *-right- Reserva
 
 @enduml
