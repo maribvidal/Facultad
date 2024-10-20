@@ -8,38 +8,44 @@ abstract class Persona <<abstract>> {
 
 class Usuario {
 +<<create>> Usuario(nombre: String, direccion: String, DNI: String)
+-marcadas: Propiedad[*]
 -reservas: Reserva[*]
--propiedadesEnAlquiler: Propiedad[*]
-+desearAlquilarPropiedad(propiedad: Propiedad)
-+realizar(propiedad: Propiedad, periodo: DateLapse): Reserva
-+cancelarReserva(reserva: Reserva)
-}
-
-class Propietario {
--propiedades: Propiedad[*]
-+agregarPropiedad(propiedad: Propiedad)
-+calcularIngresos(): Real
++desmarcarPropiedad(propiedad: Propiedad): Boolean
++marcarPropiedad(propiedad: Propiedad): Boolean
++realizarReserva(propiedad: Propiedad, periodo: DateLapse): Boolean
++cancelarReserva(reserva: Reserva): Boolean
 }
 
 class Reserva {
 -propiedad: Propiedad
 -periodo: DateLapse
++<<create>> Reserva(propiedad: Propiedad, periodo: DateLapse)
 +calcularPrecio(): Real
-+cancelarse()
-+getPeriodo()
+}
+
+class Propietario {
+-propiedades: Propiedad[*]
++<<create>> Propietario(nombre: String, direccion: String, DNI: String)
++agregarPropiedad(propiedad: Propiedad)
++quitarPropiedad(propiedad: Propiedad)
++getPropiedades(): List<Propiedad>
++obtenerIngresos(periodo: DateLapse): Real
 }
 
 class Propiedad {
 -nombre: String
--dir: String
--precio: String
+-direccion: String
+-precio: Real
++<<create>> Propiedad(nombre: String, direccion: String, precio: Real)
 -ocupaciones: DateLapse[*]
 +agregarPeriodo(periodo: DateLapse)
 +quitarPeriodo(periodo: DateLapse)
++obtenerPrecio(): Real
++obtenerOcupaciones(): List<DateLapse>
 +consultarDisponibilidad(periodo: DateLapse): Boolean
-+getPrecio(): Real
-+getOcupaciones(): List<DateLapse>
 +fechasDentroPeriodo(periodo: DateLapse): List<DateLapse>
++consultarPrecioPeriodo(periodo: DateLapse): Real
++consultarIngresosPeriodo(periodo: DateLapse): Real
 }
 
 class DateLapse {
@@ -57,11 +63,8 @@ Persona <|-- Usuario
 Persona <|-- Propietario
 
 Usuario -right-> Reserva: reservas 0..*
-Usuario --> Propiedad: deseandoAlquilar 0..*
+Usuario --> Propiedad: marcadas 0..*
 Reserva --> Propiedad
 Propietario --> Propiedad: propiedades 0..*
-
-DateLapse *-- Propiedad
-DateLapse *-right- Reserva
 
 @enduml
