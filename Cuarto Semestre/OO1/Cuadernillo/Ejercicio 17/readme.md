@@ -1,3 +1,3 @@
 # Ejercicio 17
-Corregido (me falta cambiar 'marcados'), realizar los tests
-![Diagrama UML](./diagrama_v5_uml.png)
+Corregido, realizar los tests
+![Diagrama UML](./diagrama_v6_uml.png)
