@@ -10,8 +10,8 @@ class Usuario {
 +<<create>> Usuario(nombre: String, direccion: String, DNI: String)
 -marcadas: Propiedad[*]
 -reservas: Reserva[*]
-+desmarcarPropiedad(propiedad: Propiedad): Boolean
-+marcarPropiedad(propiedad: Propiedad): Boolean
++dejarDeAlquilar(propiedad: Propiedad)
++alquilar(propiedad: Propiedad)
 +realizarReserva(propiedad: Propiedad, periodo: DateLapse): Boolean
 +cancelarReserva(reserva: Reserva): Boolean
 }
@@ -63,8 +63,11 @@ Persona <|-- Usuario
 Persona <|-- Propietario
 
 Usuario -right-> Reserva: reservas 0..*
-Usuario --> Propiedad: marcadas 0..*
+Usuario --> Propiedad: alquilando 0..*
 Reserva --> Propiedad
 Propietario --> Propiedad: propiedades 0..*
+
+DateLapse <-- Reserva
+DateLapse <-- Propiedad
 
 @enduml
