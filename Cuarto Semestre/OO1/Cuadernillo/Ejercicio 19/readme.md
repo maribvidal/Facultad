@@ -1,3 +1,3 @@
 # Ejercicio 19
-Me falta implementar la clase Empresa, pendiente de ser corregido, realizar los tests
-![Diagrama UML](./diagrama_uml.png)
+Pendiente de ser corregido, realizar los tests
+![Diagrama UML](./diagrama_v2_uml.png)
