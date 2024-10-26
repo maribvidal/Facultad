@@ -47,7 +47,6 @@ class ClienteCorporativo {
 }
 
 class Empresa {
--enviosTotal: Envios[*]
 +enviar(cliente: Cliente, envio: Envio)
 +montoAPagar(cliente: Cliente, fechaInicio: LocalDate, fechaFin: LocalDate)
 }
