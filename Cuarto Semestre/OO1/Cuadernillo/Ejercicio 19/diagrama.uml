@@ -1,0 +1,63 @@
+@startuml
+
+abstract class Envio <<abstract>> {
+-fechaDespacho: LocalDate
+-direccionOrigen: String
+-direccionDestino: String
+-pesoGramos: Real
++ <<abstract>> costo(): Real
++ <<create>> Envio(fechaDespacho: LocalDate, direccionOrigen: String, direccionDestino: String, pesoGramos: Real)
+}
+
+class EnvioLocal {
++costo(): Real
++costoEntregaRapida(): Real
++ <<create>> EnvioLocal(fechaDespacho: LocalDate, direccionOrigen: String, direccionDestino: String, pesoGramos: Real)
+}
+
+class EnvioInterurbano {
+-distanciaKm: Integer
++costo(): Real
++ <<create>> EnvioInterurbano(fechaDespacho: LocalDate, direccionOrigen: String, direccionDestino: String, pesoGramos: Real, distanciaKm: Integer)
+}
+
+class EnvioInternacional {
++costo(): Real
++ <<create>> EnvioInternacional(fechaDespacho: LocalDate, direccionOrigen: String, direccionDestino: String, pesoGramos: Real)
+}
+
+abstract class Cliente <<abstract>> {
+-envios: Envio[*]
+-nombre: String
+-direccion: String
++<<create>> Cliente(nombre: String, direccion: String)
++getEnvios(): Envio[*]
+}
+
+class PersonaFisica {
+-DNI: Integer
++<<create>> PersonaFisica(nombre: String, direccion: String, DNI: Integer)
+}
+
+class ClienteCorporativo {
+-CUIT: Integer
++<<create>> ClienteCorporativo(nombre: String, direccion: String, CUIT: Integer)
+}
+
+class Empresa {
+-enviosTotal: Envios[*]
++enviar(cliente: Cliente, envio: Envio)
++montoAPagar(cliente: Cliente, fechaInicio: LocalDate, fechaFin: LocalDate)
+}
+
+Envio <|-- EnvioLocal
+Envio <|-- EnvioInterurbano
+Envio <|-- EnvioInternacional
+
+Cliente <|-- PersonaFisica
+Cliente <|-- ClienteCorporativo
+
+Cliente <-down- Envio: envios 0..*
+Empresa <-down- Envio: enviosTotal 0..*
+
+@enduml
