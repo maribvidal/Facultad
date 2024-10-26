@@ -10,9 +10,10 @@ abstract class Envio <<abstract>> {
 }
 
 class EnvioLocal {
+-tipoEntrega: String
 +costo(): Real
-+costoEntregaRapida(): Real
-+ <<create>> EnvioLocal(fechaDespacho: LocalDate, direccionOrigen: String, direccionDestino: String, pesoGramos: Real)
++getTipoEntrega(): String
++ <<create>> EnvioLocal(fechaDespacho: LocalDate, direccionOrigen: String, direccionDestino: String, pesoGramos: Real, tipoEntrega: String)
 }
 
 class EnvioInterurbano {
@@ -24,6 +25,7 @@ class EnvioInterurbano {
 class EnvioInternacional {
 +costo(): Real
 + <<create>> EnvioInternacional(fechaDespacho: LocalDate, direccionOrigen: String, direccionDestino: String, pesoGramos: Real)
++calcularKg: Real
 }
 
 abstract class Cliente <<abstract>> {
