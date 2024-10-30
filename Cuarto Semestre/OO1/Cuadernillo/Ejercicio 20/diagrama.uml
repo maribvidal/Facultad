@@ -1,0 +1,79 @@
+@startuml
+
+class Empleado {
+-nombre: String
+-apellido: String
+-CUIL: Integer
+-fechaDeNacimiento: LocalDate
+-hijosACargo: Integer
+-contratos: List<IContrato>
+-contratoActivo: IContrato
+}
+
+interface IContrato <<inteface>> {
++calcularSueldo(): Real
++esActivo(): Boolean
++duracion(): DateLapse
+}
+
+class ContratoPorHora {
+-fechaInicio: LocalDate
+-fechaFin: LocalDate
+-numeroHoras: Integer
+-valorHora: Real
+-calcularSueldoBasico(): Real
+-calcularSueldoAdicional(): Real
++calcularSueldo(): Real
++esActivo(): Boolean
++obtenerDuracion(): DateLapse
+}
+
+class ContratoDePlanta {
+-fechaInicio: LocalDate
+-montoPorConyuge: Real
+-montoPorHijos: Real
+-sueldoMensual: Real
+-calcularSueldoBasico(): Real
+-calcularSueldoAdicional(): Real
++calcularSueldo(): Real
++esActivo(): Boolean
++obtenerDuracion(): DateLapse
+}
+
+class GeneradorReciboSueldo {
++generarReciboSueldo(empleado: Empleado): ReciboSueldo
+}
+
+class ReciboSueldo {
+-nombreEmpleado: String
+-apellidoEmpleado: String
+-CUIL: Integer
+-antiguedad: Integer
+-fechaGenerado: LocalDate
+-montoTotal: Real
+}
+
+class DateLapse {
+-from: LocalDate
+-to: LocalDate
++getFrom(): LocalDate
++getTo(): LocalDate
++sizeInDays(): Integer
++includesDate(periodo: DateLapse): Boolean
++overlaps(periodo: DateLapse): Boolean
++inside(periodo: DateLapse): Boolean
+}
+
+IContrato <|.. ContratoPorHora
+IContrato <|.. ContratoDePlanta
+
+Empleado --> IContrato: contratos 0..*
+Empleado --> IContrato: contratoActivo
+
+GeneradorReciboSueldo --> ReciboSueldo
+
+Empleado -right- GeneradorReciboSueldo
+ContratoPorHora -- DateLapse
+ContratoDePlanta -- DateLapse
+
+@enduml
