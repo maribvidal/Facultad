@@ -6,12 +6,12 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class Usuario extends Persona {
-	Set<Propiedad> marcadas; // Propiedades que el usuario desea alquilar
+	Set<Propiedad> alquilando; // Propiedades que el usuario está alquilando
 	ArrayList<Reserva> reservas; // Propiedades que el usuario reserva
 	
 	public Usuario(String nombre, String direccion, String DNI) {
 		super(nombre, direccion, DNI);
-		marcadas = new TreeSet<Propiedad>();
+		alquilando = new TreeSet<Propiedad>();
 		reservas = new ArrayList<Reserva>();
 	}
 
@@ -45,14 +45,7 @@ public class Usuario extends Persona {
 		return false;
 	}
 	
-	// Métodos para la wishlist de propiedades
-	public boolean marcarPropiedad(Propiedad propiedad) {
-		// Utilizo un Set para la wishlist, ya que si
-		// una propiedad ya se marcó, no tiene sentido volver
-		// a marcarla
-		return this.marcadas.add(propiedad);
-	}
-	public boolean desmarcarPropiedad(Propiedad propiedad) {
-		return this.marcadas.remove(propiedad);
-	}
+	public void alquilar(Propiedad propiedad) { this.alquilando.add(propiedad); }
+	public void dejarDeAlquilar(Propiedad propiedad) { this.alquilando.remove(propiedad); }
+	public ArrayList<Reserva> obtenerReservas() { return this.reservas; }
 }
