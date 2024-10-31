@@ -14,6 +14,7 @@ class Usuario {
 +alquilar(propiedad: Propiedad)
 +realizarReserva(propiedad: Propiedad, periodo: DateLapse): Boolean
 +cancelarReserva(reserva: Reserva): Boolean
++obtenerReservas(): ArrayList<Reserva>
 }
 
 class Reserva {
