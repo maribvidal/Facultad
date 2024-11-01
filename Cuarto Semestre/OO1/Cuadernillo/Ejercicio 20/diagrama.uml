@@ -6,8 +6,8 @@ class Empleado {
 -CUIL: Integer
 -fechaDeNacimiento: LocalDate
 -hijosACargo: Integer
--contratos: List<IContrato>
--contratoActivo: IContrato
+-contratos: List<Contrato>
+-contratoActivo: Contrato
 }
 
 abstract class Contrato <<abstract>> {
