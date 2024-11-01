@@ -1,3 +1,3 @@
 # Ejercicio 17
-Corregido, realizar los tests
+Corregido, test hechos
 ![Diagrama UML](./diagrama_v6_uml.png)
