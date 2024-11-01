@@ -1,0 +1,100 @@
+@startuml
+
+abstract class Persona <<abstract>> {
+-nombre: String
+-direccion: String
+-DNI: String
+}
+
+class Usuario {
++<<create>> Usuario(nombre: String, direccion: String, DNI: String)
+-marcadas: Propiedad[*]
+-reservas: Reserva[*]
++dejarDeAlquilar(propiedad: Propiedad)
++alquilar(propiedad: Propiedad)
++realizarReserva(propiedad: Propiedad, periodo: DateLapse): Boolean
++cancelarReserva(reserva: Reserva): Real
++obtenerReservas(): ArrayList<Reserva>
+}
+
+class Reserva {
+-propiedad: Propiedad
+-periodo: DateLapse
++<<create>> Reserva(propiedad: Propiedad, periodo: DateLapse)
++calcularPrecio(): Real
++obtenerReembolso(periodo: DateLapse): Real
+}
+
+class Propietario {
+-propiedades: Propiedad[*]
++<<create>> Propietario(nombre: String, direccion: String, DNI: String)
++agregarPropiedad(propiedad: Propiedad)
++quitarPropiedad(propiedad: Propiedad)
++getPropiedades(): List<Propiedad>
++obtenerIngresos(periodo: DateLapse): Real
+}
+
+class Propiedad {
+-nombre: String
+-direccion: String
+-precio: Real
+-politica: PoliticaCancelacion
++<<create>> Propiedad(nombre: String, direccion: String, precio: Real, politica: PoliticaCancelacion)
+-ocupaciones: DateLapse[*]
++agregarPeriodo(periodo: DateLapse)
++quitarPeriodo(periodo: DateLapse)
++obtenerPrecio(): Real
++obtenerOcupaciones(): List<DateLapse>
++consultarDisponibilidad(periodo: DateLapse): Boolean
++fechasDentroPeriodo(periodo: DateLapse): List<DateLapse>
++consultarPrecioPeriodo(periodo: DateLapse): Real
++consultarIngresosPeriodo(periodo: DateLapse): Real
++setPolitica(politica: PoliticaCancelacion)
++obtenerReembolso(periodo: DateLapse): Real
+}
+
+class DateLapse {
+-from: LocalDate
+-to: LocalDate
++getFrom(): LocalDate
++getTo(): LocalDate
++sizeInDays(): Integer
++includesDate(periodo: DateLapse): Boolean
++overlaps(periodo: DateLapse): Boolean
++inside(periodo: DateLapse): Boolean
+}
+
+abstract class PoliticaCancelacion <<abstract>> {
+<<abstract>> +reembolsar(montoOriginal: Real, fechaInicioReserva: LocalDate): Real
+}
+
+class PoliticaCancelacionFlexible {
++reembolsar(montoOriginal: Real, fechaInicioReserva: LocalDate): Real
+}
+
+class PoliticaCancelacionEstricta {
++reembolsar(montoOriginal: Real, fechaInicioReserva: LocalDate): Real
+}
+
+class PoliticaCancelacionModerada {
++reembolsar(montoOriginal: Real, fechaInicioReserva: LocalDate): Real
+}
+
+Persona <|-- Usuario
+Persona <|-- Propietario
+
+Usuario -right-> Reserva: reservas 0..*
+Usuario --> Propiedad: alquilando 0..*
+Reserva --> Propiedad
+Propietario --> Propiedad: propiedades 0..*
+
+DateLapse <-- Reserva
+DateLapse <-- Propiedad
+
+Propiedad <-- PoliticaCancelacion: politica
+
+PoliticaCancelacion <|-- PoliticaCancelacionEstricta
+PoliticaCancelacion <|-- PoliticaCancelacionFlexible
+PoliticaCancelacion <|-- PoliticaCancelacionModerada
+
+@enduml
