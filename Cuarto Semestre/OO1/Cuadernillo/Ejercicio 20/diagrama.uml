@@ -10,10 +10,10 @@ class Empleado {
 -contratoActivo: IContrato
 }
 
-interface IContrato <<inteface>> {
-+calcularSueldo(): Real
+abstract class Contrato <<abstract>> {
 +esActivo(): Boolean
 +duracion(): DateLapse
+#calcularSueldoAdicional(sueldoBasico: Real): Real
 }
 
 class ContratoPorHora {
@@ -21,8 +21,8 @@ class ContratoPorHora {
 -fechaFin: LocalDate
 -numeroHoras: Integer
 -valorHora: Real
++<<create>> ContratoPorHora(fechaInicio: LocalDate, fechaFin: LocalDate, numeroHoras: Integer, valorHora: Real)
 -calcularSueldoBasico(): Real
--calcularSueldoAdicional(): Real
 +calcularSueldo(): Real
 +esActivo(): Boolean
 +obtenerDuracion(): DateLapse
@@ -33,8 +33,8 @@ class ContratoDePlanta {
 -montoPorConyuge: Real
 -montoPorHijos: Real
 -sueldoMensual: Real
++<<create>> ContratoDePlanta(fechaInicio: LocalDate, montoPorConyuge: Real, montoPorHijos: Real, sueldoMensual: Real)
 -calcularSueldoBasico(): Real
--calcularSueldoAdicional(): Real
 +calcularSueldo(): Real
 +esActivo(): Boolean
 +obtenerDuracion(): DateLapse
@@ -64,11 +64,11 @@ class DateLapse {
 +inside(periodo: DateLapse): Boolean
 }
 
-IContrato <|.. ContratoPorHora
-IContrato <|.. ContratoDePlanta
+Contrato <|-- ContratoPorHora
+Contrato <|-- ContratoDePlanta
 
-Empleado --> IContrato: contratos 0..*
-Empleado --> IContrato: contratoActivo
+Empleado --> Contrato: contratos 0..*
+Empleado --> Contrato: contratoActivo
 
 GeneradorReciboSueldo --> ReciboSueldo
 
