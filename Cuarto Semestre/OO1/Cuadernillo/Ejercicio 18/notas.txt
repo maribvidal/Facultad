@@ -1,0 +1,13 @@
+-- NOTAS PERSONALES PARA LOS EJERCICIOS 17 Y 18 --
+Los problemas que noto en mi resolución son:
+- La clase Propiedad es particularmente larga
+  La clase tiene varios métodos que le sirven
+  a otras clases para evitar la envidia de atributos,
+  pero como desventaja la clase quizás tenga métodos
+  de mas.
+
+- La clase Reserva parece una clase anémica
+  Es la única forma que se me ocurrió para
+  mantener constancia de los periodos que
+  reservó el Usuario en un determinado hotel
+  sin complicarme demasiado. No sé si es perfecta.
