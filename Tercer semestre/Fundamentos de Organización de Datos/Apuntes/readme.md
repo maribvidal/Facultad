@@ -80,20 +80,20 @@ Se concibe al registro como la cantidad de información que se lee o escribe
 
 ---
 
-[Introducción a las Bases de Datos/Capítulo 2](https://www.notion.so/Introducci-n-a-las-Bases-de-Datos-Cap-tulo-2-083068a3c4d6446b98a58599fb2d6f78?pvs=21)
+[Introducción a las Bases de Datos/Capítulo 2](./Cap2.md)
 
-[Introducción a las Bases de Datos/Capítulo 3](https://www.notion.so/Introducci-n-a-las-Bases-de-Datos-Cap-tulo-3-bf2507c242c54a889f57d5d446f6cbaa?pvs=21)
+[Introducción a las Bases de Datos/Capítulo 3](./Cap3.md)
 
-[Introducción a las Bases de Datos/Capítulo 4](https://www.notion.so/Introducci-n-a-las-Bases-de-Datos-Cap-tulo-4-bc7ccc08905b489caae4d1fb5fde43f6?pvs=21)
+[Introducción a las Bases de Datos/Capítulo 4](./Cap4.md)
 
 ## Clases
 
 ---
 
-[Teoría/Clase 5](https://www.notion.so/Teor-a-Clase-5-96c5a43f640b4c0f8bce742baae8f349?pvs=21)
+[Teoría/Clase 5](./Clase5.md)
 
-[Teoría/Clase 6](https://www.notion.so/Teor-a-Clase-6-d8e5c974a33b489ab6f782e5b7a82e05?pvs=21)
+[Teoría/Clase 6](./Clase6.md)
 
-[Teoría/Clase 7](https://www.notion.so/Teor-a-Clase-7-71f850851bca408085dd1307b7572ed8?pvs=21)
+[Teoría/Clase 7](./Clase7.md)
 
-[Teoría/Clase 8](https://www.notion.so/Teor-a-Clase-8-617a65df082b4153938d88b94316559f?pvs=21)
+[Teoría/Clase 8](./Clase8.md)
