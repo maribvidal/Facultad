@@ -8,6 +8,7 @@ class Empleado {
 -hijosACargo: Integer
 -contratos: List<Contrato>
 -contratoActivo: Contrato
++generarReciboSueldo(): ReciboSueldo
 }
 
 abstract class Contrato <<abstract>> {
@@ -40,10 +41,6 @@ class ContratoDePlanta {
 +obtenerDuracion(): DateLapse
 }
 
-class GeneradorReciboSueldo {
-+generarReciboSueldo(empleado: Empleado): ReciboSueldo
-}
-
 class ReciboSueldo {
 -nombreEmpleado: String
 -apellidoEmpleado: String
@@ -70,9 +67,8 @@ Contrato <|-- ContratoDePlanta
 Empleado --> Contrato: contratos 0..*
 Empleado --> Contrato: contratoActivo
 
-GeneradorReciboSueldo --> ReciboSueldo
+Empleado -right-> ReciboSueldo
 
-Empleado -right- GeneradorReciboSueldo
 ContratoPorHora -- DateLapse
 ContratoDePlanta -- DateLapse
 
