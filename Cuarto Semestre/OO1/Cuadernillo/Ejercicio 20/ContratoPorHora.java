@@ -2,7 +2,7 @@ package ar.edu.unlp.oo1.ejercicio20;
 
 import java.time.LocalDate;
 
-public class ContratoPorHora extends Contrato {
+public class ContratoPorHora implements IContrato {
 	LocalDate fechaInicio;
 	LocalDate fechaFin;
 	int numeroHoras;
@@ -16,15 +16,8 @@ public class ContratoPorHora extends Contrato {
 		this.valorHora = valorHora;
 	}
 	
-	// Métodos privados
-	double calcularSueldoBasico() { return (this.numeroHoras * this.valorHora); }
-	
-	// Métodos públicos
-	// Preguntar implementación de este método
-	public double cobrarSueldo() {
-		double sueldoBasico = this.calcularSueldoBasico();
-		return (sueldoBasico + this.calcularSueldoAdicional(sueldoBasico));
-	}
+	// Métodos a implementar
+	public double calcularSueldoBasico() { return (this.numeroHoras * this.valorHora); }
 	
 	// Para un contrato “por horas”, se considera activo aquel cuya fecha de fin sea posterior a la fecha actual.
 	public boolean esActivo() {
