@@ -1,0 +1,65 @@
+@startuml
+
+class CalculadoraDeDistancia {
++distanciaEntre(distancia1: String, distancia2: String): Integer
+}
+
+class CategoriaMap {}
+
+class Producto {
+-nombre: String
+-categoria: String
+-precio: Real
+-cantidadUnidades: Integer
+}
+
+class Pedido {
+-formaDePago: IFormaDePago
+-formaDeEnvio: IFormaDeEnvio
+-producto: Producto
+-cantidadSolicitada: Integer
++calcularCostoTotal(): Real
+}
+
+abstract class Persona <<abstract>> {
+-nombre: String
+-direccion: String
+}
+
+class Vendedor {
++crearPedido(c: Cliente, fDP: IFormaDePago, fDE: IFormaDeEnvio, p: Producto, cantSoli: Integer): Pedido
+}
+
+class Cliente {
++contarProductosPorCategoria(): CategoriaMap
+}
+
+interface IFormaDeEnvio <<interface>> {
++calcularCostoEnvio(): Real
+}
+
+class RetiroComercio {}
+class RetiroSucursalCorreo {}
+class ExpressDomicilio {}
+
+interface IFormaDePago <<interface>> {
++calcularPrecioFinal(): Real
+}
+
+class SeisCuotas {}
+class AlContado {}
+
+Persona <|-- Vendedor
+Persona <|-- Cliente
+
+Vendedor -- Producto: productosEnVenta 0..*
+Cliente -- Pedido: pedidosSolicitados 0..*
+
+IFormaDeEnvio <|.. RetiroComercio
+IFormaDeEnvio <|.. RetiroSucursalCorreo
+IFormaDeEnvio <|.. ExpressDomicilio
+
+IFormaDePago <|.. SeisCuotas
+IFormaDePago <|.. AlContado
+
+@enduml
