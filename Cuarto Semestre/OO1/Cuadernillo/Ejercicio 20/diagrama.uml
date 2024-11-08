@@ -6,15 +6,18 @@ class Empleado {
 -CUIL: Integer
 -fechaDeNacimiento: LocalDate
 -hijosACargo: Integer
--contratos: List<Contrato>
--contratoActivo: Contrato
+-contratos: List<IContrato>
+-contratoActivo: IContrato
+-calcularAntiguedad(): Integer
++agregarContrato(contrato: IContrato): Boolean
++calcularSueldoAdicional(sueldoBasico: Real): Real
 +generarReciboSueldo(): ReciboSueldo
 }
 
-abstract class Contrato <<abstract>> {
+interface IContrato <<interface>> {
 +esActivo(): Boolean
 +duracion(): DateLapse
-#calcularSueldoAdicional(sueldoBasico: Real): Real
++scalcularSueldoBasico(): Real
 }
 
 class ContratoPorHora {
@@ -23,8 +26,7 @@ class ContratoPorHora {
 -numeroHoras: Integer
 -valorHora: Real
 +<<create>> ContratoPorHora(fechaInicio: LocalDate, fechaFin: LocalDate, numeroHoras: Integer, valorHora: Real)
--calcularSueldoBasico(): Real
-+calcularSueldo(): Real
++calcularSueldoBasico(): Real
 +esActivo(): Boolean
 +obtenerDuracion(): DateLapse
 }
@@ -35,8 +37,7 @@ class ContratoDePlanta {
 -montoPorHijos: Real
 -sueldoMensual: Real
 +<<create>> ContratoDePlanta(fechaInicio: LocalDate, montoPorConyuge: Real, montoPorHijos: Real, sueldoMensual: Real)
--calcularSueldoBasico(): Real
-+calcularSueldo(): Real
++calcularSueldoBasico(): Real
 +esActivo(): Boolean
 +obtenerDuracion(): DateLapse
 }
@@ -61,11 +62,11 @@ class DateLapse {
 +inside(periodo: DateLapse): Boolean
 }
 
-Contrato <|-- ContratoPorHora
-Contrato <|-- ContratoDePlanta
+IContrato <|-- ContratoPorHora
+IContrato <|-- ContratoDePlanta
 
-Empleado --> Contrato: contratos 0..*
-Empleado --> Contrato: contratoActivo
+Empleado --> IContrato: contratos 0..*
+Empleado --> IContrato: contratoActivo
 
 Empleado -right-> ReciboSueldo
 
