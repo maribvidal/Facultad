@@ -14,9 +14,6 @@ class Producto {
 }
 
 class Pedido {
--formaDePago: IFormaDePago
--formaDeEnvio: IFormaDeEnvio
--producto: Producto
 -cantidadSolicitada: Integer
 +calcularCostoTotal(): Real
 }
@@ -62,4 +59,9 @@ IFormaDeEnvio <|.. ExpressDomicilio
 IFormaDePago <|.. SeisCuotas
 IFormaDePago <|.. AlContado
 
+Pedido -up-> Producto: producto
+Pedido -down-> IFormaDePago: formaDePago
+Pedido -down-> IFormaDeEnvio: formaDeEnvio
+
+Cliente -left-> CategoriaMap
 @enduml
