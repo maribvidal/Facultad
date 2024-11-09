@@ -1,0 +1,146 @@
+﻿@page "/sortear"
+@rendermode InteractiveServer
+
+<PageTitle>Sortear</PageTitle>
+
+<h1>Sorteador</h1>
+
+<main>
+    <div class="campos">
+        <ul>
+            @for (int i = 0; i < _nombres.Length; i++)
+            {
+                int copy = i;
+                <li>
+                    <label>
+                        <b>Nombre de participante N°@(i + 1)</b>
+                        <input type="text" placeholder="@(_nombres[copy])" @bind="_nombres[copy]" />
+                    </label>
+                </li>
+            }
+        </ul>
+    </div>
+    <!-- Separador -->
+    <div class="botones">
+        <div>
+            <button class="btn btn-primary" @onclick="Agregar">Agregar un campo</button>
+            <button class="btn btn-secondary" @onclick="Quitar">Quitar un campo</button>
+            <button class="btn btn-primary" @onclick="Enviar">Enviar</button>
+        </div>
+        <div>
+            <label>
+                <i>El mensaje que coloques aquí aparecerá en cada archivo: </i>
+                <input width="300px" height="300px" type="text" @bind="_mensajeArchivo" />
+            </label>
+        </div>
+    </div>
+</main>
+
+<DialogoNotificacion @ref=_dialogo Mensaje=@_mensaje />
+
+<style>
+    main {
+        display: flex;
+        gap: 100px;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    .campos {
+        padding-top: 3px;
+        padding-right: 6px;
+        border: 2px dashed rgb(255, 100, 234);
+        border-radius: 10px;
+        background-color: rgb(202, 202, 202);
+    }
+
+    input {
+        font-weight: 100;
+        font-style: italic;
+    }
+
+    .botones {
+        width: 400px;
+    }
+</style>
+
+@code 
+{
+    private int _cantidadCampos = 2;
+    private string[] _nombres = { "", "" };
+    private DialogoNotificacion _dialogo = null!;
+    private String? _mensaje = "";
+    private String _mensajeArchivo = "";
+
+    // Operaciones con los campos
+    void Agregar()
+    {
+        if (_cantidadCampos < 21)
+        {
+            _cantidadCampos++;
+            actualizarVector();
+        }
+        else
+            MostrarMensaje("Se superó el máximo de campos que se pueden colocar");
+    }
+
+    void Quitar()
+    {
+        if (_cantidadCampos > 2)
+        {
+            _cantidadCampos--;
+            actualizarVector();
+        }
+        else
+            MostrarMensaje("No se pueden quitar mas campos");
+    }
+
+    // Redimensionar vector
+    void actualizarVector()
+    {
+        int tamañoMaximo = Math.Min(_nombres.Length, _cantidadCampos);
+
+        string[] aux = new string[_cantidadCampos];
+        for (int i = 0; i < tamañoMaximo; i++)
+            aux[i] = _nombres[i];
+        _nombres = aux;
+    }
+
+    // Empaquetar
+    void Enviar()
+    {
+        try
+        {
+            var mezclador = new Mezclador();
+            var emparejador = new Emparejador();
+            var ficherizador = new Ficherizador();
+            var zippeador = new Zippeador();
+
+            mezclador.Mezclar(_nombres);
+            var matrizNombres = emparejador.Emparejar(_nombres);
+            _nombres = new string[_cantidadCampos];
+
+            string dirActual = System.AppDomain.CurrentDomain.BaseDirectory;
+            string dirFuente = dirActual + "sorteado//";
+
+            Directory.CreateDirectory(dirFuente);
+
+            ficherizador.Ficherizar(dirFuente, matrizNombres, _mensajeArchivo);
+            zippeador.Ejecutar(dirActual, dirFuente);
+
+            Directory.Delete(dirFuente, true);
+
+            MostrarMensaje($"La operación terminó con éxito \nRuta: {dirActual}sorteado.zip");
+        }
+        catch (Exception ex)
+        {
+            MostrarMensaje(ex.Message);
+        }
+    }
+
+    void MostrarMensaje(string msj)
+    {
+        _mensaje = msj;
+        _dialogo.Mostrar();
+    }
+}

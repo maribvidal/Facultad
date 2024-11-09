@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    Ha ocurrido un error
+    <a href="" class="reload">Recargar</a>
+    <a class="dismiss">🗙</a>
+</div>

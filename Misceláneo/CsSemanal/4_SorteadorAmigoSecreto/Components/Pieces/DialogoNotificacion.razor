@@ -1,0 +1,29 @@
+@rendermode InteractiveServer
+
+@if (visible)
+{
+<div class="dialogo-contenedor">
+    <div class="dialogo-contenido">
+        <h3>@Mensaje</h3>
+        <button class="btn btn-primary" @onclick="()=>Cerrar()">Cerrar</button>
+    </div>
+</div>
+}
+
+@code {
+    private bool visible = false;
+    [Parameter] public string Mensaje { get; set; } = "";
+    [Parameter] public EventCallback Accion { get; set; }
+
+    public void Mostrar()
+    {
+        visible = true;
+        StateHasChanged();
+    }
+
+    void Cerrar()
+    {
+        visible = false;
+    }
+
+}
