@@ -1,4 +1,4 @@
-package ar.edu.unlp.info.oo1.Ejercicio23;
+package ar.edu.unlp.oo1.ejercicio23;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +13,15 @@ public class Vendedor extends Persona {
 		this.productosEnVenta = new ArrayList<Producto>();
 	}
 	
-	public Pedido crearPedido(Cliente cliente, IFormaDeEnvio formaDeEnvio, IFormaDePago formaDePago, Producto prod, int cantSolicitada) { 
-		Pedido nuevoPedido = null;
-		
-		if (prod.getUnidades() >= cantSolicitada ) {
-			nuevoPedido = new Pedido(prod, formaDeEnvio, formaDePago, cantSolicitada);
-			prod.setUnidades (prod.getUnidades() - cantSolicitada);
+	public void crearPedido(Cliente cliente, IFormaDeEnvio formaDeEnvio, IFormaDePago formaDePago, Producto prod, int cantSolicitada) { 
+		if (prod.getUnidades() >= cantSolicitada) {
+			Pedido nuevoPedido = new Pedido(prod, formaDeEnvio, formaDePago, cantSolicitada);
+			prod.setUnidades(prod.getUnidades() - cantSolicitada);
 			cliente.agregarPedido(nuevoPedido);
 		}
-			
-		return nuevoPedido;
+	}
+	
+	public void agregarProducto(Producto producto) {
+		this.productosEnVenta.add(producto);
 	}
 }
