@@ -1,10 +1,17 @@
-package ar.edu.unlp.info.oo1.Ejercicio23;
+package ar.edu.unlp.oo1.ejercicio23;
 
 public class Producto {
 	private String nombre;
 	private String categoria;
 	private double precio;
 	private int unidades;
+	
+	public Producto(String nombre, String categoria, double precio, int unidades) {
+		this.nombre = nombre;
+		this.categoria = categoria;
+		this.precio = precio;
+		this.unidades = unidades;
+	}
 	
 	public int getUnidades() {
 		return this.unidades;
