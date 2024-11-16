@@ -1,3 +1,3 @@
 # Ejercicio 23
-Corregido, realizar implementación, realizar tests
+Terminado
 ![Diagrama UML](./diagrama_uml.png)
