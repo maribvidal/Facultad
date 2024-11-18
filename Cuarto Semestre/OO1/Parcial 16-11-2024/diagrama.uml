@@ -1,0 +1,64 @@
+@startuml
+
+class Evento <<abstract>> {
+-nombre: String
+-fecha: LocalDate
+-temaPrincipal: String
+-precioInscripcion: Real
+-precioRemera: Real
++<<create>> Evento(nom: String, fecha: LocalDate, temaPri: String, preIns: Real, preRem: Real)
++<<abstract>> obtenerPrecioAsistencia(fechaConsulta: LocalDate): Real
+#getPrecioBase(fechaConsulta: LocalDate): Real
++getFecha(): LocalDate
+}
+
+class EventoPresencial {
+-obtenerPreciosSedes(): Real
++<<create>> EventoPresencial(nom: String, fecha: LocalDate, temaPri: String, preIns: Real, preRem: Real)
++agregarSede(s: Sede)
+}
+
+class Sede {
+-nombreLugar: String
+-precioEstadiaDia: Real
+-cantidadDiasEstadia: Integer
++<<create>> Sede(nomL: String, precioD: Real, cantD: Integer)
++obtenerPrecioTotal(): Real
+}
+
+class EventoVirtual {
+-montoEnvio: Real
++<<create>> EventoVirtual(nom: String, fecha: LocalDate, temaPri: String, preIns: Real, preRem: Real, montoE: Real)
+}
+
+class Entrada {
+-precioCompra: Real
+-fechaCompra: LocalDate
+-tieneSeguro: Boolean
++<<create>> Entrada(ev: Evento, tieneS: Boolean)
++obtenerMontoRecuperable(): Real
+-diferenciaDeDiasMayor(): Boolean
+-montoExtraPorSeguro(): Real
++getFechaCompra(): LocalDate
++getFechaEvento(): LocalDate
++obtenerMontoGastado(): Real
+}
+
+class Usuario {
+-nombre: String
++<<create>> Usuario(nom: String)
++consultarPrecioAsistenciaEvento(ev: Evento, fechaConsulta: LocalDate): Real
++comprarEntradaEvento(ev: Evento, quiereSeguro: Boolean): Entrada
++calcularMontoRecuperableEntrada(en: Entrada): Real
++calcularMontoTotalEntradasPeriodo(fechaInicial: LocalDate, fechaFinal: LocalDate): Real
+-obtenerEntradasCompradasPeriodo(periodo: DateLapse): Entrada[*]
++obtenerEntradaSiguienteEvento(): Entrada
+}
+
+EventoPresencial -up-|> Evento
+EventoVirtual -up-|> Evento
+Sede -up-> EventoPresencial: sedes 0..*
+Evento <-right- Entrada: evento
+Entrada <-up- Usuario: entradasCompradas 0..*
+
+@enduml
