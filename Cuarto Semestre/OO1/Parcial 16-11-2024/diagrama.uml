@@ -57,7 +57,7 @@ class Usuario {
 
 EventoPresencial -up-|> Evento
 EventoVirtual -up-|> Evento
-Sede -up-> EventoPresencial: sedes 0..*
+Sede <-up- EventoPresencial: sedes 0..*
 Evento <-right- Entrada: evento
 Entrada <-up- Usuario: entradasCompradas 0..*
 
