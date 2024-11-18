@@ -28,7 +28,7 @@ public class Usuario {
 	public Entrada comprarEntradaEvento(Evento evento, boolean quiereSeguro) {
 		Entrada nuevaEntrada = null;
 		
-		if (evento.getFecha().isAfter(LocalDate.now())) {
+		if (evento.getFecha().isAfter(LocalDate.now()) || evento.getFecha().equals(LocalDate.now())) {
 			nuevaEntrada = new Entrada(evento, quiereSeguro);
 			this.entradasCompradas.add(nuevaEntrada);
 		}
@@ -58,4 +58,8 @@ public class Usuario {
 		Entrada proximaEntrada = entradasVigentes.stream().min((e1, e2) -> Integer.compare(Period.between(LocalDate.now(), e1.getFechaEvento()).getDays(), Period.between(LocalDate.now(), e2.getFechaEvento()).getDays())).orElse(null);
 		return proximaEntrada;
 	}
+	
+	// Métodos debug
+	public List<Entrada> getEntradasCompradas() { return this.entradasCompradas; }
+	public void agregarEntrada(Entrada e) { this.entradasCompradas.add(e); }
 }
