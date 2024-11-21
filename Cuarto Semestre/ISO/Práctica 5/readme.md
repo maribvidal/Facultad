@@ -27,3 +27,32 @@
 | 2000 | 2000 DIV 512 = 3 :white_check_mark: | 0 * 512 = 0 + (2000 MOD 512) = 0 + 464 = 464 |
 ### d) ¿Indique, en caso que se produzca, la fragmentación (interna y/o externa)?
 Se produce fragmentación interna en la última página ya que el proceso ocupa 2000 bytes y no cubre el espacio total asignado
+
+# Ejercicio 12
+**Tabla de Segmentos**
+| Núm. Seg. | Dir. base |
+| ------------- | ------------- |
+| 1  | 500 |
+| 2  | 1500 |
+| 3  | 5000 |
+
+**Tabla de Páginas**
+| Nro. Segmento | Nro. Pagina | Direc. Base |
+| :---: | :---: | :---: |
+| 1 | 1 | 40 |
+|  | 2 | 80 |
+| | 3 | 60 |
+| 2 | 1 | 20 |
+|  | 2 | 25 |
+| | 3 | 0 |
+| 3 | 1 | 120 |
+|  | 2 | 150 |
+
+### Indicar las direcciones físicas correspondientes a las siguientes direcciones lógicas (segmento, página, desplazamiento):
+_i._ (2, 1, 1) = 1500 + 20 + 1 = 1521 dirección física
+
+_ii._ (1, 3, 15) = 100 + 60 + 15 = 575 dirección física
+
+_iii._ (3, 1, 10) = 5000 + 120 + 10 = 5130 dirección física
+
+_iv._ (2, 3, 5) = 1500 + 0 + 10 = 1510 dirección física
