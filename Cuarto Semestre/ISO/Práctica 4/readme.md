@@ -40,6 +40,11 @@ la operación de E/S en el D2. Su ráfaga durará 1 unidad de tiempo porque en l
 ### (b) Realice el ejercicio 10)a) nuevamente considerando este algoritmo, con un quantum de 2 unidades y Timer Variable
 [Hoja de cálculo](https://docs.google.com/spreadsheets/d/1lQU_HVwoK_UFyqsGp1OmOrLnny7q9-zoNArHZKUGk_c/edit?usp=sharing)
 
+# Ejercicio 14
+[Resolución punto A](./Ejercicio_14A.pdf)
+### (b) Analice para que valores de α se tienen en cuenta los casos mas recientes.
+Si se elige un valor de α mas cercano a 1 que a 0, se estará priorizando la duración de la rafaga (T) antes que el valor estimado (S), por lo que si se quiere tener en cuenta los casos mas recientes, el valor de α deberá ser mas cercano a 0.
+
 # Ejercicio 16
 ### (a) Asumiendo que NO hay apropiación entre los procesos.
 ### (b) Asumiendo que hay apropiación entre los procesos.
