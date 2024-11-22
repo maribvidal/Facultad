@@ -56,3 +56,13 @@ _ii._ (1, 3, 15) = 100 + 60 + 15 = 575 dirección física
 _iii._ (3, 1, 10) = 5000 + 120 + 10 = 5130 dirección física
 
 _iv._ (2, 3, 5) = 1500 + 0 + 10 = 1510 dirección física
+
+# Ejercicio 22
+> Considere la siguiente secuencia de referencias de páginas:
+> 1, 2, 15, 4, 6, 2, 1, 5, 6, 10, 4, 6, 7, 9, 1, 6, 12, 11, 12, 2, 3, 1, 8, 1, 13, 14, 15, 3, 8
+### a) Si se disponen de 5 marcos. ¿Cuántos fallos de página se producirán si se utilizan las siguientes técnicas de selección de victima? (Considere una política de Asignación Dinámica y Reemplazo Global) 
+### b) Suponiendo que cada atención de un fallo se pagina requiere de 0,1 seg. Calcular el tiempo consumido por atención a los fallos de páginas para los algoritmos de a).
+[Hoja de cálculo](https://docs.google.com/spreadsheets/d/1t6GM4KzfgfnYHzuUT8jnqyzMsfqQnDDgl5KjdX0Za3k/edit?usp=sharing)
+- Para la política de Segunda Chance voy consultando los bits R de los marcos secuencialmente hasta encontrar al primero en 0, y si no hay ninguno en 0, entonces se colocan todos en 0 y se vuelve a consultar desde el comienzo. En la presentación de la práctica no queda muy claro el tema así que tuve que consultar el libro.
+![Explicación política Segunda Chance](./explicacion_SegundaChance.png)
+- Para la política óptima solo reemplazo páginas que no se van a referenciar mas en la secuencia del enunciado, no elijo un orden en específico.
