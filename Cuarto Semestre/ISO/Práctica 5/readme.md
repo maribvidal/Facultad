@@ -70,3 +70,5 @@ _iv._ (2, 3, 5) = 1500 + 0 + 10 = 1510 dirección física
 # Ejercicio 23
 ### a) Considerando una política de Asignación Dinámica y Reemplazo Global y disponiéndose de 7 marcos. ¿Cuántos fallos de página se producirán si se utiliza la técnica de selección de victimas:
 [Hoja de cálculo](https://docs.google.com/spreadsheets/d/1jyAGcAUN0EpElvmZC1--XCiQgSqdpCIK35bscIpPRnw/edit?usp=sharing)
+- Me basé un poco en lo que hizo agusrnfr para hacerlo pero no me quedó igual, quizás esté mal
+### b) b) Considerando una política de Asignación Fija con reparto equitativo y Reemplazo Local y disponiéndose de 9 marcos. ¿Cuántos fallos de página se producirán si se utiliza la técnica de selección de victimas:
