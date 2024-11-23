@@ -74,3 +74,12 @@ _iv._ (2, 3, 5) = 1500 + 0 + 10 = 1510 dirección física
 ### b) b) Considerando una política de Asignación Fija con reparto equitativo y Reemplazo Local y disponiéndose de 9 marcos. ¿Cuántos fallos de página se producirán si se utiliza la técnica de selección de victimas:
 Al ser reparto equitativo, a cada proceso le corresponden 3 marcos:
 [Hoja de cálculo](https://docs.google.com/spreadsheets/d/14MEAWKUK2bZuCWv58_Or6p6HJegy5fWqpwvBKZvXDW0/edit?usp=sharing)
+
+# Ejercicio 29
+### a) ¿Qué es?
+La anomalía de Belady es una situación en la que se obtienen mas fallos de página al aumentar el número de marcos disponibles en la RAM, y ocurre específicamente con la política de reemplazo FIFO.
+> Dada la siguiente secuencia de referencias a paginas:
+> 3, 2, 1, 0, 3, 2, 4, 3, 2, 1, 0, 4
+### I. Calcule la cantidad de fallos de páginas si se cuentan con 3 marcos y se utiliza el algoritmo de reemplazo FIFO
+### II. Calcule la cantidad de fallos de páginas si se cuentan con 4 marcos y se utiliza el algoritmo de reemplazo FIFO
+[Hoja de cálculo](https://docs.google.com/spreadsheets/d/1A3t0kNh3H7WabS1i7ctRhpk2cF3Rgh-aLYgYSUDOhR0/edit?usp=sharing)
