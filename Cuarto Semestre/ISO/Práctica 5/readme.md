@@ -72,3 +72,5 @@ _iv._ (2, 3, 5) = 1500 + 0 + 10 = 1510 dirección física
 [Hoja de cálculo](https://docs.google.com/spreadsheets/d/1jyAGcAUN0EpElvmZC1--XCiQgSqdpCIK35bscIpPRnw/edit?usp=sharing)
 - Me basé un poco en lo que hizo agusrnfr para hacerlo pero no me quedó igual, quizás esté mal
 ### b) b) Considerando una política de Asignación Fija con reparto equitativo y Reemplazo Local y disponiéndose de 9 marcos. ¿Cuántos fallos de página se producirán si se utiliza la técnica de selección de victimas:
+Al ser reparto equitativo, a cada proceso le corresponden 3 marcos:
+[Hoja de cálculo](https://docs.google.com/spreadsheets/d/14MEAWKUK2bZuCWv58_Or6p6HJegy5fWqpwvBKZvXDW0/edit?usp=sharing)
