@@ -66,3 +66,7 @@ _iv._ (2, 3, 5) = 1500 + 0 + 10 = 1510 dirección física
 - Para la política de Segunda Chance voy consultando los bits R de los marcos secuencialmente hasta encontrar al primero en 0, y si no hay ninguno en 0, entonces se colocan todos en 0 y se vuelve a consultar desde el comienzo. En la presentación de la práctica no queda muy claro el tema así que tuve que consultar el libro (también se le llama "política de reloj").
 ![Explicación política Segunda Chance](./explicacion_SegundaChance.png)
 - Para la política óptima solo reemplazo páginas que no se van a referenciar mas en la secuencia del enunciado, no elijo un orden en específico.
+
+# Ejercicio 23
+### a) Considerando una política de Asignación Dinámica y Reemplazo Global y disponiéndose de 7 marcos. ¿Cuántos fallos de página se producirán si se utiliza la técnica de selección de victimas:
+[Hoja de cálculo](https://docs.google.com/spreadsheets/d/1jyAGcAUN0EpElvmZC1--XCiQgSqdpCIK35bscIpPRnw/edit?usp=sharing)
