@@ -11,4 +11,4 @@ este resumen no creo que le sirva a otra persona que no sea yo pero bno
  --- 
 [Práctica 1](./Práctica/practica1.md)    
 [Práctica 2](./Práctica/practica2.md)    
-[Práctica - Respuestas Repaso](./Práctica/practica_respuestas_repaso.md)
+[Práctica 4](./Práctica/practica4.pdf)    
