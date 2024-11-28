@@ -11,5 +11,5 @@ este resumen no creo que le sirva a otra persona que no sea yo pero bno
  --- 
 [Práctica 1 - Conceptos Generales](./Práctica/practica1.md)    
 [Práctica 2 - Conceptos Generales](./Práctica/practica2.md)    
-[Práctica 4 - Administración de CPU](./Práctica/practica4.pdf)
+[Práctica 4 - Administración de CPU](./Práctica/practica4.pdf)<br>
 [Práctica 5 - Administración de Memoria](./Práctica/practica5.pdf) 
