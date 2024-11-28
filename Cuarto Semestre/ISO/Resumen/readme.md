@@ -9,6 +9,7 @@ este resumen no creo que le sirva a otra persona que no sea yo pero bno
 [Teoría - Respuestas Repaso](./Teoría/teoria_respuestas_repaso.md)    
 ## Prácticas   
  --- 
-[Práctica 1](./Práctica/practica1.md)    
-[Práctica 2](./Práctica/practica2.md)    
-[Práctica 4](./Práctica/practica4.pdf)    
+[Práctica 1 - Conceptos Generales](./Práctica/practica1.md)    
+[Práctica 2 - Conceptos Generales](./Práctica/practica2.md)    
+[Práctica 4 - Administración de CPU](./Práctica/practica4.pdf)
+[Práctica 5 - Administración de Memoria](./Práctica/practica5.pdf) 
