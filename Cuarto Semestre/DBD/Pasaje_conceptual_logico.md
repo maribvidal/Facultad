@@ -13,7 +13,7 @@ elegir aquella que "permita alcanzar los estándares de rendimientos definidos p
 
 Soluciones posibles:
 1. **Eliminar las especializaciones** dejando solo la **generalización**, la cual deberá incorporar todos los atributos de sus hijos como opcionales
-2. **Eliminar la generalización** dejando las **especializaciones**, teniendo que incluir los atributos del padre en sus hijos
+2. **Eliminar la generalización** dejando las **especializaciones**, teniendo que incluir los atributos del padre en sus hijos (NO aplicable para los subconjuntos)
 3. **Dejar la jerarquía tal como está, y convertirla en relaciones uno a uno con sus hijos**
 La cobertura de la jerarquía determina la solución viable en cada caso
 - **Atributos derivados** --> Sus ventajas son la disponibilidad de información que ofrecen, y sus
