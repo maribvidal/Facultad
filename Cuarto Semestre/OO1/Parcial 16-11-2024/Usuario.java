@@ -16,11 +16,6 @@ public class Usuario {
 		this.entradasCompradas = new ArrayList<Entrada>();
 	}
 	
-	// CONSULTAR EL PRECIO DE ASISTENCIA A UN EVENTO
-	public double consultarPrecioAsistenciaEvento(Evento evento, LocalDate fechaConsulta) {
-		return (evento.obtenerPrecioAsistencia(fechaConsulta));
-	}
-	
 	// COMPRAR UNA ENTRADA PARA UN EVENTO
 	// Al momento de comprar una entrada, se puede decir si
 	// pagar o no un seguro de reembolso que permite recuperar
@@ -34,11 +29,6 @@ public class Usuario {
 		}
 		
 		return nuevaEntrada;
-	}
-	
-	// CALCULAR EL MONTO A RECUPERAR POR UNA ENTRADA
-	public double calcularMontoRecuperableEntrada(Entrada entrada) {
-		return (entrada.obtenerMontoRecuperable());
 	}
 	
 	// CALCULAR EL MONTO TOTAL POR LAS ENTRADAS COMPRADAS EN UN PERIODO
