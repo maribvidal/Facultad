@@ -47,9 +47,7 @@ class Entrada {
 class Usuario {
 -nombre: String
 +<<create>> Usuario(nom: String)
-+consultarPrecioAsistenciaEvento(ev: Evento, fechaConsulta: LocalDate): Real
 +comprarEntradaEvento(ev: Evento, quiereSeguro: Boolean): Entrada
-+calcularMontoRecuperableEntrada(en: Entrada): Real
 +calcularMontoTotalEntradasPeriodo(fechaInicial: LocalDate, fechaFinal: LocalDate): Real
 -obtenerEntradasCompradasPeriodo(periodo: DateLapse): Entrada[*]
 +obtenerEntradaSiguienteEvento(): Entrada
