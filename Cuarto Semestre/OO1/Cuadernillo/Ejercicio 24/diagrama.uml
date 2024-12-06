@@ -1,0 +1,58 @@
+@startuml
+
+class Usuario <<abstract>> {
+#nombre: String
+#saldo: Real //saldo les permitirá pagar los viajes que realicen
++<<create>> Usuario(nom: String)
++cargarSaldo(monto: Real)
++restarSaldo(costo: Real)
+#<<abstract>> comisionExtra(monto: Real): Real
+#<<abstract>> obtenerBonificacion(costo: Real): Real
+}
+
+class Conductor extends Usuario {
++<<create>> Conductor(nom: String)
++comisionExtra(): Real
++obtenerBonificacion(): Real
++darDeAlta(orig: String, dest: String, costo: Real, fec: LocalDate): Viaje
+}
+
+class Pasajero extends Usuario {
++<<create>> Pasajero(nom: String)
++comisionExtra(monto: Real): Real
++obtenerBonificacion(costo: Real): Real
++registrarseEnViaje(vi: Viaje)
+-tieneSaldo(): Boolean
+-viajoHaceUnMes(): Boolean
+}
+
+class Vehiculo {
+-descripcion: String
+-capacidad: Integer
+-añoFabricacion: Integer
+-valorMercado: Real
++<<create>> Vehiculo(desc: String, capac: Integer, añoFab: Integer, valorM: Real)
++tieneCapacidad(): Boolean
++decrementarCapacidad()
++obtenerValor(): Real
++antiguedadAñosVehiculo(): Integer
+}
+
+class Viaje {
+-origen: String
+-destino: String
+-costoTotal: Real
+-fechaViaje: LocalDate
++<<create>> Viaje(orig: String, dest: String, costoT: Real, fechaV: LocalDate, ve: Vehiculo)
++agregarPasajero(pas: Pasajero)
++procesarViaje()
++faltanMasDeDosDias(): Boolean
++haceCuantosDias(): Integer
+}
+
+Usuario -left-> Viaje: viajes 0..*
+Conductor --> Vehiculo: vehiculo
+Viaje --> Usuario: pasajeros 1..*
+Viaje -right-> Vehiculo: vehiculoAsociado
+
+@enduml
