@@ -1,0 +1,60 @@
+@startuml
+
+class Mascota {
+-nombre: String
+-fechaNacimiento: LocalDate
+-especie: String
++<<create>> Mascota(nom: String, fechaNac: LocalDate, esp: String)
++darAltaConsulta(me: Medico, uso: Boolean): ConsultaMedica
++darAltaVacunacion(me: Medico, uso: Boolean, nomV: String, costoV: Real): Vacunacion
++darAltaGuarderia(cantDias: Integer): ServicioGuarderia
++recaudadoEn(f: LocalDate): Real
++aplicaParaDescuento(): Boolean
+}
+
+class Medico {
+-nombre: String
+-fechaIngreso: LocalDate
+-honorario: Real
++<<create>> Medico(nom: String, fechaIngreso: LocalDate, honorario: Real)
++getHonorario(): Real
++getAntiguedad(): Integer
+}
+
+abstract class Servicio {
+#fecha: LocalDate
++<<create>> Servicio(m: Mascota, f: LocalDate)
++<<abstract>> costoServicio(): Real
++ocurrioEn(f: LocalDate): Boolean
+}
+
+abstract class ServicioMedico extends Servicio {
+#usoMateriales: Boolean
++<<create>> ServicioMedico(ma: Mascota, me: Medico, uso: Boolean)
+#esDomingo(): Boolean
+}
+
+class ServicioGuarderia extends Servicio {
+-cantidadDias: Integer
++<<create>> ServicioGuarderia(ma: Mascota, cantDias: Integer)
++costoServicio(): Real
+-diasQueTranscurrieron(): Integer
+}
+
+class ConsultaMedica extends ServicioMedico {
++<<create>> ConsultaMedica(ma: Mascotame: Medico, uso: Boolean)
++costoServicio(): Real
+}
+
+class Vacunacion extends ServicioMedico {
+-nombreVacuna: String
+-costoVacuna: Real
++<<create>> Vacunacion(ma: Mascotame: Medico, uso: Boolean, nomV: String, costoV: Real)
++costoServicio(): Real
+}
+
+Servicio --> Mascota: mascota
+Mascota -left-> Servicio: servicios 0..*
+Medico <-left- ServicioMedico: medico
+
+@enduml
