@@ -1,0 +1,56 @@
+@startuml
+abstract class Personaje {
+#nombre: String
+#nivel: Integer
+#inteligencia: Real
+#fuerza: Real
++<<create>> Personaje(nom: String, rol: IRol)
++<<abstract>> determinarPoderAtaque(hora: Integer): Real
++<<abstract>> subirNivel()
++aumentarInteligencia(cant: Real)
++aumentarFuerza(cant: Real)
++cambiarRol(nuevoRol: iRol)
++enfrentarCon(otro: Personaje)
++getInteligencia(): Real
++getFuerza(): Real
++getNivel(): Integer
++oponentesNivelSimilar(coleccion: Personaje[*]): Personaje[*]
+#mismoNivel(otro: Personaje): Boolean
+#poderAceptable(): Boolean
+#diferenciaNivelAceptable(otro: Personaje): Boolean
+#oponenteSimilar(otro: Personaje): Boolean
+#esDeDia(hora: Integer): Boolean
+#calcularValorBase(): Real
+}
+
+class Humano extends Personaje {
++<<create>> Humano(nom: String, rol: IRol)
++determinarPoderAtaque(hora: Integer): Real
++subirNivel()
+-nivelMayorSiete(): Boolean
+}
+
+class Orco extends Personaje {
++<<create>> Orco(nom: String, rol: IRol)
++determinarPoderAtaque(hora: Integer): Real
++subirNivel()
+-nivelMultiploTres(): Boolean
+}
+
+interface IRol {
++<<abstract>> determinarValorBase(p: Personaje): Real
++<<abstract>> incrementarHabilidad(p: Personaje)
+}
+
+class Mago implements IRol {
++determinarValorBase(p: Personaje): Real
++incrementarHabilidad(p: Personaje)
+}
+
+class Guerrero implements IRol {
++determinarValorBase(p: Personaje): Real
++incrementarHabilidad(p: Personaje)
+}
+
+Personaje --> IRol: rol
+@enduml
