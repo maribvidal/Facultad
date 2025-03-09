@@ -9,6 +9,7 @@ Listado de recursos que están relacionados con temas que se dan en la Facultad
 - ['_Ingeniería de Software_', de Ian Sommerville](https://gc.scalahed.com/recursos/files/r161r/w25469w/ingdelsoftwarelibro9_compressed.pdf)
 - [Sobre el modelado de procesos](./ING/ING_modelado_procesos.pdf) (extraído de _Ingenería del Software, un enfoque práctico_)
 ### Programación Orientada a Objetos
+- [Catálogo de Patrones de Diseño](./OO/OO_cat_patr.pdf) (extraído de _Patrones de diseño: Elementos de software orientado a objetos reutilizable_)
 - [Glosario para Orientación a Objetos](./OO/OO_glosario.pdf) (extraído de _Patrones de diseño: Elementos de software orientado a objetos reutilizable_)
 - [Sobre la herencia y la composición](./OO/OO_heren_comp.pdf) (extraído de _The Object-Oriented Thought Process_) (**En inglés**)
 - [Sobre la herencia y la substitución](./OO/OO_heren_subst.pdf) (extraído de _An Introduction to Object-Oriented Programming_) (**En inglés**)
