@@ -12,6 +12,7 @@ Listado de recursos que están relacionados con temas que se dan en la Facultad
 - ['Refactoring: Improving the Design of Existing Code', de Martin Fowler](./OO/OO_fowler_refactoring.pdf)
 - [Catálogo de Patrones de Diseño](./OO/OO_cat_patr.pdf) (extraído de _Patrones de diseño: Elementos de software orientado a objetos reutilizable_)
 - [Glosario para Orientación a Objetos](./OO/OO_glosario.pdf) (extraído de _Patrones de diseño: Elementos de software orientado a objetos reutilizable_)
+- [Lista de malos olores en el código](./OO/OO_beck_fowler_bad_smells.pdf) (extraído de _Refactoring: Improving the Design of Existing Code_) (**En inglés**)
 - [Sobre la herencia y la composición](./OO/OO_heren_comp.pdf) (extraído de _The Object-Oriented Thought Process_) (**En inglés**)
 - [Sobre la herencia y la substitución](./OO/OO_heren_subst.pdf) (extraído de _An Introduction to Object-Oriented Programming_) (**En inglés**)
 ### Sistemas Operativos
