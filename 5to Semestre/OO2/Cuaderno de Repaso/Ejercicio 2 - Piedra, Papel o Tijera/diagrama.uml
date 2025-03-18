@@ -1,0 +1,66 @@
+@startuml
+
+class Partida {
++Partida(opcionJugador1: Opcion, opcionJugador2: Opcion)
++jugar(): String
+}
+
+abstract class Opcion {
++<<abstract>> jugar(opcion: Opcion): String
++<<abstract>> opcionLagarto(): String
++<<abstract>> opcionPapel(): String
++<<abstract>> opcionPiedra(): String
++<<abstract>> opcionSpock(): String
++<<abstract>> opcionTijera(): String
+}
+
+class Lagarto extends Opcion {
++jugar(opcion: Opcion): String
++opcionLagarto(): String
++opcionPapel(): String
++opcionPiedra(): String
++opcionSpock(): String
++opcionTijera(): String
+}
+
+class Papel extends Opcion {
++jugar(opcion: Opcion): String
++opcionLagarto(): String
++opcionPapel(): String
++opcionPiedra(): String
++opcionSpock(): String
++opcionTijera(): String
+}
+
+class Piedra extends Opcion {
++jugar(opcion: Opcion): String
++opcionLagarto(): String
++opcionPapel(): String
++opcionPiedra(): String
++opcionSpock(): String
++opcionTijera(): String
+}
+
+class Spock extends Opcion {
++jugar(opcion: Opcion): String
++opcionLagarto(): String
++opcionPapel(): String
++opcionPiedra(): String
++opcionSpock(): String
++opcionTijera(): String
+}
+
+class Tijera extends Opcion {
++jugar(opcion: Opcion): String
++opcionLagarto(): String
++opcionPapel(): String
++opcionPiedra(): String
++opcionSpock(): String
++opcionTijera(): String
+}
+
+Partida -left-> Opcion: opcionJugador1
+Partida -right-> Opcion: opcionJugador2
+
+
+@enduml
