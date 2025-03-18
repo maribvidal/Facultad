@@ -1,0 +1,49 @@
+@startuml
+
+interface IPost {
++<<abstract>> getTexto(): String
+}
+
+class Twitter {
++Twitter()
++registrarUsuario(screenName: String): Usuario
+-nombreExistente(screenName: String): Boolean
+}
+
+class Usuario {
+-screenName: String
++Usuario(screenName: String)
++getScreenName(): String
++getPosteos(): IPost[*]
++twittear(texto: String): Tweet
++retwittear(tweet: Tweet): Retweet
++eliminarTweet(tweet: Tweet)
++eliminarRetweet(retweet: Retweet)
+-eliminarReferencias(tweet: Tweet)
+}
+
+class Tweet implements IPost {
+-texto: String
++Tweet()
++establecerTexto(texto: String): Boolean
++hacerRetweet(usuario: Usuario): Retweet
++getTexto(): String
++obtenerListaUsuariosQueRetwitearon(): Usuario[*]
+-setTexto(texto: String)
+}
+
+class Retweet implements IPost {
++Retweet(tweetOrigen: Tweet, retweetUsuario: Usuario)
++getTexto(): String
++getRetweetUsuario(): Usuario
+}
+
+Twitter --> Usuario: usuariosRegistrados 0..*
+
+Usuario -down-> IPost: posteos 0..*
+
+Tweet -right-> Retweet: retweets 0..*
+Retweet -left-> Tweet: tweetOrigen 1
+Retweet -up-> Usuario: retweetUsuario
+
+@enduml
