@@ -18,7 +18,7 @@ Su tarea es diseñar y programar en Java lo que sea necesario para ofrecer la fu
 
 ## Solución propuesta
 ![Diagrama UML](./diag_uml.png)
-[Código UML](./diagrama.uml)
+<br>[Código UML](./diagrama.uml)
 ### Notas
 - Lo mas importante en este ejercicio es encontrar una forma de borrar los retweets que no tengan un tweet fuente porque este fue eliminado.
 - Hay varias formas de resolver el ejercicio como, por ejemplo, contar con una lista para los posteos en la clase Twitter (que vendría a ser una clase Sistema), y de ahí eliminar los retweets necesarios. Cada forma tiene sus pros y contras, la que usé acá tiene como contra un acoplamiento mas fuerte entre los posteos y los Usuarios, pero a favor la forma de eliminar Retweets es mas simple, y la clase Twitter no interviene para nada.
