@@ -1,34 +1,41 @@
-package biblioteca;
+@startuml
 
-import java.util.List;
+skinparam classAttributeIconSize 0
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
-
-public class JSONExporter implements IExporter {
-	private JSONObject exportar(Socio socio) {
-		JSONObject objetoJSON = new JSONObject();
-		
-		objetoJSON.put("nombre", socio.getNombre());
-		objetoJSON.put("email", socio.getEmail());
-		objetoJSON.put("legajo", socio.getLegajo());
-		
-		return objetoJSON;
-	}
-	
-	public String exportar(List<Socio> socios) {
-		
-		if (socios.isEmpty()) {
-			return "[]";
-		}
-		
-		JSONArray vectorJSON = new JSONArray();
-		socios.forEach(soc -> {
-			JSONObject temp = exportar(soc);
-			vectorJSON.add(temp);
-		});
-		
-		return vectorJSON.toJSONString();
-	}
+class Biblioteca {
++Biblioteca()
++agregarSocio(socio: Socio)
++exportarSocios(): String
++getExporter(): VoorheesExporter
++setExporter(exporter: VoorheesExporter)
 }
+
+class Socio {
+-nombre: String
+-legajo: String
+-email: String
++Socio(nombre: String, email: String, legajo: String)
++getNombre(): String
++setNombre(nombre: String)
++getEmail(): String
++setEmail(email: String)
++getLegajo(): String
++setLegajo(legajo: String)
+}
+
+interface IExporter {
++<<abstract>> exportar(socios: Socio[*]): String
+}
+
+class VoorheesExporter implements IExporter {
+-exportar(socio: Socio): String
+}
+
+class JSONExporter implements IExporter {
+-exportar(socio: Socio): JSONObject
+}
+
+Biblioteca -right-* IExporter: -exporter
+Biblioteca --> Socio: -socios 0..*
+
+@enduml
