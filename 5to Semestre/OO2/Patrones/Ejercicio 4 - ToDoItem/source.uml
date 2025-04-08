@@ -1,0 +1,36 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class ToDoItem {
+-name: String
+-tiempoInicial: LocalDateTime
+-tiempoFinal: LocalDateTime
+-comentarios: String[]
++ToDoItem(name: String)
++start()
++togglePause()
++finish()
++workedTime(): Duration
++addComment(comment: String)
++cambiarEstado(nuevoEstado: EstadoItem)
++getComentarios(): String[]
+}
+
+abstract class EstadoItem {
++<<abstract>>start(context: ToDoItem)
++<<abstract>>togglePause(context: ToDoItem)
++<<abstract>>finish(context: ToDoItem)
++<<abstract>>addComment(context: ToDoItem)
++workedTime(): LocalDateTime
+}
+
+class PendingItem extends EstadoItem {}
+class InProgressItem extends EstadoItem {}
+class PausedItem extends EstadoItem {}
+class FinishedItem extends EstadoItem {}
+
+
+ToDoItem o-right-* EstadoItem: -estado
+
+@enduml
