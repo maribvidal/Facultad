@@ -1,0 +1,30 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class MediaPlayer {
++play()
+}
+
+interface Media {
++<<abstract>>play()
+}
+
+class Audio implements Media {
++play()
+}
+class VideoFile implements Media {
++play()
+}
+class MediaVideoStream implements Media {
++play()
+}
+
+class VideoStream {
++reproduce()
+}
+
+MediaPlayer -right-> Media: media *
+MediaVideoStream o--* VideoStream
+
+@enduml
