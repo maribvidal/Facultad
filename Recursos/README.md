@@ -9,7 +9,8 @@ Listado de recursos que están relacionados con temas que se dan en la Facultad
 - ['_Ingeniería de Software_', de Ian Sommerville](https://gc.scalahed.com/recursos/files/r161r/w25469w/ingdelsoftwarelibro9_compressed.pdf)
 - [Sobre el modelado de procesos](./ING/ING_modelado_procesos.pdf) (extraído de _Ingenería del Software, un enfoque práctico_)
 ### Lenguajes de Programación
-- [Evolución de los Lenguajes de Programación Principales](./LP/LP_sebesta_lang_evo.pdf) (extraído de _Concepts of Programming Languages_) (**En inglés**)
+- [Evolución de los Lenguajes de Programación Principales](./LP/LP_sebesta_lang_evo.pdf) (extraído de _Concepts of Programming Languages_) (**En inglés
+- [Esquemas de ejecución de los lenguajes de programación explicados con un procesador abstracto: SIMPLESEM](./LP/LP_ghezzi_simplesem.pdf) (extraído de _Programming language concepts_) (**En inglés**)
 ### Programación Orientada a Objetos
 - ['Refactoring: Improving the Design of Existing Code', de Martin Fowler](./OO/OO_fowler_refactoring.pdf)
 - [Catálogo de Patrones de Diseño](./OO/OO_cat_patr.pdf) (extraído de _Patrones de diseño: Elementos de software orientado a objetos reutilizable_)
