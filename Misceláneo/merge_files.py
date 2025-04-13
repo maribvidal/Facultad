@@ -6,16 +6,17 @@ def get_dir_files(dir):
     all_files = os.listdir(dir)
     txt_files = []
     for file in all_files:
-        full_path = os.path.join(dir, file)
-        txt_files.append(full_path)
+        if (os.path.basename(file) != 'merge_files.py'):
+            full_path = os.path.join(dir, file)
+            txt_files.append(full_path)
     return txt_files
 
 def get_united_file(all_files):
-    with open(os.getcwd() + r'\combinado.txt', 'w') as outfile:
+    with open(os.getcwd() + r'\combinado.txt', 'w', encoding="utf8") as outfile:
         for file in all_files:
-            with open(file) as infile:
+            with open(file, encoding="utf8") as infile:
                 outfile.write(os.path.basename(infile.name).upper() + ' ///\n');
-                outfile.write(infile.read() + '\n')
+                outfile.write(infile.read() + '\n\n')
                 
 def main():
     dir_path = os.getcwd();
