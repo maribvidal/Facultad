@@ -1,0 +1,60 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+interface IEstado <<State>> {
++getResultado(contexto: Calculadora): String
++borrar(contexto: Calculadora)
++setValor(contexto: Calculadora, unValor: Real)
++mas(contexto: Calculadora)
++menos(contexto: Calculadora)
++por(contexto: Calculadora)
++dividido(contexto: Calculadora)
+}
+
+class EstadoInicial <<ConcreteStateA>> {
+}
+
+class EstadoSumando <<ConcreteStateB>> {
+}
+
+class EstadoRestando <<ConcreteStateC>> {
+}
+
+class EstadoMultiplicando <<ConcreteStateD>> {
+}
+
+class EstadoDividiendo <<ConcreteStateE>> {
+}
+
+class EstadoError <<ConcreteStateF>> {
+}
+
+class Calculadora <<Context>> {
+-valorActual: double
+-valorAcumulado: double
++<<create>>Calculadora()
++getResultado(): String
++borrar()
++setValor(unValor: Real)
++mas()
++menos()
++por()
++dividido()
++getValorActual(): Real
++getValorAcumulado(): Real
++setValorActual(unValor: Real)
++setValorAcumulado(unValor: Real)
++cambiarEstado(nuevoEstado: IEstado)
+}
+
+Calculadora -right-> IEstado : -estado
+
+EstadoInicial .up.|> IEstado
+EstadoSumando .up.|> IEstado
+EstadoRestando .up.|> IEstado
+EstadoMultiplicando .up.|> IEstado
+EstadoDividiendo .up.|> IEstado
+EstadoError .up.|> IEstado
+
+@enduml
