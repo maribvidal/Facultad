@@ -53,9 +53,9 @@ class Usuario {
 +getEmail(): String
 }
 
-Excursion --> ExcursionEstado : -estado
-Excursion o--* Usuario : -inscriptos
-Excursion o--* Usuario : -listaEspera
+Excursion --> ExcursionEstado : estado
+Excursion --> Usuario : inscriptos 0..*
+Excursion --> Usuario : listaEspera 0..*
 
 EstadoProvisorio -up-|> ExcursionEstado
 EstadoDefinitivo -up-|> ExcursionEstado
