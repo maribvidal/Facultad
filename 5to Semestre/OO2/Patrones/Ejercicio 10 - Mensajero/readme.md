@@ -1,6 +1,6 @@
 # Ejercicio 10: Mensajero
 ## Solución propuesta
-![Diagrama UML](./diag_uml.png)
+![Diagrama UML](./diagrama_uml.png)
 <br>[Código UML](./source.uml) (Generado con Gemini)
 ### Notas
 - Para la resolución del ejercicio utilicé el patrón Strategy y el Adapter
