@@ -1,0 +1,47 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+interface ICipher <<Strategy>> {
++encriptar(mensaje: String): String
++desencriptar(mensaje: String): String
+}
+
+class FeistelCipherAdapter <<ConcreteStrategy, Adapter>> {
+-clave: String
++FeistelCipherAdapter(clave: String)
++encriptar(mensaje: String): String
++desencriptar(mensaje: String): String
+}
+
+class RC4Adapter <<ConcreteStrategy, Adapter>> {
+-clave: String
++RC4Adapter(clave: String)
++encriptar(mensaje: String): String
++desencriptar(mensaje: String): String
+}
+
+class Mensajero <<Context>> {
++Mensajero(cifrador: ICipher)
++enviar(mensaje: String): String
++recibir(mensaje: String): String
++cambiarCifrador(nuevoCifrador: ICipher)
+}
+
+class FeistelCipher <<Adaptee>> {
++encode(String): String
+}
+
+class RC4 <<Adaptee>> {
++encriptar(String, String): String
++desencriptar(String, String): String
+}
+
+Mensajero --> ICipher : -cifrador
+FeistelCipherAdapter --> FeistelCipher : -feistelCipher
+RC4Adapter --> RC4 : -rc4
+
+FeistelCipherAdapter .up.|> ICipher
+RC4Adapter .up.|> ICipher
+
+@enduml
