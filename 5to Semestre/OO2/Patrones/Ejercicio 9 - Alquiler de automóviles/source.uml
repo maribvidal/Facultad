@@ -1,0 +1,46 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+interface IPoliticaCancelacion <<Strategy>> {
++montoAReembolsar(monto: Real, fechaCancelacion: Date, fechaReserva: Date): Real
+}
+
+class PoliticaCancelacionEstricta <<ConcreteStrategyA>> {}
+class PoliticaCancelacionFlexible <<ConcreteStrategyB>> {}
+class PoliticaCancelacionModerada <<ConcreteStrategyC>> {}
+
+class AutoEnAlquiler <<Context>> {
+-precioPorDia: Real
+-cantidadPlazas: Integer
+-marca: String
++AutoEnAlquiler(precioPorDia: Real, cantidadPlazas: Integer, marca: String, politicaCancelacion: IPoliticaCancelacion)
++getPrecioPorDia(): Real
++montoAReembolsar(monto: Real, fechaCancelacion: Date, fechaReserva: Date): Real
++cambiarPoliticaCancelacion(politicaCancelacion: IPoliticaCancelacion)
+}
+
+class Reserva {
+-cantidadDias: Integer
+-fecha: Date
++Reserva(conductor: Usuario, autoEnAlquiler: AutoEnAlquiler, cantidadDias: Integer, fecha: Date)
++montoAPagar(): Real
++montoAReembolsar(fechaCancelacion: Date): Real
+}
+
+class Usuario {
+-nombre: String
++Usuario(nombre: String)
++alquilarAuto(unAuto: AutoEnAlquiler)
+}
+
+AutoEnAlquiler --> IPoliticaCancelacion : politicaCancelacion
+Reserva -right-> Usuario : conductor
+Reserva --> AutoEnAlquiler : autoEnAlquiler
+Usuario --> AutoEnAlquiler : autosEnAlquiler 0..*
+
+PoliticaCancelacionEstricta .up.|> IPoliticaCancelacion
+PoliticaCancelacionFlexible .up.|> IPoliticaCancelacion
+PoliticaCancelacionModerada .up.|> IPoliticaCancelacion
+
+@enduml
