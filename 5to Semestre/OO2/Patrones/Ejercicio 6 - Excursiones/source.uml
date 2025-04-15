@@ -2,42 +2,42 @@
 
 skinparam classAttributeIconSize 0
 
-abstract class ExcursionEstado <<abstract>> {
+abstract class ExcursionEstado <<State>> {
 +<<abstract>>inscribir(contexto: Excursion, unUsuario: Usuario)
 +<<abstract>>obtenerInformacion(contexto: Excursion): String
 }
 
-class EstadoProvisorio {
+class EstadoProvisorio <<ConcreteStateA>> {
 +inscribir(contexto: Excursion, unUsuario: Usuario)
 +obtenerInformacion(contexto: Excursion): String
 }
 
-class EstadoDefinitivo {
+class EstadoDefinitivo <<ConcreteStateB>> {
 +inscribir(contexto: Excursion, unUsuario: Usuario)
 +obtenerInformacion(contexto: Excursion): String
 }
 
-class EstadoLleno {
+class EstadoLleno <<ConcreteStateC>> {
 +inscribir(contexto: Excursion, unUsuario: Usuario)
 +obtenerInformacion(contexto: Excursion): String
 }
 
-class Excursion {
+class Excursion <<Context>> {
 -nombre: String
--fechaInicio: LocalDate
--fechaFin: LocalDate
+-fechaInicio: Date
+-fechaFin: Date
 -puntoEncuentro: String
--costo: double
--cupoMinimo: int
--cupoMaximo: int
-+Excursion(nombre: String, fechaInicio: LocalDate, fechaFin: LocalDate, puntoEncuentro: String, costo: double, cupoMinimo: int, cupoMaximo: int)
+-costo: Real
+-cupoMinimo: Integer
+-cupoMaximo: Integer
++Excursion(nombre: String, fechaInicio: Date, fechaFin: Date, puntoEncuentro: String, costo: Real, cupoMinimo: Integer, cupoMaximo: Integer)
 +inscribir(unUsuario: Usuario)
 +obtenerInformacion(): String
-+cantidadInscriptos(): int
-+cantidadInscriptosFaltantesCupoMinimo(): int
-+cantidadInscriptosFaltantesCupoMaximo(): int
-+seAlcanzoCupoMinimo(): boolean
-+seAlcanzoCupoMaximo(): boolean
++cantidadInscriptos(): Integer
++cantidadInscriptosFaltantesCupoMinimo(): Integer
++cantidadInscriptosFaltantesCupoMaximo(): Integer
++seAlcanzoCupoMinimo(): Boolean
++seAlcanzoCupoMaximo(): Boolean
 +obtenerMailInscriptos(): String[*]
 +cambiarEstado(nuevoEstado: ExcursionEstado)
 +inscribirUsuario(unUsuario: Usuario)
