@@ -1,7 +1,7 @@
 # Ejercicio 6: Excursiones
 ## Solución propuesta
-![Diagrama UML](./diag_uml.png)<br>
-[Código UML](./source.uml)
+![Diagrama UML](./diagrama_uml.png)<br>
+[Código UML](./source.uml) (Generado con Gemini)
 ### Notas
 - Mientras se vaya llenando de gente la excursión, esta va a cambiar su comportamiento en algunas partes de la Clase. En particular, en los métodos:<br>
   - +inscribir(unUsuario: Usuario)
