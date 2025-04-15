@@ -1,0 +1,68 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+interface Connection <<Strategy>> {
++sendData(data: String, crc: Integer): String
++pict(): String
+}
+
+interface ICRCCalculator <<Strategy>> {
++crcFor(datos: String): Real
+}
+
+class CRC16_Calculator <<ConcreteStrategyC>> {
++crcFor(datos: String): Real
+}
+
+class CRC32_Calculator <<ConcreteStrategyD>> {
++crcFor(datos: String): Real
+}
+
+class CuatroGConnAdapter <<ConcreteStrategyA, Adapter>> {
++CuatroGConnAdapter(cuatroG: CuatroGConnection)
++sendData(data: String, crc: Integer): String
++pict(): String
+}
+
+class WifiConn <<ConcreteStrategyB>> {
+-pict: String
++WifiConn(pict: String)
++sendData(data: String, crc: Integer): String
++pict(): String
+}
+
+class CuatroGConnection <<Adaptee>> {
+-symb: String
++CuatroGConnection(symb: String)
++transmit(data: String, crc: Integer): String
++getSymb(): String
+}
+
+class Display {
++showBanner(img: String): String
+}
+
+class Dispositivo <<Context>> {
++Dispositivo(connection: Connection, crcCalculator: ICRCCalculator, ringer: Ringer, display: Display)
++sendData(data: String): String
++conectarCon(nuevaConexion: Connection)
++configurarCRC(nuevaCalculadora: ICRCCalculator)
+}
+
+class Ringer {
++ring()
+}
+
+Dispositivo --> Connection : connection
+Dispositivo --> ICRCCalculator : crcCalculator
+Dispositivo --> Ringer : ringer
+Dispositivo --> Display : display
+CuatroGConnAdapter --> CuatroGConnection : cuatroG
+
+CRC16_Calculator .up.|> ICRCCalculator
+CRC32_Calculator .up.|> ICRCCalculator
+CuatroGConnAdapter .up.|> Connection
+WifiConn .up.|> Connection
+
+@enduml
