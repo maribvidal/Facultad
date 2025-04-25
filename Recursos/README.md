@@ -12,6 +12,7 @@ Listado de recursos que están relacionados con temas que se dan en la Facultad
 - [Evolución de los Lenguajes de Programación Principales](./LP/LP_sebesta_lang_evo.pdf) (extraído de _Concepts of Programming Languages_) (**En inglés**)
 - [Esquemas de ejecución de los lenguajes de programación explicados con un procesador abstracto: SIMPLESEM](./LP/LP_ghezzi_simplesem.pdf) (extraído de _Programming language concepts_) (**En inglés**)
 - [Mecanismos para definir sintaxis y semántica](./LP/LP_sebesta_mecan_descr.pdf) (extraído de _Concepts of Programming Languages_) (**En inglés**)
+- [Sobre el binding, alocación, alcance, y tiempo de vida de las variables](./LP/LP_sebesta_bind_scope.pdf) (extraído de _Concepts of Programming Languages_) (**En inglés**)
 ### Programación Orientada a Objetos
 - ['Refactoring: Improving the Design of Existing Code', de Martin Fowler](./OO/OO_fowler_refactoring.pdf)
 - [Catálogo de Patrones de Diseño](./OO/OO_cat_patr.pdf) (extraído de _Patrones de diseño: Elementos de software orientado a objetos reutilizable_)
