@@ -1,6 +1,6 @@
 # Ejercicio 13: SubteWayTest
 ## Solución propuesta
-![Diagrama UML](./diag_uml.png)
+![Diagrama UML](./diag_uml.png)<br>
 [Código UML](./source.uml) (Generado con Gemini)
 ### Notas
 - Usé el patrón Builder
