@@ -1,0 +1,38 @@
+@startuml
+
+interface IPrenda <<Component>> {
++<<abstract>> calcularLiquidez(): Real
++<<abstract>> calcularValor(): Real
++<<abstract>> calcularValorPrendario(): Real
+}
+
+abstract class Bien implements IPrenda {
++<<abstract>> calcularCosto(): Real
++calcularValorPrendario(): Real
+}
+class PrendaCombinada <<Composite>> implements IPrenda {}
+
+class Automovil <<Leaf>> extends Bien {
+-añosAntiguedad: Integer
+-modelo: String
+-kilometraje: Integer
++obtenerModelo(): String
++obtenerKilometraje(): Integer
+}
+class Inmueble <<Leaf>> extends Bien {
+-direccion: String
+-superficie: Integer
++obtenerDireccion(): String
++obtenerSuperficie(): Integer
+}
+class Alquiler <<Leaf>> extends Bien {
+-contratoComienzo: Date
+-contratoFin: Date
++obtenerComienzo(): Date
++obtenerFin(): Date
+-cantidadMesesRestantes(): Integer
+}
+
+PrendaCombinada --* IPrenda: prendas 0..*
+
+@enduml
