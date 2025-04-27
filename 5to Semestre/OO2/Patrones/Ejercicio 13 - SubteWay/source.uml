@@ -1,0 +1,72 @@
+@startuml
+interface IComponente {
++obtenerPrecio(): Integer
+}
+
+class Componente implements IComponente {
+-nombre: String
+-precio: Integer
++obtenerPrecio(): Integer
+}
+
+class Empleado <<Director>> {
++pedirSandwich(constructor: SandwichBuilder): Sandwich
+}
+
+class Sandwich <<Producto>> {
++agregarComponente(c: IComponente)
++obtenerPrecio(): Integer
+}
+
+abstract class SandwichBuilder <<Constructor>> {
++<<abstract>> colocarPan()
++<<abstract>> colocarAderezo()
++<<abstract>> colocarPrincipal()
++<<abstract>> colocarAdicional()
++obtenerSandwich(): Sandwich
+#agregarComponenteSandwich(c: IComponente)
+}
+
+class SandwichClasicoBuilder <<ConstructorConcretoA>> {
++colocarPan()
++colocarAderezo()
++colocarPrincipal()
++colocarAdicional()
+}
+
+class SandwichSinTACCBuilder <<ConstructorConcretoB>> {
++colocarPan()
++colocarAderezo()
++colocarPrincipal()
++colocarAdicional()
+}
+
+class SandwichVeganoBuilder <<ConstructorConcretoC>> {
++colocarPan()
++colocarAderezo()
++colocarPrincipal()
++colocarAdicional()
+}
+
+class SandwichVegetarianoBuilder <<ConstructorConcretoD>> {
++colocarPan()
++colocarAderezo()
++colocarPrincipal()
++colocarAdicional()
+}
+
+SandwichBuilder <|-- SandwichClasicoBuilder
+
+SandwichBuilder <|-- SandwichSinTACCBuilder
+
+SandwichBuilder <|-- SandwichVeganoBuilder
+
+SandwichBuilder <|-- SandwichVegetarianoBuilder
+
+Sandwich --> IComponente : componentes
+
+Empleado --> SandwichBuilder : constructor
+
+SandwichBuilder .left.> Sandwich
+
+@enduml
