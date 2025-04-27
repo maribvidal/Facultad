@@ -1,6 +1,6 @@
 # Ejercicio 11: Topografías
 ## Solución propuesta
-![Diagrama UML](./diag_uml.png)
+![Diagrama UML](./diag_uml.png)<br>
 [Código UML](./source.uml) (Generado con Gemini)
 ### Notas
 - En este ejercicio hay que usar el patrón Composite, ya que nos piden que una clase pueda contener otras clases y pueda operársele, o usarse, como si fuera otra clase con la misma interfaz que las otras (transparencia).
