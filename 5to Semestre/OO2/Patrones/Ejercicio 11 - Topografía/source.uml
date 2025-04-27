@@ -1,0 +1,57 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+abstract class Topografia <<Component>> {
++<<abstract>>calcularProporcionAgua(): Real
++<<abstract>>esIgualA(t: Topografia): boolean
+}
+
+class TopografiaMixta <<Composite>> {
++TopografiaMixta()
++calcularProporcionAgua(): Real
++esUnCompuesto(): boolean
++getComponentes(): Topografia[*]
++agregarComponente(t: Topografia)
++esIgualA(t: Topografia): boolean
++esIgualA(t: TopografiaAgua): boolean
++esIgualA(t: TopografiaTierra): boolean
++esIgualA(t: TopografiaPantano): boolean
++esIgualA(t: TopografiaMixta): boolean
+}
+
+class TopografiaAgua <<Leaf>> {
++calcularProporcionAgua(): Real
++esIgualA(t: Topografia): boolean
++esIgualA(t: TopografiaAgua): boolean
++esIgualA(t: TopografiaTierra): boolean
++esIgualA(t: TopografiaPantano): boolean
++esIgualA(t: TopografiaMixta): boolean
+}
+
+class TopografiaPantano <<Leaf>> {
++calcularProporcionAgua(): Real
++esIgualA(t: Topografia): boolean
++esIgualA(t: TopografiaAgua): boolean
++esIgualA(t: TopografiaTierra): boolean
++esIgualA(t: TopografiaPantano): boolean
++esIgualA(t: TopografiaMixta): boolean
+}
+
+class TopografiaTierra <<Leaf>> {
++calcularProporcionAgua(): Real
++esIgualA(t: Topografia): boolean
++esIgualA(t: TopografiaAgua): boolean
++esIgualA(t: TopografiaTierra): boolean
++esIgualA(t: TopografiaPantano): boolean
++esIgualA(t: TopografiaMixta): boolean
+}
+
+TopografiaMixta --* Topografia : -componentes 0..*
+
+TopografiaAgua -up-|> Topografia
+TopografiaMixta -up-|> Topografia
+TopografiaPantano -up-|> Topografia
+TopografiaTierra -up-|> Topografia
+
+@enduml
