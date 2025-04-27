@@ -1,38 +1,69 @@
 @startuml
 
-interface IPrenda <<Component>> {
-+<<abstract>> calcularLiquidez(): Real
-+<<abstract>> calcularValor(): Real
-+<<abstract>> calcularValorPrendario(): Real
-}
+skinparam classAttributeIconSize 0
 
-abstract class Bien implements IPrenda {
-+<<abstract>> calcularCosto(): Real
+abstract class Prenda <<Component>> {
++<<abstract>>calcularLiquidez(): Real
++<<abstract>>calcularValor(): Real
 +calcularValorPrendario(): Real
 }
-class PrendaCombinada <<Composite>> implements IPrenda {}
 
-class Automovil <<Leaf>> extends Bien {
+abstract class BienNoMueble <<abstract>> {
+-costoPorMagnitud: Real
++BienNoMueble(costoPorMagnitud: Real)
++<<abstract>>calcularValor(): Real
++obtenerCostoPorMagnitud(): Real
+}
+
+class Alquiler <<Leaf>> {
+-fechaComienzo: Date
+-fechaFin: Date
++Alquiler(fechaComienzo: Date, fechaFin: Date, costoMensual: Real)
++obtenerComienzo(): Date
++obtenerFin(): Date
++calcularLiquidez(): Real
++calcularValor(): Real
+-calcularMesesRestantes(): Integer
+}
+
+class Automovil <<Leaf>> {
 -añosAntiguedad: Integer
 -modelo: String
 -kilometraje: Integer
+-costo0km: Real
++Automovil(modelo: String, kilometraje: Integer, añosAntiguedad: Integer, costo0km: Real)
++obtenerAñosAntiguedad(): Integer
 +obtenerModelo(): String
 +obtenerKilometraje(): Integer
-}
-class Inmueble <<Leaf>> extends Bien {
--direccion: String
--superficie: Integer
-+obtenerDireccion(): String
-+obtenerSuperficie(): Integer
-}
-class Alquiler <<Leaf>> extends Bien {
--contratoComienzo: Date
--contratoFin: Date
-+obtenerComienzo(): Date
-+obtenerFin(): Date
--cantidadMesesRestantes(): Integer
++obtenerCosto0KM(): Real
++calcularLiquidez(): Real
++calcularValor(): Real
 }
 
-PrendaCombinada --* IPrenda: prendas 0..*
+class Inmueble <<Leaf>> {
+-direccion: String
+-superficie: Integer
++Inmueble(direccion: String, superficie: Integer, costoMetroCuadrado: Real)
++obtenerDireccion(): String
++obtenerSuperficie(): Integer
++calcularLiquidez(): Real
++calcularValor(): Real
+}
+
+class PrendaCombinada <<Composite>> {
++PrendaCombinada()
++agregarPrenda(p: Prenda)
++quitarPrenda(p: Prenda)
++calcularLiquidez(): Real
++calcularValor(): Real
+}
+
+PrendaCombinada --* Prenda : componentes 0..*
+
+BienNoMueble .up.|> Prenda
+Automovil .up.|> Prenda
+PrendaCombinada .up.|> Prenda
+Alquiler .up.|> BienNoMueble
+Inmueble .up.|> BienNoMueble
 
 @enduml
