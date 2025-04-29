@@ -1,0 +1,39 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+interface DatabaseAccess <<interface, Sujeto>> {
++<<abstract>> insertNewRow(rowData: String[*]): Integer
++<<abstract>> getSearchResults(queryString: String): String[*]
+}
+
+class DatabaseRealAccess <<SujetoReal>> implements DatabaseAccess {
+-database
++insertNewRow(rowData: String[*]): Integer
++getSearchResults(queryString: String): String[*]
+}
+
+class DatabaseProxy <<Proxy>> implements DatabaseAccess {
++DatabaseProxy()
++insertNewRow(rowData: String[*]): Integer
++getSearchResults(queryString: String): String[*]
++verificarUsuario(nombreUsuario: String, contraseña: String): Boolean
++nuevaSesion(sesion: Sesion)
+}
+
+class Sesion <<Cliente>> {
++Sesion(databaseProxy: DatabaseProxy)
+-autorizado: Boolean
++iniciarSesion(nombreUsuario: String, contraseña: String)
++estaAutorizado(): Boolean
+}
+
+class EncriptadorSimple {}
+
+DatabaseRealAccess <.right. DatabaseProxy: database
+Sesion -- DatabaseProxy: databaseProxy
+DatabaseProxy <-- EncriptadorSimple
+
+note right of EncriptadorSimple: Clase que contiene un algoritmo\n sencillo de encriptación
+
+@enduml
