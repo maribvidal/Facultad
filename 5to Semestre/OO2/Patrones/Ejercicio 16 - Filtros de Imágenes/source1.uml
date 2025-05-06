@@ -1,0 +1,26 @@
+@startuml
+
+class PNGFilterLauncher <<Context>> {
+-filters: HashMap
+-activeFilters: Filter[*]
+-inputFile: File
+-outputFile: File
++main(args: String[*])
+-processArgs(args: String[*])
+-initializeFilters()
+}
+
+abstract class Filter <<Strategy>> {
++<<abstract>> filter(image: BufferedImage): BufferedImage
+}
+
+class Artifacter <<ConcreteStrategyA>> extends Filter {}
+class Dull <<ConcreteStrategyB>> extends Filter {}
+class Rainbow <<ConcreteStrategyC>> extends Filter {}
+class Repeater <<ConcreteStrategyD>> extends Filter {}
+class RGBShifter <<ConcreteStrategyE>> extends Filter {}
+class RGBShifterRepeater <<ConcreteStrategyF>> extends Filter {}
+
+PNGFilterLauncher -right-> Filter: activeFilters 0..*
+
+@enduml
