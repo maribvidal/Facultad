@@ -17,8 +17,8 @@
 - c. El único olor que encuentro es que las estrategias piden como parámetro la imagen en vez de la clase que hace el rol de Contexto en este sistema, el PNGFilterLauncher. Esto indica que quizás se tenga que utilizar el patrón Decorator.
 ## Inciso B
 ![Diagrama UML 2](./diag_uml_2.png)<br>
-[Código UML 2](./source2.uml)
+[Código UML 2](./source2.uml)<br>
+Clase para [probar los pipes](./PipeTest.java)
 ### Notas
-- Se utiliza el patrón Decorator.
-- a. Si, se distingue, aunque no hay ningún DecoradorConcreto
-- b. Creo que sí.
+- a. Si, se distingue, vendría a ser el patrón Decorator
+- b. No del todo, ya que la clase que tomara el rol de Componente y ComponenteConcreto serían el ImageFilter y las clases filtros respectivamente. Hay una indirección mas en este caso.
