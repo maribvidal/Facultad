@@ -1,0 +1,20 @@
+@startuml
+
+interface ImageFilterPipeInterface <<Component>> {
++<<abstract>> filter(image: BufferedImage): BufferedImage
++<<abstract>> addFilter(next: ImageFilter)
++<<abstract>> setNextPipe(newPipe: ImageFilterPipe)
++<<abstract>> addPipeFrom(newPipe: ImageFilterPipe, aPipe: ImageFilterPipe)
+}
+
+class ImageFilterPipe <<Decorator>> implements ImageFilterPipeInterface {
++ImageFilterPipe(aFilter: ImageFilter)
+}
+class EndPipe <<ConcreteComponent>> implements ImageFilterPipeInterface {}
+
+class ImageFilter {}
+
+ImageFilterPipe --> ImageFilterPipeInterface: nextPipe
+ImageFilterPipe -left-> ImageFilter: filter
+
+@enduml
