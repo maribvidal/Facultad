@@ -1,0 +1,44 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class HomeWeatherStationFahrenheitConstructor <<ConcreteBuilderA>> {
++proveerDatos(temperaturaF: Real, presion: Real, radiacionSolar: Real, listaTemperaturas: Real[*])
++visualizarMaximo()
++visualizarMinimo()
++visualizarPromedio()
++construir(): WeatherDecorator
+}
+class HomeWeatherStationCelsiusConstructor <<ConcreteBuilderB>> extends HomeWeatherStationFahrenheitConstructor {
++proveerDatos(temperaturaF: Real, presion: Real, radiacionSolar: Real, listaTemperaturas: Real[*])
+}
+
+interface WeatherData <<Component>> {
++<<abstract>> getTemperatura(): Real 
++<<abstract>> getPresion(): Real 
++<<abstract>> getRadiacionSolar(): Real 
++<<abstract>> getTemperaturas(): Real[*] 
++<<abstract>> displayData(): String
+}
+
+class HomeWeatherStation <<ConcreteComponent>> implements WeatherData {}
+
+abstract class WeatherDecorator <<Decorator, Product>> implements WeatherData {
++calcularPromedioHistorico(): Real
++calcularMinimoHistorico(): Real
++calcularMaximoHistorico(): Real
++getComponente(): WeatherData
+}
+
+class WeatherDecoratorCelsius extends WeatherDecorator {}
+class WeatherDecoratorPromedio extends WeatherDecorator {}
+class WeatherDecoratorMinimo extends WeatherDecorator {}
+class WeatherDecoratorMaximo extends WeatherDecorator {}
+
+WeatherDecorator -left-> HomeWeatherStation: -componente
+HomeWeatherStationFahrenheitConstructor --> WeatherDecorator
+HomeWeatherStationCelsiusConstructor --> WeatherDecorator
+
+note left of HomeWeatherStationCelsiusConstructor: Este método hace lo mismo que el de arriba, mas\n agregarle un wrapper para la temperatura en Celsius
+
+@enduml
