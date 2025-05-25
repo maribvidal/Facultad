@@ -1,0 +1,23 @@
+@startuml class
+
+skinparam classAttributeIconSize 0
+
+interface IMamifero {
++getIdentificador(): String
++getEspecie(): String
++getFechaNacimiento(): Date
++getMadre(): IMamifero
++setMadre(madre: IMamifero)
++getPadre(): IMamifero
++setPadre(padre: IMamifero)
++getAbueloMaterno(): IMamifero
++getAbuelaMaterna(): IMamifero
++getAbueloPaterno(): IMamifero
++getAbuelaPaterna(): IMamifero
++tieneComoAncestroA(m: IMamifero): Boolean
+}
+
+class Mamifero implements IMamifero
+class NullMamifero implements IMamifero
+
+@enduml
