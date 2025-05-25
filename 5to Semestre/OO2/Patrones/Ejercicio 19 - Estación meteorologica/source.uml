@@ -34,6 +34,7 @@ class WeatherDecoratorCelsius extends WeatherDecorator {}
 class WeatherDecoratorPromedio extends WeatherDecorator {}
 class WeatherDecoratorMinimo extends WeatherDecorator {}
 class WeatherDecoratorMaximo extends WeatherDecorator {}
+class WeatherDecoratorNull extends WeatherDecorator {}
 
 WeatherDecorator -left-> HomeWeatherStation: -componente
 HomeWeatherStationFahrenheitConstructor --> WeatherDecorator
