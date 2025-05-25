@@ -3,7 +3,7 @@ package unlp.oo2.patrones.ej19;
 import java.util.List;
 
 public class HomeWeatherStationFahrenheitConstructor {
-	protected WeatherDecorator producto = null;
+	protected WeatherDecorator producto = new WeatherDecoratorNull();
 	//
 	// INTERFAZ PÚBLICA
 	
