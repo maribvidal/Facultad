@@ -1,0 +1,32 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class PNGFilterLauncher <<¿Director?>> {
+...
+}
+
+abstract class SecuenciadorFiltros <<¿Builder?>> {
++agregarFiltroDull()
++agregarFiltroRepeater()
++construirSecuenciaFiltros(): ImageFilterPipe
+}
+
+class SecuenciadorMonochrome <<¿ConcreteBuilderA?>> extends SecuenciadorFiltros {}
+class SecuenciadorMultichrome <<¿ConcreteBuilderB?>>  extends SecuenciadorFiltros {
++agregarFiltroArtifacter()
++agregarFiltroRainbow()
++agregarFiltroRGBShifter()
++agregarFiltroRGBShiftRepeater()
+}
+
+class ImageFilterPipe <<¿Product?>> {
+...
+}
+
+PNGFilterLauncher -right-> SecuenciadorFiltros: secuenciador
+
+SecuenciadorMonochrome ..> ImageFilterPipe
+SecuenciadorMultichrome ..> ImageFilterPipe
+
+@enduml
