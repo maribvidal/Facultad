@@ -1,0 +1,80 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class SistemaJuego <<Director>> {
++crearPersonaje(constructor: PersonajeBuilder): Personaje
+}
+
+abstract class PersonajeBuilder <<Builder>> {
++PersonajeBuilder()
++<<abstract>> colocarArmadura()
++<<abstract>> colocarArma()
++<<abstract>> colocarHabilidades()
++obtenerPersonaje(): Personaje
+}
+
+class PersonajeGuerreroBuilder <<ConcreteBuilderA>> extends PersonajeBuilder {
++colocarArmadura()
++colocarArma()
++colocarHabilidades()
+}
+class PersonajeArqueroBuilder <<ConcreteBuilderB>> extends PersonajeBuilder {
++colocarArmadura()
++colocarArma()
++colocarHabilidades()
+}
+class PersonajeMagoBuilder <<ConcreteBuilderC>> extends PersonajeBuilder {
++colocarArmadura()
++colocarArma()
++colocarHabilidades()
+}
+
+class Personaje <<Product>> {
+-nombre: String
+-vida: Integer
++Personaje()
++enfrentar(otro: Personaje)
++setNombre(nombre: String)
++setArma(arma: Arma)
++setArmadura(armadura: Armadura)
++agregarHabilidad(habilidad: Habilidad)
++getVida(): Integer
+#controlarSiTieneVida()
+#obtenerArmadura(): Armadura
+#restarVida(daño: Integer)
+#tieneVida(): Boolean
+-atacar(otro: Personaje)
+}
+
+abstract class Armadura {
++<<abstract>> calcularDaño(arco: Arco): Integer
++<<abstract>> calcularDaño(baston: Baston): Integer
++<<abstract>> calcularDaño(espada: Espada): Integer
++<<abstract>> calcularDaño(martillo: Martillo): Integer
+}
+abstract class Arma {
++<<abstract>> obtenerDaño(armadura: Armadura): Integer
+}
+class Habilidad {
+-nombre: String
++Habilidad(nombre: String)
+}
+
+class ArmaduraDeAcero extends Armadura {}
+class ArmaduraDeCuero extends Armadura {}
+class ArmaduraDeHierro extends Armadura {}
+
+class Arco extends Arma {}
+class Baston extends Arma {}
+class Espada extends Arma {}
+class Martillo extends Arma {}
+
+SistemaJuego -right-> PersonajeBuilder: constructor
+PersonajeBuilder -right-> Personaje: producto
+
+Personaje -down-> Armadura: armadura
+Personaje -right-> Arma: arma
+Personaje -down-> Habilidad: habilidades 0..*
+
+@enduml
