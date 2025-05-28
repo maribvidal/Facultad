@@ -1,0 +1,45 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class ProcessStep <<abstract>> {
+-result: Boolean 
++execute (tank: MixingTank) 
+#basicExecute (tank: MixingTank): Boolean 
++isDone(): Boolean 
+-setSuccess() 
+-setFailure()
+}
+
+class LightMix extends ProcessStep {
+#basicExecute (tank: MixingTank): Boolean 
+}
+
+class Purge extends ProcessStep {
+#basicExecute (tank: MixingTank): Boolean 
+}
+
+class MixingTank <<abstract>> {
++heatPower(percentage: Integer): Boolean 
++mixerPower(percentage: Integer) Boolean 
++purge(): Boolean +upTo(): Real 
++temperature(): Real
+} 
+
+class I2CDriver {
+-SCL: Integer -SDL: Integer 
++sendStartSeq(): Boolean 
++sendAddress(address: String): Boolean 
++sendCommand(command: String): Boolean 
++sendStopSeq(): Boolean
+}
+
+MixingTank <--* I2CDriver
+
+class MockMixingTank <<Mock Object>> extends MixingTank {
+...
+}
+
+note right of ProcessStep : public execute (tank:MixingTank){ \n\n\t\tif (this.basicExecute(tank)){\n\t\t\tthis.setSuccess();\n\t\t}\n\t\telse this.setFailure();\n\t}\n}
+
+@enduml
