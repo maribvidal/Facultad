@@ -6,4 +6,4 @@
 - [Sobre semántica](./ap_seman.pdf)
 - [Sobre sintaxis](./ap_sintax.pdf)
 - [Sobre sistemas de tipos](./ap_sistem.pdf)
-- [Sobre tipos de datos](./ap_tipo.pdf)
+- [Sobre tipos de datos](./ap_tipos.pdf)
