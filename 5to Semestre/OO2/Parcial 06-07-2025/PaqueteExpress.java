@@ -1,8 +1,8 @@
 package parcial2025;
 
-public class PaqueteExpres extends PaqueteDecorator {
+public class PaqueteExpress extends PaqueteDecorator {
 	//
-	public PaqueteExpres(IPaquete paquete) {
+	public PaqueteExpress(IPaquete paquete) {
 		super(paquete);
 	}
 
