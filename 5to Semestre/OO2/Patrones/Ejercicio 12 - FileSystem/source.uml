@@ -1,0 +1,58 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+abstract class Unidad <<Component>> {
+- nombre: String
+- fechaCreacion: LocalDate
+- tamañoBytes: Integer
++ getNombre(): String
++ getFechaCreacion(): LocalDate
++ getTamañoEnBytes(): Integer
++ {abstract} estaVacio(): Boolean
++ {abstract} esArchivo(): Boolean
++ {abstract} obtenerContenido(): Unidad[*]
++ {abstract} toString(String): String
+}
+
+class Archivo <<Leaf>> extends Unidad {
++ toString(String): String
++ estaVacio(): Boolean
++ esArchivo(): Boolean
++ obtenerContenido(): Unidad[*]
+}
+
+class Directorio <<Composite>> extends Unidad {
++ obtenerTamañoTotal(): Integer
++ obtenerArchivoMasGrande(): Archivo
++ obtenerArchivoMasNuevo(): Archivo
++ obtenerUnidadesPorNombre(String): Unidad[*]
++ obtenerUnidadPorNombre(String): Unidad
++ crearArchivo(String, Integer): Archivo
++ crearDirectorio(String): Directorio
++ moverUnidad(Unidad)
++ eliminarUnidad(Unidad)
++ toString(String): String
++ estaVacio(): Boolean
++ obtenerContenido(): Unidad[*]
++ esArchivo(): Boolean
+-sePuedeContener(u: Unidad): Boolean
+-obtenerArchivos(): Archivo[*]
+}
+
+class FileSystem <<Client>> {
++ tamanoTotalOcupado(): Integer
++ archivoMasGrande(): Archivo
++ archivoMasNuevo(): Archivo
++ buscar(String): Unidad
++ buscarTodos(String): Unidad[*]
++ listadoDeContenido(): String
++ moverUnidad(Unidad)
++ eliminarUnidad(Unidad)
++ estaVacio(): Boolean
+}
+
+Directorio -right- Unidad : contenido 0..*
+FileSystem -down- Directorio : directorioRaiz
+
+@enduml
