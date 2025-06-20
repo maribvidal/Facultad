@@ -23,8 +23,8 @@ public class PaqueteTest {
 		Assertions.assertEquals("Caja de libros con seguro", paqSeguro.getDescripcion());
 		Assertions.assertEquals(5000, paqSeguro.getCostoEnvio());
 		
-		PaqueteExpres paqExpresConSeguro = new PaqueteExpres(paqSeguro);
-		Assertions.assertEquals("Caja de libros con seguro entrega express", paqExpresConSeguro.getDescripcion());
-		Assertions.assertEquals(15000, paqExpresConSeguro.getCostoEnvio());
+		PaqueteExpress paqExpressConSeguro = new PaqueteExpress(paqSeguro);
+		Assertions.assertEquals("Caja de libros con seguro entrega express", paqExpressConSeguro.getDescripcion());
+		Assertions.assertEquals(15000, paqExpressConSeguro.getCostoEnvio());
 	}
 }
