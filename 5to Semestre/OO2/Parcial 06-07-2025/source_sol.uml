@@ -1,0 +1,61 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+interface IPaquete <<Component>> {
++getDescripcion(): String
++getDestinatario(): String
++getDireccionDestino(): String
++getValorDeclarado(): Real
++getCostoEnvio(): Real
+}
+
+class Paquete <<ConcreteComponent>> implements IPaquete {
+-descripcion: String
+-destinatario: String
+-direccionDestino: String
+-valorDeclarado: Real
++getDescripcion(): String
++getDestinatario(): String
++getDireccionDestino(): String
++getValorDeclarado(): Real
++getCostoEnvio(): Real
+}
+
+abstract PaqueteDecorator <<Decorator>> implements IPaquete {
+#paquete: IPaquete
++PaqueteDecorator(paquete: IPaquete)
++getDescripcion(): String
++getDestinatario(): String
++getDireccionDestino(): String
++getValorDeclarado(): Real
++getCostoEnvio(): Real
++<<abstract>> obtenerDescExtra(): String
++<<abstract>> obtenerCostoExtra(): Real
+}
+
+class PaqueteConSeguro <<ConcreteDecoratorA>> extends PaqueteDecorator {
++PaqueteConSeguro(paquete: IPaquete)
++obtenerDescExtra(): String
++obtenerCostoExtra(): Real
+}
+
+class PaqueteSeguimiento <<ConcreteDecoratorB>> extends PaqueteDecorator {
++PaqueteSeguimiento(paquete: IPaquete)
++obtenerDescExtra(): String
++obtenerCostoExtra(): Real
+}
+
+class PaqueteExpress <<ConcreteDecoratorC>> extends PaqueteDecorator {
++PaqueteExpress(paquete: IPaquete)
++obtenerDescExtra(): String
++obtenerCostoExtra(): Real
+}
+
+class PaqueteFragil <<ConcreteDecoratorD>> extends PaqueteDecorator {
++PaqueteFragil(paquete: IPaquete)
++obtenerDescExtra(): String
++obtenerCostoExtra(): Real
+}
+
+@enduml
