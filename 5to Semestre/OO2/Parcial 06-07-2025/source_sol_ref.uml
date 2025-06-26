@@ -1,0 +1,22 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+abstract class ReportGenerator <<Abstract Class>> {
++generateReport(document: Document)
++crearDocumento(document: Document): DocumentFile
++<<abstract>> configurarMetadatos(document: Document, docFile: DocumentFile)
++<<abstract>> setearContenido(document: Document, docFile: DocumentFile)
+}
+
+class ReportGeneratorPDF <<Concrete Class A>> extends ReportGenerator {
++configurarMetadatos(document: Document, docFile: DocumentFile)
++setearContenido(document: Document, docFile: DocumentFile)
+}
+
+class ReportGeneratorXLS <<Concrete Class B>> extends ReportGenerator {
++configurarMetadatos(document: Document, docFile: DocumentFile)
++setearContenido(document: Document, docFile: DocumentFile)
+}
+
+@enduml
