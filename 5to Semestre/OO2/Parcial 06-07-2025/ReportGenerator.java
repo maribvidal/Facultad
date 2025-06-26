@@ -2,7 +2,7 @@ public abstract class ReportGenerator {
   public abstract void configurarMetadatos(Document document, DocumentFile docFile);
   public abstract void setearContenido(Document document, DocumentFile docFile);
 
-  public Document crearDocumento(Document document) {
+  public DocumentFile crearDocumento(Document document) {
     DocumentFile docFile = new DocumentFile();
     docFile.setTitle(document.getTitle());
     String authors = this.document.getAuthors().join(",");
