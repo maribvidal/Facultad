@@ -29,6 +29,90 @@ y la descripción de "Caja de libros con seguro entrega express"
 4. Escriba un test que muestre cómo instanciar y utilizar su solución para el caso de la "Caja de libros" con los servicios detallados anteriormente.
 
 [<Solución propuesta>](./solucion_patrones.md)<br>
+
+## Ejercicio de Refactoring
+Dado el siguiente código que implementa la generación de reportes
+```Java
+ 1. public class ReportGenerator {
+ 2.     private String type;
+ 3.     public ReportGenerator(String type) { this.type = type; }
+ 4.
+ 5.     public void generateReport(Document document) {
+ 6.         if ("PDF".equals(type)) {
+ 7.             // crear documento y configurar metadatos
+ 8.             DocumentFile docFile = new DocumentFile();
+ 9.             docFile.setTitle(document.getTitle());
+10.             String authors = "";
+11.             for (String author : document.getAuthors()) {
+12.                 authors += ", " + author;
+13.             }
+14.             docFile.setAuthor(authors);
+15.             docFile.setContentType("application/pdf");
+16.             docFile.setPageSize("A4");
+17.
+18.             // crear exportador y setear el contenido
+19.             PDFExporter exporter = new PDFExporter();
+20.             byte[] content = exporter.generatePDFFile(document);
+21.             docFile.setContent(content);
+22.
+23.             // guardar el documento
+24.             this.saveExportedFile(docFile);
+25.         } else if ("XLS".equals(type)) {
+26.             // crear documento y configurar metadatos
+27.             DocumentFile docFile = new DocumentFile();
+28.             docFile.setTitle(document.getTitle());
+29.             String authors = "";
+30.             for (String author : document.getAuthors()) {
+31.                 authors += ", " + author;
+32.             }
+33.             docFile.setAuthor(authors);
+34.             docFile.setContentType("application/vnd.ms-excel");
+35.             docFile.setSheetName(document.getSubtitle()); // <--- Línea de la derecha
+36.             // crear exportador y setear el contenido
+37.             ExcelWriter writer = new ExcelWriter();
+38.             byte[] content = writer.generateExcelFile(document); // <--- Línea de la derecha
+39.             docFile.setContent(content); // <--- Línea de la derecha
+40.
+41.             // guardar el documento
+42.             this.saveExportedFile(docFile); // <--- Línea de la derecha
+43.         }
+44.     }
+// TEST
+class ReportGeneratorTest {
+    ReportGenerator generatorPDF;
+    ReportGenerator generatorXLS;
+    Document document;
+
+    @BeforeEach
+    void setup() {
+        document = new Document("Informe");
+        document.addAuthor("Carlos");
+        document.addAuthor("Ana");
+        generatorPDF = new ReportGenerator("PDF");
+        generatorXLS = new ReportGenerator("XLS");
+    }
+
+    @Test
+    void testPDF() {
+        generatorPDF.generateReport(document);
+        // aca se detallan los asserts
+    }
+
+    @Test
+    void testXLS() {
+        generatorXLS.generateReport(document);
+        // aca se detallan los asserts
+    }
+}
+```
+
+### Tareas: (debe realizar los tres ítems para aprobar el tema):
+1. Enumere los code smell que encuentra en el código indicando las líneas afectadas.
+2. Indique que refactorings utilizará para solucionarlos considerando que se desea incluir nuevos formatos para exportar (XLSX, CSV entre otros). Explique los pasos necesarios para realizar los refactorings elegidos, haciendo referencia al código cuando corresponda. Muestre el código final resultado luego de aplicar esos refactorings en la clase ReportGenerator y si hace falta, en la clase ReportGeneratorTest.
+3. Realice el diagrama de clases del código refactorizado. Si utilizó un patrón de diseño, indíquelo en el diagrama mostrando los roles del patrón.
+
+[<Solución propuesta>](./solucion_refactoring.md)
+   
 ## Ejercicio de Frameworks
 Consideremos una parte del framework SingleThreadTCPServer que permite construir servidores TCP en Java. El framework define el método _handleClient_ que se encarga de leer los mensajes que envía el cliente, procesarlos y responder.
 
