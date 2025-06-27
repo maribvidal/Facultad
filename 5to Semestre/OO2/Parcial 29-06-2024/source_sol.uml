@@ -1,0 +1,36 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+abstract class Pago <<Template Method>> {
+#ADICIONAL_TARJETA: Real
+#DESCUENTO_EFECTIVO: Real
++Pago(productos: Producto[*])
++calcularMontoFinal(): Real
++calcularMontoTotal(): Real
++<<abstract>> getTipo(): String
++<<abstract>> calcularExtra(total: Real): Real
+}
+
+class Producto {
+-precio: Real
+-IVA: Real
++Producto(precio: Real, IVA: Real)
++getPrecio(): Real
++getIVA(): Real
++calcularPrecioConIVA(): Real
+}
+
+class PagoEfectivo <<Concrete Method A>> extends Pago {
++PagoEfectivo(productos: Producto[*])
++calcularExtra(total: Real): Real
++getTipo(): String
+}
+class PagoTarjeta <<Concrete Method B>> extends Pago {
++PagoTarjeta(productos: Producto[*])
++calcularExtra(total: Real): Real
++getTipo(): String
+}
+
+Pago -left-> Producto: 0..* productos
+@enduml
