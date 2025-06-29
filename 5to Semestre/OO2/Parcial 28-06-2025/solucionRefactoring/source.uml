@@ -1,0 +1,43 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Renta <<Context>> {
+-diasRenta: Integer
+-kilometrajeInicial: Integer
++Renta(vehiculo: Vehiculo, cliente: Cliente, diasRenta: Integer)
++setRentaStrategy(rentaStrategy: RentaStrategy)
++calcularTotal(): Real
+}
+
+abstract class RentaStrategy <<Strategy>> {
++<<abstract>> calcularTotal(vehiculo: Vehiculo, diasRenta: Integer, kilometrajeInicial: Integer): Real
++calcularPreciosDiasTotal(vehiculo: Vehiculo, diasRenta: Integer): Real
+}
+
+class StrategyBasico <<Concrete Strategy A>> extends RentaStrategy {
++calcularTotal(vehiculo: Vehiculo, diasRenta: Integer, kilometrajeInicial: Integer): Real
++calcularAdicional(vehiculo: Vehiculo): Real
+}
+class StrategyPlus <<Concrete Strategy B>> extends RentaStrategy {
++calcularTotal(vehiculo: Vehiculo, diasRenta: Integer, kilometrajeInicial: Integer): Real
+}
+class StrategyKMLibre <<Concrete Strategy C>> extends RentaStrategy {
++calcularTotal(vehiculo: Vehiculo, diasRenta: Integer, kilometrajeInicial: Integer): Real
+}
+
+class Vehiculo {
+...
++calcularKilometrosRecorridos(kilometrajeInicial: Integer): Integer
++calcularCostoRecorrido(kilometrajeInicial: Integer): Real
+}
+
+class Cliente {
+...
+}
+
+Renta -right-> RentaStrategy: rentaStrategy
+Renta -left-> Vehiculo: vehiculo
+Renta -up-> Cliente: cliente
+
+@enduml
