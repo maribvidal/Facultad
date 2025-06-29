@@ -1,4 +1,4 @@
-# Parcial - Orientación a Objetos II - 06/07/2025 
+# Parcial - Orientación a Objetos II - 07/06/2025 
 ## Ejercicio de Patrones
 Se quiere mejorar un sistema de envíos de paquetes que permite registrar los paquetes enviados y calcular sus costos.<br>
 De los paquetes se conoce: el valor declarado, la dirección de destino, el destinatario y una descripción, como puede verse en el diagrama UML. El costo de envío es el 5% del valor declarado.
