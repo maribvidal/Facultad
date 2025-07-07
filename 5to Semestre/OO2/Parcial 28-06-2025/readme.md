@@ -76,3 +76,5 @@ x. }
 1. Enumere los code smell que encuentra en el código indicando las líneas afectadas.
 2. Indique que refactorings utilizará para solucionar cada uno de los smells. Explique los pasos necesarios para realizar los refactorings elegidos, haciendo referencia al código cuando corresponda. Muestre el código final resultante luego de aplicar esos refactorings en la clase Renta, y si hace falta, en la clase RentaTest.
 3. Realice el diagrama de clases del código refactorizado. Si utilizó un patrón de diseño, indíquelo en el diagrama mostrando los roles del patrón.
+
+[<Solución propuesta>](./solucion_refactoring.md)<br>
