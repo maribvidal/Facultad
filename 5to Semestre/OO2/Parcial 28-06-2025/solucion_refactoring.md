@@ -12,9 +12,10 @@
       - **Refactoring:** _Replace Type Code with Strategy_ (Líneas 22, 23).
          -  Encapsular la variable 'tipoRenta' y crear un getter 'getTipoRenta(): String'
          -  Reemplazar las referencias a 'tipoRenta' dentro del método 'calcularTotal()' por un llamado a 'getTipoRenta()'
-         -  Crear la clase 'RentaStrategy'<br>Declarar adentro de la clase RentaStrategy un método abstracto llamado 'getTipoRenta(): String'
+         -  Crear la clase 'RentaStrategy'
+         -  Declarar adentro de la clase RentaStrategy un método abstracto llamado 'getTipoRenta(): String'
          -  Crear tres subclases de RentaStrategy, una por cada tipo de renta: 'StrategyBasico', 'StrategyPlus', y 'StrategyKMLibre'
-         -  Implemenar en cada subclase el método abstracto mencionado previamente, y hacer que en cada caso devuelva 'basico', 'plus', y 'kilometraje_libre' respectivamente
+         -  Implementar en cada subclase el método abstracto mencionado previamente, y hacer que en cada caso devuelva 'BASICO', 'PLUS', y 'KILOMETRAJE_LIBRE' respectivamente
          -  En la clase Renta, cambiar el tipo de la variable 'tipoRenta' por 'RentaStrategy', y también cambiar el nombre de la variable a 'rentaStrategy'. Acto seguido, cambiar toda ocurrencia que se encuentre en las líneas 15, 18 y 19
          -  Cambiar la declaración del método 'setTipoRenta' a 'setRentaStrategy'
          -  En la línea 15, cambiar la expresión que se le asigna a la variable 'rentaStrategy' por ' = new StrategyBasico();'
@@ -26,11 +27,11 @@
       - **Refactoring:** _Replace Conditional with Polymorphism_
          - En las subclases de 'RentaStrategy' crear un método con la declaración 'calcularTotal(vehiculo: Vehiculo, diasRenta: Integer, kilometrajeInicial: Integer): Double'
          - En la subclase 'StrategyBasico', copiar dentro del método las líneas 23 - 31 (del código del enunciado)
-         - En el método de la superclase 'RentaStrategy', borrar la rama correspondiente al tipo de renta básico
+         - En el método de la superclase 'RentaStrategy', borrar la rama correspondiente al tipo de renta 'BASICO'
          - En la subclase 'StrategyPlus', copiar dentro del método las líneas 34 - 35
-         - Borrar la rama correspondiente al tipo plus en el método de la superclase
+         - Borrar la rama correspondiente al tipo 'PLUS' en el método de la superclase
          - En la subclase 'StrategyKMLibre', copiar dentro del método la línea 37
-         - Borrar la rama correspondiente al tipo 'kilometraje_libre'
+         - Borrar la rama correspondiente al tipo 'KILOMETRAJE_LIBRE'
          - Una vez que el método queda vacío, declarar como abstracta a la clase 'RentaStrategy', y declarar como abstracto al método
          - Borrar el método 'getTipoRenta()' en la clase Renta
          - Borrar el método abstracto 'getTipoRenta()' en la clase 'RentaStrategy', y el método idéntico en las subclases
@@ -64,7 +65,8 @@
          - Quitar el comentario del nuevo método
     4.  Para solucionar el code smell _Temporary Field_ aplico los siguientes refactorings:
       - **Refactoring:** _Inline Temp_
-         - Borrar el cuerpo del método 'calcularAdicional(vehiculo: Vehiculo)' y cambiarlo por 'return (vehiculo.getAntiguedad() > 5 ? 0.85 : 1);' 
+         - Borrar el cuerpo del método 'calcularAdicional(vehiculo: Vehiculo)' y cambiarlo por 'return (vehiculo.getAntiguedad() > 5 ? 0.85 : 1);'
+ 5. Modificación hecha en el Test: Cambié 'renta.setTipoRenta("KILOMETRAJE_LIBRE");' por 'renta.setRentaStrategy(new StrategyKMLibre());'
 ## Resultado final
 ![Diagrama UML](./solucionRefactoring/diag_uml.png)<br>
 [Código UML](./solucionRefactoring/source.uml)<br>
