@@ -20,7 +20,7 @@
       - **Refactoring:** _Replace Conditional with Polymorphism_. <br>> Declarar a la clase como abstracta. <br>> Declarar los métodos abstractos _configurarMetadatos(Document document, DocumentFile docFile)_ y _setearContenido(Document document, DocumentFile docFile)_. <br>>Crear dos subclases de ReportGenerator llamadas ReportGeneratorPDF y ReportGeneratorXLS. <br>> Hacer _Push Down Method_ con el método configurarMetadatos y setearContenido que le corresponda a cada subclase. <br>> Hacer Rename Method en cada subclase con los métodos nuevos, y llamarlos como se llama los métodos abstractos que se piden. <br>> En el método _generateReport(...)_, quitar el switch statement y reemplazarlo por las invocaciones a los dos métodos abstractos
    4. Para solucionar el code smell _Loops_...
       - **Refactoring:** _Replace Loop with Pipeline_. <br>> Reemplazar las líneas (10 - 13) por una sentencia stream equivalente.
-## Resultado finala
+## Resultado final
 ![Diagrama UML](./diag_uml_sol_ref.png)<br>
 [Código UML](./source_sol_ref.uml)<br>
 [ReportGenerator.java](./ReportGenerator.java)<br>
