@@ -8,3 +8,5 @@
 - [Práctica 7](./Practicas/redes_prac_7.pdf)
 - [Práctica 8](./Practicas/redes_prac_8.pdf)
 - [Práctica 9](./Practicas/redes_prac_9.pdf)
+### Resumenes
+- [Resumen para parcial práctico](./Resumenes/redes_resumen_parcial_practico.pdf) (Pensado hasta la práctica 9)
